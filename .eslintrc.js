@@ -21,6 +21,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
   ],
   rules: {
-    '@typescript-eslint/no-explicit-any': 2
+    '@typescript-eslint/no-explicit-any': 2,
+    'jsx-quotes': [2, 'prefer-single'],
   },
 }
