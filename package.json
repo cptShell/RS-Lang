@@ -7,7 +7,7 @@
     "start": "webpack serve --config webpack/webpack.config.js --env env=dev",
     "build": "webpack --config webpack/webpack.config.js --env env=prod",
     "lint": "eslint . --ext .tsx",
-    "lint-fix": "eslint . --ext .tsx --fix"
+    "lint:fix": "eslint . --ext .tsx --fix"
   },
   "repository": {
     "type": "git",
