@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import Header from '../components/Header';
 
 export const App = () => {
-  useEffect(() => {});
   return (
-    <div>
-      <button className="btn btn-primary">Primary</button>
-    </div>
+    <>
+      <Header />
+    </>
   );
 };
