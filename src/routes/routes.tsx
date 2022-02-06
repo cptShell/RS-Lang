@@ -11,32 +11,32 @@ import { RouteData } from '../utils/types/types';
 export const listRoutes: RouteData[] = [
   {
     route: '/auth',
-    name: 'Auth',
+    name: 'Войти',
     component: <Auth />,
   },
   {
     route: '/',
-    name: 'Main',
+    name: 'Главная',
     component: <Main />,
   },
   {
     route: '/book',
-    name: 'Book',
+    name: 'Учебник',
     component: <Book />,
   },
   {
     route: '/audiocall',
-    name: 'Audiocall',
+    name: 'Аудиовызов',
     component: <Audiocall />,
   },
   {
     route: '/sprint',
-    name: 'Sprint',
+    name: 'Спринт',
     component: <Sprint />,
   },
   {
     route: '/statistics',
-    name: 'Statistics',
+    name: 'Статистика',
     component: <Statistics />,
   },
   {
