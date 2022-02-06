@@ -1,10 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { Routes, Route } from 'react-router-dom';
+import { listRoutes } from '../routes/routes';
 
 export const App = () => {
-  useEffect(() => {});
+  const listPages = listRoutes.map((routeData) => {
+    return <Route key={routeData.route} path={routeData.route} element={routeData.component} />;
+  });
   return (
-    <div>
-      <button className="btn btn-primary">Primary</button>
-    </div>
+    <>
+      <Header />
+      <div className='main-container'>
+        <Routes>{listPages}</Routes>
+      </div>
+      <Footer />
+    </>
   );
 };
