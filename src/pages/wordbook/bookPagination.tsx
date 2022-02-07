@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageState } from '../../utils/interfaces/inerface';
+import { PageState } from '../../utils/interfaces/interfaces';
 import { PAGE_AMOUNT } from '../../utils/constants/constants';
 
 export const BookPagination = ({pageState, setPageState}: {
