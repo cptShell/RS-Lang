@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Authorization from '../components/Authorization';
+import Registration from '../components/Registration';
 import { TypeForm } from '../utils/enum/enum';
 
 const Auth: React.FC = () => {
@@ -13,7 +14,7 @@ const Auth: React.FC = () => {
     mode === TypeForm.Authorization ? (
       <Authorization onSelectForm={handlerSelectForm} />
     ) : (
-      <h2>Registration</h2>
+      <Registration onSelectForm={handlerSelectForm} />
     );
 
   return <>{activeForm}</>;
