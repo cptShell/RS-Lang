@@ -1,5 +1,5 @@
 import React from "react";
-import { BASIC_GROUP_AMOUNT } from '../../utils/constants/constants';
+import { BASIC_GROUP_AMOUNT, ORDERED_BTN_STYLE_LIST } from '../../utils/constants/constants';
 import { PageState } from "../../utils/interfaces/inerface";
 
 export const GroupList = ({pageState, setPageState}: {
@@ -14,7 +14,8 @@ export const GroupList = ({pageState, setPageState}: {
   }
 
   const groupBullets: Array<JSX.Element> = new Array(BASIC_GROUP_AMOUNT).fill(0).map((_, index) => {
-    const className = index === group ? 'btn active' : 'btn';
+    const isActive: string = index === group ? '' : '-outline';
+    const className = `btn btn${isActive}-${ORDERED_BTN_STYLE_LIST[index]}`;
     return (
       <li key={index}>
         <button onClick={() => changeGroup(index)} className={className}>{index + 1}</button>
@@ -22,6 +23,6 @@ export const GroupList = ({pageState, setPageState}: {
     );
   });
   return (
-    <ul>{groupBullets}</ul>
+    <ul className="btn-group d-flex justify-content-center gap-2">{groupBullets}</ul>
   );
 };

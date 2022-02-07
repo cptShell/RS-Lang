@@ -1,5 +1,10 @@
-@import '~bootstrap/scss/bootstrap.scss';
 @import './base//reset.scss';
 @import './base//base.scss';
 @import './components/header.scss';
 @import './components/footer.scss';
+
+@media screen and (max-width: 1000px) {
+  .col.d-flex.flex-row.justify-content-between.gap-2 {
+    flex-direction: column !important;
+  }
+}

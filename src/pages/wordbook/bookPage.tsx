@@ -19,7 +19,7 @@ export const BookPage = ({pageState}: {pageState: PageState}): JSX.Element | nul
   }, [pageState]);
 
   return (
-    <ul>
+    <ul className="d-flex flex-column gap-3">
       {wordsData && wordsData.map((wordData) => (
         <Card key={wordData.id} wordData={wordData}/>
       ))}
