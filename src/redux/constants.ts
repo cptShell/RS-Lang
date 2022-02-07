@@ -1,4 +1,3 @@
-export const BASE_URL = 'https://a-c-rslang.herokuapp.com';
 export const BASE_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json',

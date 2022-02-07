@@ -6,13 +6,24 @@ import { useNavigate } from 'react-router-dom';
 import { ValuesRegistration } from '../utils/interfaces/interfaces';
 import Button from './Button';
 import { validateRegistration } from '../utils/functions/validate';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncCreateUser } from '../redux/actions/usersCreator';
+import { RootState } from '../redux/store';
 import { MESSAGE_IS_AUTH } from '../utils/constants/constants';
 
 const Registration: React.FC<{ onSelectForm: HandlerSelectForm }> = (props) => {
-
+  const {
+    userData: { message },
+  } = useSelector((state: RootState) => state);
   const [stateButton, setStateButton] = useState(false);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (message === MESSAGE_IS_AUTH) {
+      navigate('/');
+    }
+  }, [message]);
 
   const formik = useFormik({
     initialValues: {
@@ -22,7 +33,7 @@ const Registration: React.FC<{ onSelectForm: HandlerSelectForm }> = (props) => {
     },
     validate: validateRegistration,
     onSubmit: (values: ValuesRegistration) => {
-      
+      dispatch(asyncCreateUser(setStateButton, values));
     },
   });
 
@@ -41,7 +52,7 @@ const Registration: React.FC<{ onSelectForm: HandlerSelectForm }> = (props) => {
             name='name'
             className='form-control'
             id='name-user'
-            placeholder='Введите Имя'
+            placeholder='Введите имя'
             autoComplete='on'
             onChange={formik.handleChange}
             value={formik.values.name}

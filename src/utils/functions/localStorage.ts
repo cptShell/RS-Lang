@@ -1,5 +1,5 @@
 import { UserData } from '../../redux/types/interfaces';
-const STORAGE_NAME = 'rs-lang-user_RSS_22_Q3-STORAGE';
+const STORAGE_NAME = 'rs-lang_RSS_22_Q3-STORAGE_ID-277';
 export const DEFAULT_STATUS_USER_DATA = {
   message: '',
   token: '',
