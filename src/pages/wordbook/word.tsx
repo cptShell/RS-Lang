@@ -1,6 +1,6 @@
 import React from 'react';
 import { BASE_APP_URL } from '../../utils/constants/constants';
-import { WordData } from '../../utils/interfaces/inerface';
+import { WordData } from '../../utils/interfaces/interfaces';
 import { playAudioInOrder } from '../../utils/functions/supportMethods';
 
 export const Card = ({wordData}:{wordData: WordData}): JSX.Element => {

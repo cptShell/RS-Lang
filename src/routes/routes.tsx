@@ -12,6 +12,7 @@ export const listRoutes: RouteData[] = [
   {
     route: '/auth',
     name: 'Войти',
+    isGuest: true,
     component: <Auth />,
   },
   {

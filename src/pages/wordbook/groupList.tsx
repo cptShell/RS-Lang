@@ -1,6 +1,6 @@
 import React from "react";
 import { BASIC_GROUP_AMOUNT } from '../../utils/constants/constants';
-import { PageState } from "../../utils/interfaces/inerface";
+import { PageState } from "../../utils/interfaces/interfaces";
 
 export const GroupList = ({pageState, setPageState}: {
   pageState: PageState,
