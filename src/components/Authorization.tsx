@@ -10,6 +10,7 @@ import { asyncSignInUser } from '../redux/actions/usersCreator';
 import { RootState } from '../redux/store';
 import { MESSAGE_IS_AUTH } from '../utils/constants/constants';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Authorization: React.FC<{ onSelectForm: HandlerSelectForm }> = (props) => {
   const {
@@ -17,7 +18,7 @@ const Authorization: React.FC<{ onSelectForm: HandlerSelectForm }> = (props) => 
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [stateButton, setStateButton] = useState(false);
+  const [stateButton, setStateButton] = useState<boolean>(false);
   useEffect(() => {
     if (message === MESSAGE_IS_AUTH) {
       navigate('/');
@@ -54,7 +55,7 @@ const Authorization: React.FC<{ onSelectForm: HandlerSelectForm }> = (props) => 
             value={formik.values.email}
             onBlur={formik.handleBlur}
           />
-          {formik.touched.email && formik.errors.email ? <div className='form-error'>{formik.errors.email}</div> : ''}
+          {formik.touched.email && formik.errors.email && <div className='form-error'>{formik.errors.email}</div>}
         </div>
         <div className='form-group'>
           <label htmlFor='password-auth'>Пароль</label>
@@ -69,17 +70,13 @@ const Authorization: React.FC<{ onSelectForm: HandlerSelectForm }> = (props) => 
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.touched.password && formik.errors.password ? (
-            <div className='form-error'>{formik.errors.password}</div>
-          ) : (
-            ''
-          )}
+          {formik.touched.password && formik.errors.password && <div className='form-error'>{formik.errors.password}</div>}
         </div>
         <div className='form-buttons'>
           <Button name='Войти' className='btn btn-primary' type='submit' disabled={stateButton} />
-          <a href='/' onClick={handlerSelectRegistration}>
+          <Link to='/' onClick={handlerSelectRegistration}>
             Регистрация
-          </a>
+          </Link>
         </div>
       </form>
     </div>
