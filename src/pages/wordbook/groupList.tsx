@@ -1,6 +1,6 @@
 import React from "react";
 import { BASIC_GROUP_AMOUNT, ORDERED_BTN_STYLE_LIST } from '../../utils/constants/constants';
-import { PageState } from "../../utils/interfaces/inerface";
+import { PageState } from "../../utils/interfaces/interfaces";
 
 export const GroupList = ({pageState, setPageState}: {
   pageState: PageState,
