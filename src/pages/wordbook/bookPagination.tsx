@@ -15,10 +15,16 @@ export const BookPagination = ({pageState, setPageState}: {
   };
 
   return (
-    <div className='btn-group'>
-      <button className='btn' onClick={() => changePage(-1)}>prev</button>
-      <span>{page + 1}</span>
-      <button className='btn' onClick={() => changePage(1)}>next</button>
-    </div>
+    <ul className='pagination d-flex justify-content-center'>
+      <li className='page-item' onClick={() => changePage(-1)}>
+        <button className='page-link'>prev</button>
+      </li>
+      <li className='page-item inactive'>
+        <span className='page-link inactive'>{page + 1}</span>
+      </li>
+      <li className='page-item' onClick={() => changePage(1)}>
+        <button className='page-link'>next</button>
+      </li>
+    </ul>
   );
 } ;

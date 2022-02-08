@@ -7,7 +7,7 @@ const Book = (): JSX.Element => {
   const [pageState, setPageState] = useState({page: 0, group: 0});
 
   return ( 
-    <div>
+    <div className='container-fluid d-flex flex-column gap-2 p-2'>
       <BookPagination pageState={pageState} setPageState={setPageState}/>
       <GroupList pageState={pageState} setPageState={setPageState}/>
       <BookPage pageState={pageState}/>
