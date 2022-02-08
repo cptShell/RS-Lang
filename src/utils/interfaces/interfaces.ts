@@ -15,6 +15,13 @@ export interface WordData {
   textExampleTranslate: string
 }
 
+export interface ListQuestionData {
+  id: string,
+  word: string,
+  wordTranslate: string,
+  isRight: boolean
+} 
+
 export interface PageState {
   page: number,
   group: number,
