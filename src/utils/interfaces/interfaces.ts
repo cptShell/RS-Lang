@@ -15,6 +15,12 @@ export interface WordData {
   textExampleTranslate: string
 }
 
+export interface UserWord {
+  difficult: string,
+  id: string,
+  wordId: string,
+}
+
 export interface PageState {
   page: number,
   group: number,

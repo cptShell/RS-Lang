@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BASE_APP_URL } from '../../utils/constants/constants';
 import { WordData } from '../../utils/interfaces/interfaces';
-import { playAudioInOrder } from '../../utils/functions/supportMethods';
+import { getUserWordsUrl, playAudioInOrder } from '../../utils/functions/supportMethods';
+import axios, { AxiosRequestConfig } from 'axios';
+import { getCurrentUserState } from '../../utils/functions/localStorage';
 
-export const Card = ({wordData}:{wordData: WordData}): JSX.Element => {
+export const Card = ({isAuthorized, wordData}:{isAuthorized: boolean, wordData: WordData}): JSX.Element => {
   const {
     word,
     image,
@@ -17,6 +19,31 @@ export const Card = ({wordData}:{wordData: WordData}): JSX.Element => {
     textMeaningTranslate,
     transcription
   }: WordData = wordData;
+  const [isDifficult, setDifficult] = useState<Boolean>(false);
+  
+  useEffect(() => {
+    getDiff();
+  }, [isDifficult]);
+
+  const getDiff = () => {
+    const user = getCurrentUserState();
+    const url = getUserWordsUrl(user, wordData);
+    axios({method: 'get', url, headers: {Authorization: `Bearer ${user.token}`}})
+      .then(() => setDifficult(true))
+      .catch(() => setDifficult(false));
+  }
+  
+  const toggleDiffWord = async () => {
+    const method = isDifficult ? 'delete' : 'post';
+    const user = getCurrentUserState();
+    const url = getUserWordsUrl(user, wordData);
+    const axiosConfig: AxiosRequestConfig = {method, url, headers: {Authorization: `Bearer ${user.token}`}};
+
+    if (!isDifficult) axiosConfig.data = {difficulty: 'easy', optional: {}};
+
+    await axios(axiosConfig);
+    setDifficult(!isDifficult);
+  }
 
   const boundedPlayAudio = playAudioInOrder.bind(this, [audioPath, audioMeaning, audioExample]);
   const imgSrc = `${BASE_APP_URL}/${image}`;
@@ -38,6 +65,10 @@ export const Card = ({wordData}:{wordData: WordData}): JSX.Element => {
           <p>{'Пример: ' + textExampleTranslate}</p>
         </div>
       </div>
+      {isAuthorized && 
+        <button className='btn-success rounded v-100' onClick={toggleDiffWord}>
+          {isDifficult ? 'remove' : 'add'}
+        </button>}
       <button className='btn-success rounded v-100' onClick={boundedPlayAudio}>PLAY</button>
     </li>
   );
