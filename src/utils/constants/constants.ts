@@ -8,3 +8,5 @@ export const ORDERED_BTN_STYLE_LIST: Array<string> = [
   'warning', 'warning', 
   'danger', 'danger', 'danger'
 ];
+export const REG_EXP_EMAIL = /\S+@\S+\.\S+/;
+export const MESSAGE_IS_AUTH = 'Authenticated';

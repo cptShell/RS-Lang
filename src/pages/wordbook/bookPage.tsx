@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createWordsUrl } from "../../utils/functions/supportMethods";
-import { PageState, WordData } from "../../utils/interfaces/inerface";
+import { PageState, WordData } from "../../utils/interfaces/interfaces";
 import { Card } from "./word";
 
 export const BookPage = ({pageState}: {pageState: PageState}): JSX.Element | null => {

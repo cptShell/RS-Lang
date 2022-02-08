@@ -1,6 +1,12 @@
 header {
   padding: 10px;
   background: #276e47;
+  span{
+    position: absolute;
+    display: inline-block;
+    font-weight: 500;
+    color: white;
+  }
 }
 
 .nav-links {
@@ -14,7 +20,7 @@ header {
     border: 1px solid rgb(255, 255, 255);
     border-radius: 5px;
   }
-  a {
+  a, button {
     padding: 5px;
     display: inline-flex;
     width: 100%;
@@ -29,5 +35,9 @@ header {
       color: #276e47;
       background-color: white;
     }
+  }
+  button {
+    border: none;
+    background-color: #276e47;
   }
 }
