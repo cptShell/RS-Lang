@@ -44,3 +44,11 @@ export interface ErrorsForm {
   password?: string;
   name?: string;
 }
+
+export interface SprintGameState {
+  counter: number;
+  score: number;
+  level: number;
+  factor: number;
+  endGame: boolean;
+}

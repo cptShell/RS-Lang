@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { BASE_APP_URL } from '../constants/constants';
+import { AVERAGE_FACTOR, AVERAGE_LEVEL, BASE_APP_URL, ELEMENTARY_FACTOR, MAX_FACTOR, MAX_LEVEL, MIN_FACTOR, MIN_LEVEL } from '../constants/constants';
 import { ListQuestionData, WordData } from '../interfaces/interfaces';
 
 const getRandomNumberPages = (): Array<string> => {
-  const MAX_NUMBER_PAGES = 3;
+  const MAX_NUMBER_PAGES = 1;
   const MIN_PAGE = 0;
   const MAX_PAGE = 29;
   const uniqueNumberPages = new Set<number>();
@@ -66,3 +66,14 @@ export const getListQuestionWords = (listWords: WordData[]) => {
   const listQuestions = shuffleArray(rightWrongAnswer);
   return listQuestions;
 };
+
+export const getFactorScore = (level: number): number => {
+  if (level > MIN_LEVEL && level <= AVERAGE_LEVEL) {
+    return ELEMENTARY_FACTOR;
+  } if (level > AVERAGE_LEVEL && level <= MAX_LEVEL) {
+    return AVERAGE_FACTOR;
+  } if (level > MAX_LEVEL) {
+    return MAX_FACTOR;
+  }
+  return MIN_FACTOR;
+}
