@@ -15,7 +15,7 @@ export const GroupList = ({isAuthorized, pageState, setPageState}: {
   }
 
   const groupBullets: Array<JSX.Element> = new Array(groupCount).fill(0).map((_, index) => {
-    const isActive: string = index === group ? '' : '-outline';
+    const isActive: string = index !== group ? '' : '-outline';
     const className = `btn btn${isActive}-${ORDERED_BTN_STYLE_LIST[index]}`;
     return (
       <li key={index}>

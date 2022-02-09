@@ -1,9 +1,10 @@
 @import './base//reset.scss';
 @import './base//base.scss';
-@import './components/header.scss';
-@import './components/footer.scss';
 @import './components/auth.scss';
-@import './components/footer.scss';
+
+header {
+  z-index: 1;
+}
 
 @media screen and (max-width: 1000px) {
   .col.d-flex.flex-row.justify-content-between.gap-2 {

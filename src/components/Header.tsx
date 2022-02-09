@@ -31,7 +31,7 @@ const Header: React.FC = () => {
     );
   });
   return (
-    <header>
+    <header className='position-fixed d-flex justify-content-betweeen shadow w-100 bg-success'>
       <span>{name}</span>
       <nav>
         <ul className='nav-links'>{linkList}</ul>
