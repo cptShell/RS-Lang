@@ -24,17 +24,17 @@ const Header: React.FC = () => {
     }
     return (
       <li key={routeData.route}>
-        <NavLink to={routeData.route} className={toggleActiveClassName}>
+        <NavLink to={routeData.route} className='btn btn-success'>
           {routeData.name}
         </NavLink>
       </li>
     );
   });
   return (
-    <header className='position-fixed d-flex justify-content-betweeen shadow w-100 bg-success'>
+    <header className='position-fixed d-flex justify-content-between align-items-center shadow w-100 bg-success'>
       <span>{name}</span>
       <nav>
-        <ul className='nav-links'>{linkList}</ul>
+        <ul className='d-flex flex-row'>{linkList}</ul>
       </nav>
     </header>
   );

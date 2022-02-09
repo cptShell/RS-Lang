@@ -13,7 +13,7 @@ const Logout = () => {
     navigate('/');
   };
 
-  return <button onClick={handlerLogout}>Выйти</button>;
+  return <button className="btn btn-danger" onClick={handlerLogout}>Выйти</button>;
 };
 
 export default Logout;
