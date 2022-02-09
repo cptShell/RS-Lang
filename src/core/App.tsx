@@ -11,7 +11,7 @@ export const App = () => {
   return (
     <>
       <Header />
-      <div className='pt-5 mt-2'>
+      <div className='pt-5'>
         <Routes>{listPages}</Routes>
       </div>
       <Footer />
