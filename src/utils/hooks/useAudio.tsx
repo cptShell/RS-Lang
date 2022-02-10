@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-const useAudio = (url: string): [boolean, () => void] => {
-  const [audio] = useState<HTMLAudioElement>(new Audio(url));
+const useAudio = (url: string): [() => void, React.Dispatch<React.SetStateAction<HTMLAudioElement>>] => {
+  const [audio, setAudio] = useState<HTMLAudioElement>(new Audio(url));
   const [playing, setPlaying] = useState<boolean>(false);
 
-  const toggle: () => void = () => setPlaying(!playing);
+  const togglePlay: () => void = () => setPlaying(!playing);
 
   useEffect(() => {
     playing ? audio.play() : audio.pause();
@@ -17,7 +17,7 @@ const useAudio = (url: string): [boolean, () => void] => {
     };
   }, []);
 
-  return [playing, toggle];
+  return [togglePlay, setAudio];
 };
 
 export default useAudio;
