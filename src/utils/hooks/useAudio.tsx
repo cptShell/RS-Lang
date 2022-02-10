@@ -4,11 +4,12 @@ const useAudio = (url: string): [() => void, React.Dispatch<React.SetStateAction
   const [audio, setAudio] = useState<HTMLAudioElement>(new Audio(url));
   const [playing, setPlaying] = useState<boolean>(false);
 
-  const togglePlay: () => void = () => setPlaying(!playing);
+  // const togglePlay: () => void = () => setPlaying(!playing);
+  const togglePlay: () => void = () => audio.play();
 
-  useEffect(() => {
-    playing ? audio.play() : audio.pause();
-  }, [playing]);
+  // useEffect(() => {
+  //   playing ? audio.play() : audio.play();
+  // }, [playing]);
 
   useEffect(() => {
     audio.addEventListener('ended', () => setPlaying(false));

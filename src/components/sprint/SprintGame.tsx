@@ -17,8 +17,8 @@ import useAudio from '../../utils/hooks/useAudio';
 import PlayButton from './AudioButton';
 
 const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
-  const [ playAudioRight ] = useAudio('./sounds/right.mp3');
-  const [ playAudioFail ] = useAudio('./sounds/fail.mp3');
+  const [playAudioRight] = useAudio('./sounds/right.mp3');
+  const [playAudioFail] = useAudio('./sounds/fail.mp3');
   const [stateSprint, setStateSprint] = useState<SprintGameState>(DEFAULT_SPRINT_GAME_STATE);
   let { factor, level, score, counter, endGame } = stateSprint;
   const [listQuestionsWords] = useState<ListQuestionData[]>(JSON.parse(arr));
@@ -70,24 +70,28 @@ const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
   }, [counter, endGame]);
 
   return (
-    <div>
+    <div className='sprint'>
       {stateSprint.endGame ? (
         <ResultRound result={result} />
       ) : (
-        <>
-          {<Timer initTime={INIT_TIMER_SPRINT_GAME} finishGame={finishGame} />}
-          <h1>
-            Score: {score} <span>+{factor}</span>
-          </h1>
-          <h1>Level: {level}</h1>
-          <h1>Word: {word}</h1>
-          {<PlayButton url={`${BASE_APP_URL}/${audio}`}/>}
-          <h1>Translate: {wordTranslate}</h1>
-          <div>
-            <button onClick={onCheckAnswer.bind(null, true)}>right</button>
-            <button onClick={onCheckAnswer.bind(null, false)}>wrong</button>
+        <div className='sprint-board'>
+          <div className='sprint-board__header'>
+            <Timer initTime={INIT_TIMER_SPRINT_GAME} finishGame={finishGame} />
+            <p className='sprint-score'>
+              Счет: {score}
+            </p>
           </div>
-        </>
+          <div className='sprint-board__field'>
+            <span>+{factor} за очков слово</span>
+            <h2 className='sprint-word'>{word}</h2>
+            <PlayButton url={`${BASE_APP_URL}/${audio}`} />
+            <h3 className='sprint-translate'>{wordTranslate}</h3>
+            <div className='sprint-buttons'>
+              <button className='btn btn-success' onClick={onCheckAnswer.bind(null, true)}>right</button>
+              <button className='btn btn-danger'onClick={onCheckAnswer.bind(null, false)}>wrong</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

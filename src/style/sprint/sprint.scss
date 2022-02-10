@@ -1,9 +1,86 @@
+.sprint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: white;
+  background: #053546;
+  &-timer {
+    font-size: 24px;
+    font-weight: 500;
+  }
+  &-score {
+    font-size: 28px;
+    font-weight: 500;
+  }
+  &-word {
+    width: 100%;
+    text-align: center;
+  }
+  &-translate{
+    width: 100%;
+    text-align: center;
+  }
+  &-buttons {
+    position: relative;
+    display: inline-flex;
+    justify-content: space-between;
+    width: 50%;
+    height: 110px;
+    .btn{
+      width: 100px;
+      align-self: center;
+    }
+    &:after{
+      content: "";
+      position: absolute;
+      display: inline-flex;
+      bottom: 0;
+      left: 20px;
+      width: 35px;
+      height: 10px;
+      background: url("../assets/svg/arr.svg") no-repeat center;
+      background-size: cover;
+      transform: rotate(180deg);
+    }
+    &:before{
+      content: "";
+      position: absolute;
+      display: inline-flex;
+      bottom: 0;
+      right: 20px;
+      width: 35px;
+      height: 10px;
+      background: url("../assets/svg/arr.svg") no-repeat center;
+      background-size: cover;
+    }
+  }
+}
+
+.sprint-board {
+  width: 500px;
+  height: 350px;
+
+  &__header {
+  }
+  &__field {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    border: 2px solid #ffe;
+    border-radius: 5px;
+    background: #024b64;
+  }
+}
+
 .speaker-button {
   display: inline-block;
   width: 30px;
   height: 30px;
   border: none;
-  background: url("../assets/svg/speaker.svg") no-repeat center;
+  background: url('../assets/svg/speaker.svg') no-repeat center;
   background-size: contain;
   &:active {
     transform: scale(0.95);
