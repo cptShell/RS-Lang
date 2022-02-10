@@ -47,12 +47,27 @@ export const Card = ({isAuthorized, wordData}:{isAuthorized: boolean, wordData: 
 
   const boundedPlayAudio = playAudioInOrder.bind(this, [audioPath, audioMeaning, audioExample]);
   const imgSrc = `${BASE_APP_URL}/${image}`;
+
   return (
     <li className="col d-flex flex-row justify-content-between gap-2 rounded-3 shadow">
       <img className='rounded-3' src={imgSrc} alt={wordData.word + ' image'} />
       <div className='d-flex flex-column gap-2 w-100'>
         <div>
-          <h2 className='h2 text-capitalize'>{word}</h2>
+          <div className='d-flex gap-2'>
+            <h2 className='me-auto h2 text-capitalize'>{word}</h2>
+            {isAuthorized && 
+            <button className='btn-success rounded d-flex align-items-center' onClick={toggleDiffWord}>
+              <span className={`material-icons`}>
+                {isDifficult ? 'remove_circle' : 'add_circle'}
+              </span>
+            </button>}
+            <button className='btn-success rounded d-flex align-items-center' onClick={boundedPlayAudio}>
+              <span className='material-icons'>
+                volume_up
+              </span>
+            </button>
+          </div>
+          
           <p>{'Transcription: ' + transcription}</p>
           <p>{'Перевод: ' + wordTranslate}</p>
         </div>
@@ -65,11 +80,6 @@ export const Card = ({isAuthorized, wordData}:{isAuthorized: boolean, wordData: 
           <p>{'Пример: ' + textExampleTranslate}</p>
         </div>
       </div>
-      {isAuthorized && 
-        <button className='btn-success rounded v-100' onClick={toggleDiffWord}>
-          {isDifficult ? 'remove' : 'add'}
-        </button>}
-      <button className='btn-success rounded v-100' onClick={boundedPlayAudio}>PLAY</button>
     </li>
   );
 };
