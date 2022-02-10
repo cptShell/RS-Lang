@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import ResultRound from './ResultRound';
 import { getFactorScore, getListQuestionWords } from '../../utils/functions/sprintGameFunctions';
 import { ListQuestionData, SprintGameState, WordData } from '../../utils/interfaces/interfaces';
 import { arr } from '../../assets/data';
-import { BASE_APP_URL, DEFAULT_SPRINT_GAME_STATE, MIN_FACTOR, START_LEVEL } from '../../utils/constants/constants';
-import Player from './AudioButton';
+import { DEFAULT_SPRINT_GAME_STATE, INIT_TIMER_SPRINT_GAME, MIN_FACTOR, START_LEVEL } from '../../utils/constants/constants';
+import Timer from './Timer';
 
 const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
   const [stateSprint, setStateSprint] = useState<SprintGameState>(DEFAULT_SPRINT_GAME_STATE);
@@ -35,27 +36,24 @@ const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
       setStateSprint({ ...stateSprint, counter: counter + 1, score, factor, level });
     }
   };
-  useEffect(() => {
-    if (stateSprint.endGame) {
-      console.log(result);
-    }
-  }, [stateSprint.endGame]);
 
-  const listResult = result.map((word) => (
-    <li key={word.id}>
-      <Player url={`${BASE_APP_URL}/${word.audio}`} />
-      <span>{word.word}</span>
-      <span>{word.wordTranslate}</span>
-      <span>{word.isRight ? 'Знаю' : 'Ошибок'}</span>
-    </li>
-  ));
+  const finishGame = (): void => {
+    setStateSprint({ ...stateSprint, endGame: true });
+  }
+
+  // useEffect(() => {
+  //   if (stateSprint.endGame) {
+  //     console.log(result);
+  //   }
+  // }, [stateSprint.endGame]);
 
   return (
     <div>
       {stateSprint.endGame ? (
-        <ul>{listResult}</ul>
+        <ResultRound result={result} />
       ) : (
         <>
+          {<Timer initTime={INIT_TIMER_SPRINT_GAME} finishGame={finishGame}/>}
           <h1>
             Score: {score} <span>+{factor}</span>
           </h1>

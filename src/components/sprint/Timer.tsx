@@ -1,0 +1,29 @@
+import React, { useEffect, useState } from 'react';
+import { DELAY_SECOND } from '../../utils/constants/constants';
+import { SetTimeout } from '../../utils/types/types';
+
+const Timer: React.FC<{ initTime: number, finishGame: () => void }> = ({ initTime, finishGame }) => {
+  let [seconds, setSeconds] = useState<number>(initTime);
+  let [timer] = useState<SetTimeout>(null);
+
+  useEffect(() => {
+    timer = setTimeout(function tick() {
+      if (seconds === 0 && timer) {
+        clearTimeout(timer);
+        finishGame();
+        return;
+      }
+      setSeconds(seconds - 1);
+      timer = setTimeout(tick, DELAY_SECOND);
+    }, DELAY_SECOND);
+    return () => {
+      if (timer) {
+        return clearTimeout(timer);
+      }
+    };
+  }, [seconds]);
+
+  return <h1>{seconds}</h1>;
+};
+
+export default Timer;

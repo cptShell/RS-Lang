@@ -26,3 +26,5 @@ export const DEFAULT_SPRINT_GAME_STATE = {
   factor: MIN_FACTOR,
   endGame: false,
 };
+export const DELAY_SECOND = 1000;
+export const INIT_TIMER_SPRINT_GAME = 60;

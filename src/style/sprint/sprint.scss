@@ -1,0 +1,11 @@
+.speaker-button {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: url("../assets/svg/speaker.svg") no-repeat center;
+  background-size: contain;
+  &:active {
+    transform: scale(0.95);
+  }
+}
