@@ -10,6 +10,18 @@ const Header: React.FC = () => {
   const {
     userData: { name, message },
   } = useSelector((state: RootState) => state);
+  const getInnerJSX = (name: string) => {
+    listRoutes.forEach(route => console.log(route.name));
+    switch(name) {
+      case 'Войти':
+        return <span className='material-icons'>login</span>;
+      case 'Статистика':
+        return <span className='material-icons'>analytics</span>;
+      default:
+        return name;
+    }
+  }
+
   const linkList = listRoutes.map((routeData) => {
     if (routeData.hideInListNav) {
       return;
@@ -23,8 +35,8 @@ const Header: React.FC = () => {
     }
     return (
       <li key={routeData.route}>
-        <NavLink to={routeData.route} className='btn btn-success'>
-          {routeData.name}
+        <NavLink to={routeData.route} className='btn btn-success h-100 d-flex align-items-center'>
+          {getInnerJSX(routeData.name as string)}
         </NavLink>
       </li>
     );

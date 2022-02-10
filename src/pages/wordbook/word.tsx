@@ -49,16 +49,16 @@ export const Card = ({isAuthorized, wordData}:{isAuthorized: boolean, wordData: 
   const imgSrc = `${BASE_APP_URL}/${image}`;
 
   return (
-    <li className="col d-flex flex-row justify-content-between gap-2 rounded-3 shadow">
+    <li className={`col d-flex flex-row justify-content-between gap-2 rounded-3 shadow`}>
       <img className='rounded-3' src={imgSrc} alt={wordData.word + ' image'} />
-      <div className='d-flex flex-column gap-2 w-100'>
+      <div className='d-flex flex-column gap-2 w-100 p-2'>
         <div>
           <div className='d-flex gap-2'>
             <h2 className='me-auto h2 text-capitalize'>{word}</h2>
             {isAuthorized && 
-            <button className='btn-success rounded d-flex align-items-center' onClick={toggleDiffWord}>
-              <span className={`material-icons`}>
-                {isDifficult ? 'remove_circle' : 'add_circle'}
+            <button className={`btn-${isDifficult ? 'danger' : 'success'} rounded d-flex align-items-center`} onClick={toggleDiffWord}>
+              <span className='material-icons'>
+                {isDifficult ? 'bookmark' : 'bookmark_border'}
               </span>
             </button>}
             <button className='btn-success rounded d-flex align-items-center' onClick={boundedPlayAudio}>
