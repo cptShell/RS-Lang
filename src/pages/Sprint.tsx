@@ -10,11 +10,13 @@ const Sprint: React.FC = () => {
     const { target }= event;
     const btnNumber = (target as HTMLElement).getAttribute('data-number');
     if (btnNumber) {
-      // const response = await getListWordsByNumberGroup(btnNumber) as WordData[];
-      // if(response) {
+      const response = await getListWordsByNumberGroup(btnNumber) as WordData[];
+      if(response) {
+        // console.log(JSON.stringify(getListQuestionWords(response)));
+        return;
         // setListWords(JSON.parse(arr) as WordData[]);
         // setStartGame(true);
-      // }
+      }
     }
   }
   const listButton = [0, 1, 2, 3, 4, 5].map(button => {

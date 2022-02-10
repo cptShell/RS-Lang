@@ -19,6 +19,7 @@ export interface ListQuestionData {
   id: string,
   word: string,
   wordTranslate: string,
+  audio: string,
   isRight: boolean
 } 
 

@@ -59,8 +59,8 @@ const shuffleArray = <T>(array: Array<T>): Array<T> => {
 
 export const getListQuestionWords = (listWords: WordData[]) => {
   const initListsWords: ListQuestionData[] = listWords.map((wordData) => {
-    const { word, wordTranslate, id } = wordData;
-    return { word, wordTranslate, id, isRight: true };
+    const { word, wordTranslate, id, audio } = wordData;
+    return { word, wordTranslate, id, audio, isRight: true };
   });
   const rightWrongAnswer = getListRightWrongAnswer(initListsWords);
   const listQuestions = shuffleArray(rightWrongAnswer);
