@@ -28,3 +28,5 @@ export const DEFAULT_SPRINT_GAME_STATE = {
 };
 export const DELAY_SECOND = 1000;
 export const INIT_TIMER_SPRINT_GAME = 60;
+export const LEFT_KEY = 'ArrowLeft';
+export const RIGHT_KEY = 'ArrowRight';
