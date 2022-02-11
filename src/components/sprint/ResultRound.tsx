@@ -13,7 +13,7 @@ const ResultRound: React.FC<{result: ListQuestionData[]}> = ({ result }) => {
     </li>
   ));
   return (
-    <div>
+    <div className='sprint-result'>
       <ul>
         {listResult}
       </ul>
