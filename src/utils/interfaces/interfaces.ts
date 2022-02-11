@@ -20,7 +20,8 @@ export interface ListQuestionData {
   word: string,
   wordTranslate: string,
   audio: string,
-  isRight: boolean
+  isRight: boolean,
+  rightTranslate: string
 } 
 
 export interface PageState {

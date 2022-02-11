@@ -144,10 +144,11 @@
     }
   }
   .list-result{
+    max-height: 200px;
+    overflow-y: scroll;
     li {
       padding: 4px 0;
       display: flex;
-      // flex-wrap: wrap;
       width: 250px;
       justify-content: space-between;
     }

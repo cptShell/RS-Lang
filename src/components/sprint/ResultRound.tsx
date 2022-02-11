@@ -12,7 +12,7 @@ const ResultRound: React.FC<{ result: ListQuestionData[] }> = ({ result }) => {
       <PlayButton url={`${BASE_APP_URL}/${word.audio}`} />
       <p>
         <span>{word.word}</span>
-        <span>{word.wordTranslate}</span>
+        <span>{word.rightTranslate}</span>
       </p>
     </li>
   ));
@@ -21,7 +21,7 @@ const ResultRound: React.FC<{ result: ListQuestionData[] }> = ({ result }) => {
       <PlayButton url={`${BASE_APP_URL}/${word.audio}`} />
       <p>
         <span>{word.word}</span>
-        <span>{word.wordTranslate}</span>
+        <span>{word.rightTranslate}</span>
       </p>
     </li>
   ));
