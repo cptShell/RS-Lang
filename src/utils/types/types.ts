@@ -12,3 +12,4 @@ export type DataNavLink = {
 };
 
 export type HandlerSelectForm = (type: TypeForm) => void;
+export type SetTimeout = ReturnType<typeof setTimeout> | null;

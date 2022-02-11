@@ -15,6 +15,15 @@ export interface WordData {
   textExampleTranslate: string
 }
 
+export interface ListQuestionData {
+  id: string,
+  word: string,
+  wordTranslate: string,
+  audio: string,
+  isRight: boolean,
+  rightTranslate: string
+} 
+
 export interface PageState {
   page: number,
   group: number,
@@ -36,4 +45,12 @@ export interface ErrorsForm {
   email?: string;
   password?: string;
   name?: string;
+}
+
+export interface SprintGameState {
+  counter: number;
+  score: number;
+  level: number;
+  factor: number;
+  endGame: boolean;
 }
