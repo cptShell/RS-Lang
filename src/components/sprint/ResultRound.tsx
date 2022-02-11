@@ -3,7 +3,7 @@ import { BASE_APP_URL } from '../../utils/constants/constants';
 import { ListQuestionData } from '../../utils/interfaces/interfaces';
 import PlayButton from './AudioButton';
 
-const ResultRound: React.FC<{ result: ListQuestionData[] }> = ({ result }) => {
+const ResultRound: React.FC<{ result: ListQuestionData[], score: number }> = ({ result, score }) => {
   const rightAnswer = result.filter((wordData) => wordData.isRight);
   const wrongAnswer = result.filter((wordData) => !wordData.isRight);
 
@@ -27,7 +27,7 @@ const ResultRound: React.FC<{ result: ListQuestionData[] }> = ({ result }) => {
   ));
   return (
     <div className='sprint-result'>
-      <h2>Текущий результат: </h2>
+      <h2>Текущий результат: {score}</h2>
       <p className='sprint-result__right'>
         Знаю: <span>{rightAnswer.length}</span>
       </p>

@@ -1,11 +1,8 @@
 import axios from 'axios';
-import { AVERAGE_FACTOR, AVERAGE_LEVEL, BASE_APP_URL, ELEMENTARY_FACTOR, MAX_FACTOR, MAX_LEVEL, MIN_FACTOR, MIN_LEVEL } from '../constants/constants';
+import { AVERAGE_FACTOR, AVERAGE_LEVEL, BASE_APP_URL, ELEMENTARY_FACTOR, MAX_FACTOR, MAX_LEVEL, MAX_NUMBER_PAGES, MAX_PAGE, MIN_FACTOR, MIN_LEVEL, MIN_PAGE } from '../constants/constants';
 import { ListQuestionData, WordData } from '../interfaces/interfaces';
 
 const getRandomNumberPages = (): Array<string> => {
-  const MAX_NUMBER_PAGES = 1;
-  const MIN_PAGE = 0;
-  const MAX_PAGE = 29;
   const uniqueNumberPages = new Set<number>();
   while (true) {
     const numberPage = getRandomNumber(MIN_PAGE, MAX_PAGE);
@@ -28,7 +25,7 @@ export const getListWordsByNumberGroup = async (numberGroup: string): Promise<Wo
     const listWords = listResponses.map((response) => response.data);
     return listWords.flat();
   } catch {
-    console.error("Can't get list words from server");
+    console.error('Can\'t get list words from server');
   }
 };
 

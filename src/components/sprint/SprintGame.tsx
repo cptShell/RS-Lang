@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ResultRound from './ResultRound';
 import { getFactorScore, getListQuestionWords } from '../../utils/functions/sprintGameFunctions';
 import { ListQuestionData, SprintGameState, WordData } from '../../utils/interfaces/interfaces';
-import { arr } from '../../assets/data';
 import {
   BASE_APP_URL,
   DEFAULT_SPRINT_GAME_STATE,
@@ -22,7 +21,7 @@ const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
   const [playAudioFail] = useAudio('./sounds/fail.mp3');
   const [stateSprint, setStateSprint] = useState<SprintGameState>(DEFAULT_SPRINT_GAME_STATE);
   let { factor, level, score, counter, endGame } = stateSprint;
-  const [listQuestionsWords] = useState<ListQuestionData[]>(JSON.parse(arr));
+  const [listQuestionsWords] = useState<ListQuestionData[]>(getListQuestionWords(props.listWords));
   const [result, setResult] = useState<ListQuestionData[]>([]);
   const [mute, setMute] = useState<boolean>(false);
 
@@ -74,7 +73,7 @@ const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
   return (
     <div className='sprint'>
       {stateSprint.endGame ? (
-        <ResultRound result={result} />
+        <ResultRound result={result} score={score}/>
       ) : (
         <div className='sprint-board'>
           <div className='sprint-board__header'>

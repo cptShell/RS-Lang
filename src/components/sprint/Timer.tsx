@@ -14,14 +14,13 @@ const Timer: React.FC<{ initTime: number, finishGame: () => void }> = ({ initTim
         return;
       }
       setSeconds(seconds - 1);
-      // timer = setTimeout(tick, DELAY_SECOND);
     }, DELAY_SECOND);
     return () => {
       if (timer) {
         return clearTimeout(timer);
       }
     };
-  }, []);
+  }, [seconds]);
 
   return <span className='sprint-timer'>Осталось: {seconds} с</span>;
 };
