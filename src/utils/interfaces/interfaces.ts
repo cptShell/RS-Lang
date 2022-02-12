@@ -20,6 +20,7 @@ export interface UserWord {
   id: string,
   wordId: string,
 }
+
 export interface ListQuestionData {
   id: string,
   word: string,
@@ -27,7 +28,7 @@ export interface ListQuestionData {
   audio: string,
   isRight: boolean,
   rightTranslate: string
-} 
+}
 
 export interface PageState {
   page: number,
@@ -50,6 +51,13 @@ export interface ErrorsForm {
   email?: string;
   password?: string;
   name?: string;
+}
+
+export interface UserWord {
+  diffuculty: string,
+  options: {
+    isLearned: boolean
+  }
 }
 
 export interface SprintGameState {
