@@ -2,19 +2,20 @@ import React from "react";
 import { BASIC_GROUP_AMOUNT, ORDERED_BTN_STYLE_LIST } from '../../utils/constants/constants';
 import { PageState } from "../../utils/interfaces/interfaces";
 
-export const GroupList = ({pageState, setPageState}: {
+export const GroupList = ({isAuthorized, pageState, setPageState}: {
+  isAuthorized: boolean,
   pageState: PageState,
-  setPageState: (state: PageState) => void, 
+  setPageState: (state: PageState) => void,
 }): JSX.Element => {
   const { group }: PageState = pageState;
-
+  const groupCount = BASIC_GROUP_AMOUNT + Number(isAuthorized);
   const changeGroup = (nextGroup: number) => {
     const nextState = {page: 0, group: nextGroup};
     setPageState(nextState);
   }
 
-  const groupBullets: Array<JSX.Element> = new Array(BASIC_GROUP_AMOUNT).fill(0).map((_, index) => {
-    const isActive: string = index === group ? '' : '-outline';
+  const groupBullets: Array<JSX.Element> = new Array(groupCount).fill(0).map((_, index) => {
+    const isActive: string = index !== group ? '' : '-outline';
     const className = `btn btn${isActive}-${ORDERED_BTN_STYLE_LIST[index]}`;
     return (
       <li key={index}>
