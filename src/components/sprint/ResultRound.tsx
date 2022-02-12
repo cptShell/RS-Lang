@@ -1,11 +1,19 @@
 import React from 'react';
-import { BASE_APP_URL } from '../../utils/constants/constants';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { BASE_APP_URL, MESSAGE_IS_AUTH } from '../../utils/constants/constants';
+import { addDataAboutWordsToUserWords } from '../../utils/functions/sprintGameFunctions';
 import { ListQuestionData } from '../../utils/interfaces/interfaces';
 import PlayButton from './AudioButton';
 
 const ResultRound: React.FC<{ result: ListQuestionData[], score: number }> = ({ result, score }) => {
   const rightAnswer = result.filter((wordData) => wordData.isRight);
   const wrongAnswer = result.filter((wordData) => !wordData.isRight);
+  const { userData: { message, token, userId }} = useSelector((state: RootState) => state);
+
+  if (message === MESSAGE_IS_AUTH && token){
+    addDataAboutWordsToUserWords(result, token, userId);
+  }
 
   const rightAnswerList = rightAnswer.map((word) => (
     <li key={word.id}>

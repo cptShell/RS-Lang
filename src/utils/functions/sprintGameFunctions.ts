@@ -1,5 +1,20 @@
-import axios from 'axios';
-import { AVERAGE_FACTOR, AVERAGE_LEVEL, BASE_APP_URL, ELEMENTARY_FACTOR, MAX_FACTOR, MAX_LEVEL, MAX_NUMBER_PAGES, MAX_PAGE, MIN_FACTOR, MIN_LEVEL, MIN_PAGE } from '../constants/constants';
+import axios, { AxiosError } from 'axios';
+import { BASE_HEADERS } from '../../redux/constants';
+import {
+  AVERAGE_FACTOR,
+  AVERAGE_LEVEL,
+  BASE_APP_URL,
+  DATA_IS_EXIST_CODE,
+  ELEMENTARY_FACTOR,
+  MAX_FACTOR,
+  MAX_LEVEL,
+  MAX_NUMBER_PAGES,
+  MAX_PAGE,
+  MIN_FACTOR,
+  MIN_LEVEL,
+  MIN_PAGE,
+} from '../constants/constants';
+import { TypeDifficultyWord, TypeMethodRequest } from '../enum/enum';
 import { ListQuestionData, WordData } from '../interfaces/interfaces';
 
 const getRandomNumberPages = (): Array<string> => {
@@ -25,7 +40,7 @@ export const getListWordsByNumberGroup = async (numberGroup: string): Promise<Wo
     const listWords = listResponses.map((response) => response.data);
     return listWords.flat();
   } catch {
-    console.error('Can\'t get list words from server');
+    console.error("Can't get list words from server");
   }
 };
 
@@ -56,8 +71,8 @@ const shuffleArray = <T>(array: Array<T>): Array<T> => {
 
 export const getListQuestionWords = (listWords: WordData[]) => {
   const initListsWords: ListQuestionData[] = listWords.map((wordData) => {
-    const { word, wordTranslate, id, audio } = wordData;
-    return { word, wordTranslate, id, audio, rightTranslate: wordTranslate, isRight: true };
+    const { word, wordTranslate, id, audio, group } = wordData;
+    return { word, wordTranslate, id, audio, group, rightTranslate: wordTranslate, isRight: true };
   });
   const rightWrongAnswer = getListRightWrongAnswer(initListsWords);
   const listQuestions = shuffleArray(rightWrongAnswer);
@@ -67,10 +82,75 @@ export const getListQuestionWords = (listWords: WordData[]) => {
 export const getFactorScore = (level: number): number => {
   if (level > MIN_LEVEL && level <= AVERAGE_LEVEL) {
     return ELEMENTARY_FACTOR;
-  } if (level > AVERAGE_LEVEL && level <= MAX_LEVEL) {
+  }
+  if (level > AVERAGE_LEVEL && level <= MAX_LEVEL) {
     return AVERAGE_FACTOR;
-  } if (level > MAX_LEVEL) {
+  }
+  if (level > MAX_LEVEL) {
     return MAX_FACTOR;
   }
   return MIN_FACTOR;
+};
+
+const getTypeDifficultyWord = (group: number) => {
+  switch (group) {
+    case 0:
+    case 1:
+      return TypeDifficultyWord[0];
+    case 2:
+    case 3:
+      return TypeDifficultyWord[1];
+    case 4:
+    case 5:
+      return TypeDifficultyWord[2];
+  }
+};
+
+const createUpdateUserWord = async (
+  typeMethods: TypeMethodRequest,
+  wordData: ListQuestionData,
+  userToken: string,
+  userId: string
+) => {
+  try {
+    const response = await axios({
+      url: `${BASE_APP_URL}/users/${userId}/words/${wordData.id}`,
+      method: typeMethods,
+      data: {
+        difficulty: getTypeDifficultyWord(wordData.group),
+        optional: { isLearned: true, isRightWrongAnswer: wordData.isRight },
+      },
+      headers: { Authorization: `Bearer ${userToken}` },
+    });
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return error.response;
+    }
+  }
+};
+
+const getUserWords = async (userToken: string, userId: string) => {
+  const response = await axios({
+    url: `${BASE_APP_URL}/users/${userId}/words`,
+    method: 'get',
+    headers: { Authorization: `Bearer ${userToken}` },
+  });
+  return response;
 }
+
+export const addDataAboutWordsToUserWords = (listWords: ListQuestionData[], userToken: string, userId: string) => {
+  listWords.map(async (wordData) => {
+    try {
+      const response = await createUpdateUserWord(TypeMethodRequest.POST, wordData, userToken, userId);
+      if (response?.status === DATA_IS_EXIST_CODE) {
+        const words = await getUserWords(userToken, userId);
+        console.log('words ', words);
+        
+        await createUpdateUserWord(TypeMethodRequest.PUT, wordData, userToken, userId);
+      }
+    } catch {
+      console.log('Can\'t add data to user words');
+    }
+  });
+};

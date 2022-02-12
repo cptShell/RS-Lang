@@ -29,7 +29,7 @@ export const DEFAULT_SPRINT_GAME_STATE = {
   score: 0,
   level: START_LEVEL,
   factor: MIN_FACTOR,
-  endGame: false,
+  endGame: true,
 };
 export const MAX_NUMBER_PAGES = 3;
 export const MIN_PAGE = 0;
@@ -38,6 +38,7 @@ export const DELAY_SECOND = 1000;
 export const INIT_TIMER_SPRINT_GAME = 60;
 export const LEFT_KEY = 'ArrowLeft';
 export const RIGHT_KEY = 'ArrowRight';
+export const DATA_IS_EXIST_CODE = 417; 
 
 export const SPRINT_LEVEL_DATA = [
   {

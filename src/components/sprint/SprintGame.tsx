@@ -15,6 +15,7 @@ import Timer from './Timer';
 import useAudio from '../../utils/hooks/useAudio';
 import PlayButton from './AudioButton';
 import MuteButton from './MuteButton';
+import { arr } from '../../assets/testData';
 
 const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
   const [playAudioRight] = useAudio('./sounds/right.mp3');
@@ -73,7 +74,8 @@ const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
   return (
     <div className='sprint'>
       {stateSprint.endGame ? (
-        <ResultRound result={result} score={score}/>
+        // <ResultRound result={result} score={score}/>
+        <ResultRound result={arr} score={100}/>
       ) : (
         <div className='sprint-board'>
           <div className='sprint-board__header'>
