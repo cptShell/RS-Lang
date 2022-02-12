@@ -11,7 +11,6 @@ const Header: React.FC = () => {
     userData: { name, message },
   } = useSelector((state: RootState) => state);
   const getInnerJSX = (name: string) => {
-    listRoutes.forEach(route => console.log(route.name));
     switch(name) {
       case 'Войти':
         return <span className='material-icons'>login</span>;

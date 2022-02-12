@@ -53,9 +53,9 @@ export interface ErrorsForm {
   name?: string;
 }
 
-export interface UserWord {
-  diffuculty: string,
-  options: {
+export interface UserWordData {
+  difficulty: string,
+  optional: {
     isLearned: boolean
   }
 }

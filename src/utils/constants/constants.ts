@@ -13,6 +13,14 @@ export const ORDERED_BTN_STYLE_LIST: Array<string> = [
   'danger',
   'danger',
 ];
+export const OREDERED_DIFF_LIST: Array<string> = [
+  'easy',
+  'easy',
+  'normal',
+  'normal',
+  'hard',
+  'hard',
+]
 export const REG_EXP_EMAIL = /\S+@\S+\.\S+/;
 export const MESSAGE_IS_AUTH = 'Authenticated';
 export const START_LEVEL = 1;

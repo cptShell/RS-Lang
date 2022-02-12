@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { BASE_APP_URL } from '../../utils/constants/constants';
-import { WordData } from '../../utils/interfaces/interfaces';
+import { BASE_APP_URL, OREDERED_DIFF_LIST } from '../../utils/constants/constants';
+import { UserWordData, WordData } from '../../utils/interfaces/interfaces';
 import { getUserWordsUrl, playAudioInOrder } from '../../utils/functions/supportMethods';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getCurrentUserState } from '../../utils/functions/localStorage';
@@ -38,8 +38,14 @@ export const Card = ({isAuthorized, wordData}:{isAuthorized: boolean, wordData: 
     const user = getCurrentUserState();
     const url = getUserWordsUrl(user, wordData);
     const axiosConfig: AxiosRequestConfig = {method, url, headers: {Authorization: `Bearer ${user.token}`}};
+    const userWordData: UserWordData = {
+      difficulty: OREDERED_DIFF_LIST[wordData.group],
+      optional: {
+        isLearned: false
+      },
+    };
 
-    if (!isDifficult) axiosConfig.data = {difficulty: 'easy', optional: {}};
+    if (!isDifficult) axiosConfig.data = userWordData;
 
     await axios(axiosConfig);
     setDifficult(!isDifficult);
