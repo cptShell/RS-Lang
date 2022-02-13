@@ -68,3 +68,15 @@ export interface SprintGameState {
   factor: number;
   endGame: boolean;
 }
+
+export interface DataUserWord {
+  difficulty: string;
+  optional: OptionalDataWord;
+}
+
+interface OptionalDataWord {
+  isLearned: boolean;
+  isNewWord: boolean;
+  countRightAnswer: number;
+  countWrongAnswer: number;
+}

@@ -66,3 +66,4 @@ export const SPRINT_LEVEL_DATA = [
     nameLevel: 'Advanced'
   },
 ];
+export const NUMBER_RIGHT_ANSWER = 3;

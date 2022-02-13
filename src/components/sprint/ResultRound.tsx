@@ -9,10 +9,10 @@ import PlayButton from './AudioButton';
 const ResultRound: React.FC<{ result: ListQuestionData[], score: number }> = ({ result, score }) => {
   const rightAnswer = result.filter((wordData) => wordData.isRight);
   const wrongAnswer = result.filter((wordData) => !wordData.isRight);
-  const { userData: { message, token, userId }} = useSelector((state: RootState) => state);
+  const { userData } = useSelector((state: RootState) => state);
 
-  if (message === MESSAGE_IS_AUTH && token){
-    addDataAboutWordsToUserWords(result, token, userId);
+  if (userData.message === MESSAGE_IS_AUTH && userData.token){
+    addDataAboutWordsToUserWords(result, userData);
   }
 
   const rightAnswerList = rightAnswer.map((word) => (

@@ -1,5 +1,5 @@
-import axios, { AxiosError } from 'axios';
-import { BASE_HEADERS } from '../../redux/constants';
+import axios, { AxiosResponse } from 'axios';
+import { UserData } from '../../redux/types/interfaces';
 import {
   AVERAGE_FACTOR,
   AVERAGE_LEVEL,
@@ -13,9 +13,10 @@ import {
   MIN_FACTOR,
   MIN_LEVEL,
   MIN_PAGE,
+  NUMBER_RIGHT_ANSWER,
 } from '../constants/constants';
 import { TypeDifficultyWord, TypeMethodRequest } from '../enum/enum';
-import { ListQuestionData, WordData } from '../interfaces/interfaces';
+import { DataUserWord, ListQuestionData, WordData } from '../interfaces/interfaces';
 
 const getRandomNumberPages = (): Array<string> => {
   const uniqueNumberPages = new Set<number>();
@@ -103,24 +104,78 @@ const getTypeDifficultyWord = (group: number) => {
     case 4:
     case 5:
       return TypeDifficultyWord[2];
+    default:
+      return TypeDifficultyWord[0];
   }
 };
 
-const createUpdateUserWord = async (
-  typeMethods: TypeMethodRequest,
+const getDataUserWordById = async (
   wordData: ListQuestionData,
-  userToken: string,
-  userId: string
-) => {
+  userData: UserData
+): Promise<AxiosResponse<DataUserWord> | undefined> => {
+  const { userId, token } = userData;
   try {
+    const userWordData = await axios({
+      url: `${BASE_APP_URL}/users/${userId}/words/${wordData.id}`,
+      method: 'get',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return userWordData;
+  } catch {
+    console.log('Can\'t get data user word by id');
+  }
+};
+
+const getOptionalUserDataWord = async (
+  typeMethod: TypeMethodRequest,
+  wordData: ListQuestionData,
+  userData?: UserData
+) => {
+  if (typeMethod === TypeMethodRequest.POST) {
+    return {
+      isLearned: false,
+      isNewWord: true,
+      countRightAnswer: wordData.isRight ? 1 : 0,
+      countWrongAnswer: !wordData.isRight ? 1 : 0,
+    };
+  }
+  if (typeMethod === TypeMethodRequest.PUT) {
+    if (userData) {
+      const currentUserWordData = await getDataUserWordById(wordData, userData);
+      if (currentUserWordData) {
+        const {
+          data: { optional },
+        } = currentUserWordData;
+        let isWordLearned = optional.countRightAnswer > NUMBER_RIGHT_ANSWER;
+        const countWrongAnswer = !wordData.isRight ? optional.countWrongAnswer + 1 : optional.countWrongAnswer;
+        if (countWrongAnswer >= 1) {
+          isWordLearned = false;
+        }
+        return {
+          isLearned: isWordLearned,
+          isNewWord: false,
+          countRightAnswer: wordData.isRight ? optional.countRightAnswer + 1 : optional.countRightAnswer,
+          countWrongAnswer: countWrongAnswer,
+        };
+      }
+    } else {
+      throw new Error('No user data');
+    }
+  }
+};
+
+const createUpdateUserWord = async (typeMethods: TypeMethodRequest, wordData: ListQuestionData, userData: UserData) => {
+  const { userId, token } = userData;
+  try {
+    const dataUserWord = await getOptionalUserDataWord(typeMethods, wordData, userData);
     const response = await axios({
       url: `${BASE_APP_URL}/users/${userId}/words/${wordData.id}`,
       method: typeMethods,
       data: {
         difficulty: getTypeDifficultyWord(wordData.group),
-        optional: { isLearned: true, isRightWrongAnswer: wordData.isRight },
+        optional: dataUserWord,
       },
-      headers: { Authorization: `Bearer ${userToken}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     return response;
   } catch (error) {
@@ -130,24 +185,12 @@ const createUpdateUserWord = async (
   }
 };
 
-const getUserWords = async (userToken: string, userId: string) => {
-  const response = await axios({
-    url: `${BASE_APP_URL}/users/${userId}/words`,
-    method: 'get',
-    headers: { Authorization: `Bearer ${userToken}` },
-  });
-  return response;
-}
-
-export const addDataAboutWordsToUserWords = (listWords: ListQuestionData[], userToken: string, userId: string) => {
+export const addDataAboutWordsToUserWords = (listWords: ListQuestionData[], userData: UserData) => {
   listWords.map(async (wordData) => {
     try {
-      const response = await createUpdateUserWord(TypeMethodRequest.POST, wordData, userToken, userId);
+      const response = await createUpdateUserWord(TypeMethodRequest.POST, wordData, userData);
       if (response?.status === DATA_IS_EXIST_CODE) {
-        const words = await getUserWords(userToken, userId);
-        console.log('words ', words);
-        
-        await createUpdateUserWord(TypeMethodRequest.PUT, wordData, userToken, userId);
+        await createUpdateUserWord(TypeMethodRequest.PUT, wordData, userData);
       }
     } catch {
       console.log('Can\'t add data to user words');
