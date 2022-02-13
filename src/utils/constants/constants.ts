@@ -1,3 +1,5 @@
+import { ListQuestionData, WordData } from "../interfaces/interfaces";
+
 export const ACTIVE_CLASSNAME = 'active';
 export const BASE_APP_URL: string = 'https://a-c-rslang.herokuapp.com';
 export const MAX_CARDS_PER_PAGE: number = 30;
@@ -67,3 +69,13 @@ export const SPRINT_LEVEL_DATA = [
   },
 ];
 export const NUMBER_RIGHT_ANSWER = 3;
+
+export const DEFAULT_QUESTIONS_SPRINT_GAME: ListQuestionData = {
+  id: '',
+  word: '',
+  wordTranslate: '',
+  audio: '',
+  isRight: false,
+  rightTranslate: '',
+  group: 0
+}

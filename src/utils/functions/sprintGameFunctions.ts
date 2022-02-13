@@ -5,6 +5,7 @@ import {
   AVERAGE_LEVEL,
   BASE_APP_URL,
   DATA_IS_EXIST_CODE,
+  DEFAULT_QUESTIONS_SPRINT_GAME,
   ELEMENTARY_FACTOR,
   MAX_FACTOR,
   MAX_LEVEL,
@@ -86,7 +87,10 @@ const shuffleArray = <T>(array: Array<T>): Array<T> => {
   return array;
 };
 
-export const getListQuestionWords = (listWords: WordData[]) => {
+export const getListQuestionWords = (listWords: WordData[]): ListQuestionData[] => {
+  if (!listWords.length) {
+    return [DEFAULT_QUESTIONS_SPRINT_GAME];
+  }
   const initListsWords: ListQuestionData[] = listWords.map((wordData) => {
     const { word, wordTranslate, id, audio, group } = wordData;
     return { word, wordTranslate, id, audio, group, rightTranslate: wordTranslate, isRight: true };

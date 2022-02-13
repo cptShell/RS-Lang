@@ -4,6 +4,7 @@ import { getFactorScore, getListQuestionWords } from '../../utils/functions/spri
 import { ListQuestionData, SprintGameState, WordData } from '../../utils/interfaces/interfaces';
 import {
   BASE_APP_URL,
+  DEFAULT_QUESTIONS_SPRINT_GAME,
   DEFAULT_SPRINT_GAME_STATE,
   INIT_TIMER_SPRINT_GAME,
   LEFT_KEY,
@@ -25,11 +26,7 @@ const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
   const [result, setResult] = useState<ListQuestionData[]>([]);
   const [mute, setMute] = useState<boolean>(false);
 
-  if (!listQuestionsWords) {
-    setStateSprint({...stateSprint, endGame: true});
-  }
-
-  const { word, wordTranslate, audio } = listQuestionsWords[counter];
+  const {word, audio, wordTranslate } = listQuestionsWords[counter];
 
   const onCheckAnswer = (answer: boolean) => {
     const currentWord = { ...listQuestionsWords[counter] };
@@ -74,11 +71,16 @@ const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
     return () => window.removeEventListener('keydown', onKeyArrowHandler, false);
   }, [counter, endGame]);
 
+  useEffect(() => {
+    if (listQuestionsWords.length === 1 && listQuestionsWords.includes(DEFAULT_QUESTIONS_SPRINT_GAME)) {
+      setStateSprint({...stateSprint, endGame: true});
+    }
+  }, []);
+
   return (
     <div className='sprint'>
       {stateSprint.endGame ? (
         <ResultRound result={result} score={score}/>
-        // <ResultRound result={arr} score={100}/>
       ) : (
         <div className='sprint-board'>
           <div className='sprint-board__header'>
@@ -87,7 +89,7 @@ const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
           </div>
           <p className='sprint-score'>Счет: {score}</p>
           <div className='sprint-board__field'>
-            <span>+{factor} за очков слово</span>
+            <span>+{factor} очков за слово</span>
             <h2 className='sprint-word'>{word}</h2>
             <PlayButton url={`${BASE_APP_URL}/${audio}`} />
             <h3 className='sprint-translate'>{wordTranslate}</h3>
