@@ -29,7 +29,7 @@ export const DEFAULT_SPRINT_GAME_STATE = {
   score: 0,
   level: START_LEVEL,
   factor: MIN_FACTOR,
-  endGame: true,
+  endGame: false,
 };
 export const MAX_NUMBER_PAGES = 3;
 export const MIN_PAGE = 0;
