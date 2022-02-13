@@ -16,7 +16,23 @@ import {
   NUMBER_RIGHT_ANSWER,
 } from '../constants/constants';
 import { TypeDifficultyWord, TypeMethodRequest } from '../enum/enum';
-import { DataUserWord, ListQuestionData, WordData } from '../interfaces/interfaces';
+import { DataUserWord, ListQuestionData, ResponseUserWords, WordData } from '../interfaces/interfaces';
+
+const getNumberPages = (numberPage: string): Array<string> => {
+  const listPages: Array<number> = [];
+  let count = 0;
+  let countPage = Number(numberPage);
+  while(count < MAX_NUMBER_PAGES) {
+    if(countPage >= 0) {
+      listPages.push(countPage);
+      countPage -= 1;
+      count += 1;
+    } else {
+      break;
+    }
+  }
+  return listPages.map(page => page.toString());
+}
 
 const getRandomNumberPages = (): Array<string> => {
   const uniqueNumberPages = new Set<number>();
@@ -32,16 +48,16 @@ export const getRandomNumber = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-export const getListWordsByNumberGroup = async (numberGroup: string): Promise<WordData[] | undefined> => {
+export const getListWordsByNumberGroup = async (numberGroup: string, numberPage?: string): Promise<WordData[] | undefined> => {
   try {
-    const listRandomPages: Array<string> = getRandomNumberPages();
-    const listPageUrls = listRandomPages.map((page) => `${BASE_APP_URL}/words/?group=${numberGroup}&page=${page}`);
+    const listPages: Array<string> = numberPage ? getNumberPages(numberPage) : getRandomNumberPages();
+    const listPageUrls = listPages.map((page) => `${BASE_APP_URL}/words/?group=${numberGroup}&page=${page}`);
     const listRequests = listPageUrls.map((url) => axios.get<WordData>(url));
     const listResponses = await Promise.all(listRequests);
     const listWords = listResponses.map((response) => response.data);
     return listWords.flat();
   } catch {
-    console.error("Can't get list words from server");
+    console.error('Can\'t get list words from server');
   }
 };
 
@@ -197,3 +213,32 @@ export const addDataAboutWordsToUserWords = (listWords: ListQuestionData[], user
     }
   });
 };
+
+const getUserWords = async (userData: UserData) => {
+  try{
+    const { userId, token } = userData;
+    const response: AxiosResponse<ResponseUserWords[]> = await axios({
+      url: `${BASE_APP_URL}/users/${userId}/words`,
+      method: 'get',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch {
+    console.log('Can\'t get user words');
+  }
+}
+
+export const excludeLearnedWords = async (listWords: WordData[], userData: UserData): Promise<WordData[]> => {
+  const listUserWords  = await getUserWords(userData);
+  
+  if(listUserWords) {
+    const { data } = listUserWords;
+    const listUserLearnedWordId = data.filter(dataWord => {
+      if (dataWord.optional.isLearned) {
+        return dataWord.id;
+      }
+    }).map(dataWord => dataWord.wordId);
+    return listWords.filter(wordData => !listUserLearnedWordId.includes(wordData.id));
+  }
+  return listWords;
+}

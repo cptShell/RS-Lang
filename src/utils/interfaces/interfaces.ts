@@ -80,3 +80,10 @@ interface OptionalDataWord {
   countRightAnswer: number;
   countWrongAnswer: number;
 }
+
+export interface ResponseUserWords {
+  difficulty: string,
+  optional: OptionalDataWord,
+  wordId: string,
+  id: string
+}
