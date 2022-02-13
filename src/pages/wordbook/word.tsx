@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { BASE_APP_URL, OREDERED_DIFF_LIST } from '../../utils/constants/constants';
-import { UserWordData, WordData } from '../../utils/interfaces/interfaces';
-import { getUserWordsUrl } from '../../utils/functions/supportMethods';
-import axios, { AxiosRequestConfig } from 'axios';
-import { getCurrentUserState } from '../../utils/functions/localStorage';
+import React from 'react';
+import { BASE_APP_URL } from '../../utils/constants/constants';
+import { WordData } from '../../utils/interfaces/interfaces';
 import { VolumeButton } from './volumeButton';
 import { DiffToggler } from './DiffToggler';
+import { LearnToggler } from './LearnToggler';
 
 export const Card = ({isAuthorized, wordData}:{isAuthorized: boolean, wordData: WordData}): JSX.Element => {
   const {
@@ -29,6 +27,7 @@ export const Card = ({isAuthorized, wordData}:{isAuthorized: boolean, wordData: 
           <div className='d-flex gap-2'>
             <h2 className='me-auto h2 text-capitalize'>{word}</h2>
             {isAuthorized && <DiffToggler wordData={wordData} />}
+            {isAuthorized && <LearnToggler />}
             <VolumeButton wordData={wordData} />
           </div>
           <p>{'Transcription: ' + transcription}</p>

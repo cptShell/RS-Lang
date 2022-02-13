@@ -8,7 +8,7 @@ import { getCurrentUserState } from '../../utils/functions/localStorage';
 export const DiffToggler = ({wordData}: {wordData: WordData}) => {
   const [isDifficult, setDifficult] = useState<Boolean>(false);
 
-  useEffect(() => {
+  /*useEffect(() => {
     getDiff();
   }, [isDifficult]);
 
@@ -16,9 +16,21 @@ export const DiffToggler = ({wordData}: {wordData: WordData}) => {
     const user = getCurrentUserState();
     const url = getUserWordsUrl(user, wordData);
     axios({method: 'get', url, headers: {Authorization: `Bearer ${user.token}`}})
-      .then(() => setDifficult(true))
-      .catch(() => setDifficult(false));
-  }
+      .then((res) => {
+        const { data } = res.data;
+        setDifficult(data.isDifficult);
+      })
+      .catch(() => {
+        const userWordData: UserWordData = {
+          difficulty: OREDERED_DIFF_LIST[wordData.group],
+          optional: {
+            isLearned: false
+          },
+        }
+        axios({method: 'post', url, headers: {Authorization: `Bearer ${user.token}`}, data: userWordData});
+        setDifficult(false);
+      });
+  }*/
 
   const toggleDiffWord = async () => {
     const method = isDifficult ? 'delete' : 'post';

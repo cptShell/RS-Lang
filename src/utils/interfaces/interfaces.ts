@@ -12,7 +12,8 @@ export interface WordData {
   transcription: string,
   wordTranslate: string,
   textMeaningTranslate: string,
-  textExampleTranslate: string
+  textExampleTranslate: string,
+  _id: string,
 }
 
 export interface UserWord {
