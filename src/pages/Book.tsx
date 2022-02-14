@@ -4,6 +4,7 @@ import { BookPage } from './wordbook/bookPage';
 import { BookPagination } from './wordbook/bookPagination';
 import { GroupList } from './wordbook/groupList';
 import { store } from '../redux/store';
+import ListGames from './wordbook/ListGames';
 
 const Book = (): JSX.Element => {
   const [pageState, setPageState] = useState({page: 0, group: 0});
@@ -13,6 +14,7 @@ const Book = (): JSX.Element => {
     <div className='container-fluid d-flex flex-column gap-2 p-2'>
       <div className='d-flex flex-wrap flex-row justify-content-between gap-2'>
         <BookPagination pageState={pageState} setPageState={setPageState}/>
+        <ListGames pageState={pageState} />
         <GroupList isAuthorized={isAuthorized} pageState={pageState} setPageState={setPageState}/>
       </div>
       <BookPage isAuthorized={isAuthorized} pageState={pageState}/>

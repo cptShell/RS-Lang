@@ -27,7 +27,8 @@ export interface ListQuestionData {
   wordTranslate: string,
   audio: string,
   isRight: boolean,
-  rightTranslate: string
+  rightTranslate: string,
+  group: number
 }
 
 export interface PageState {
@@ -66,4 +67,23 @@ export interface SprintGameState {
   level: number;
   factor: number;
   endGame: boolean;
+}
+
+export interface DataUserWord {
+  difficulty: string;
+  optional: OptionalDataWord;
+}
+
+interface OptionalDataWord {
+  isLearned: boolean;
+  isNewWord: boolean;
+  countRightAnswer: number;
+  countWrongAnswer: number;
+}
+
+export interface ResponseUserWords {
+  difficulty: string,
+  optional: OptionalDataWord,
+  wordId: string,
+  id: string
 }
