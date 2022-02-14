@@ -4,3 +4,5 @@ export const BASE_HEADERS = {
 };
 export const SET_DATA_USER = 'SET_DATA_USER';
 export const STATUS_200 = 200;
+
+export const START_AUDIOCALL = 'START_AUDIOCALL';
