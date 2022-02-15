@@ -9,3 +9,14 @@ export enum MessageErrorFormField {
   incorrectEmail = 'Невалидный e-mail адрес',
   nameUser = 'Имя должно быть не менее 3 символов',
 }
+
+export enum TypeMethodRequest {
+  POST = 'post',
+  PUT = 'put'
+}
+
+export enum TypeDifficultyWord {
+  'easy',
+  'medium',
+  'hard',
+}
