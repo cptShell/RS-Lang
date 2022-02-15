@@ -97,5 +97,8 @@ export interface ListQuestionsAudiocall {
   id: string;
   audio: string;
   word: string;
+  wordTranslate: string;
   wordsAnswers: listAnswersAudiocall[];
+  rightTranslate: string;
+  group: number;
 }

@@ -46,6 +46,9 @@ export const getListAnswersAudiocall = async (listWords: WordData[], numberGroup
       id: wordData.id,
       word: wordData.word,
       audio: wordData.audio,
+      wordTranslate: wordData.wordTranslate,
+      rightTranslate: wordData.wordTranslate,
+      group: Number(numberGroup),
       wordsAnswers: [{ wordTranslate: wordData.wordTranslate, isRight: true }],
     }));
   const listAnswers = await getListRightWrongAnswers(initListWords, numberGroup);
