@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export interface WordData {
   id: string,
   group: number,
@@ -12,11 +14,12 @@ export interface WordData {
   transcription: string,
   wordTranslate: string,
   textMeaningTranslate: string,
-  textExampleTranslate: string
+  textExampleTranslate: string,
+  _id: string,
 }
 
 export interface UserWord {
-  difficult: string,
+  difficulty: string,
   id: string,
   wordId: string,
 }
@@ -54,10 +57,11 @@ export interface ErrorsForm {
   name?: string;
 }
 
-export interface UserWord {
-  diffuculty: string,
-  options: {
-    isLearned: boolean
+export interface UserWordData {
+  difficulty: string,
+  optional: {
+    isLearned: boolean,
+    isDifficult: boolean,
   }
 }
 

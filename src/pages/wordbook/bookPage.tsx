@@ -1,27 +1,35 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { STATUS_200 } from '../../redux/constants';
-import { DIFFICULT_GROUP_INDEX } from '../../utils/constants/constants';
-import { getUserWordsUrl, getWordById, getWordsUrl } from "../../utils/functions/supportMethods";
+import { BASE_APP_URL, DIFFICULT_GROUP_INDEX } from '../../utils/constants/constants';
+import { getUserDifficultWordList, getWordsUrl, linkUserData } from "../../utils/functions/supportMethods";
 import { getCurrentUserState } from "../../utils/functions/localStorage"
-import { PageState, UserWord, WordData } from "../../utils/interfaces/interfaces";
+import { PageState, WordData } from "../../utils/interfaces/interfaces";
 import { Card } from "./word";
 
 export const BookPage = ({isAuthorized, pageState}: {isAuthorized: boolean, pageState: PageState}): JSX.Element | null => {
   const [wordsData, setWordsData] = useState<Array<WordData> | null>(null);
-  const {group}: PageState = pageState;
+  const {group, page}: PageState = pageState;
 
   const getData = async () => {
-    if (isAuthorized && group === DIFFICULT_GROUP_INDEX) {
+    if (isAuthorized) {
       const user = getCurrentUserState();
-      const url = getUserWordsUrl(user);
-      const response = await axios({method: 'get', url, headers: {Authorization: `Bearer ${user.token}`}});
-      const wordList = await Promise.all(response.data.map(async (userWord: UserWord) => {
-        const url = getWordById(userWord.wordId);
-        const response = await axios({method: 'get', url});
-        return response.data;
-      }));
-      setWordsData(wordList);
+      if (group === DIFFICULT_GROUP_INDEX) {
+        const wordList = await getUserDifficultWordList(user);
+        setWordsData(wordList);
+      } else {
+        const unlinkedResponse = await axios({
+          url: `${BASE_APP_URL}/users/${user.userId}/aggregatedWords?page=${page}&group=${group}&wordsPerPage=600&filter={"$and":[{"userWord":null}]}`,
+          method: 'get',
+          headers: {Authorization: `Bearer ${user.token}`}
+        });
+        const userUnlinkedData: Array<WordData> = unlinkedResponse.data[0].paginatedResults.filter((data: WordData) => data.page === page);
+        console.log(1);
+        if (userUnlinkedData.length) await linkUserData(user, userUnlinkedData);
+        console.log(2);
+        const response = await axios({url: getWordsUrl(pageState), method: 'get'});
+        if (response.status === STATUS_200) setWordsData(response.data);
+      }
     } else {
       const response = await axios({url: getWordsUrl(pageState), method: 'get'});
       if (response.status === STATUS_200) setWordsData(response.data);
