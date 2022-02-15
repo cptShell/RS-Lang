@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export interface WordData {
   id: string,
   group: number,
@@ -17,7 +19,7 @@ export interface WordData {
 }
 
 export interface UserWord {
-  difficult: string,
+  difficulty: string,
   id: string,
   wordId: string,
 }
@@ -57,7 +59,8 @@ export interface ErrorsForm {
 export interface UserWordData {
   difficulty: string,
   optional: {
-    isLearned: boolean
+    isLearned: boolean,
+    isDifficult: boolean,
   }
 }
 
@@ -67,4 +70,9 @@ export interface SprintGameState {
   level: number;
   factor: number;
   endGame: boolean;
+}
+
+export interface TotalUserWord {
+  wordData: WordData,
+  userWord?: UserWordData,
 }

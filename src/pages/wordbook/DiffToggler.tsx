@@ -1,60 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { OREDERED_DIFF_LIST } from '../../utils/constants/constants';
+import { BASE_APP_URL, OREDERED_DIFF_LIST } from '../../utils/constants/constants';
 import { UserWordData, WordData } from '../../utils/interfaces/interfaces';
 import { getUserWordsUrl } from '../../utils/functions/supportMethods';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getCurrentUserState } from '../../utils/functions/localStorage';
 
 export const DiffToggler = ({wordData}: {wordData: WordData}) => {
-  const [isDifficult, setDifficult] = useState<Boolean>(false);
+  const [isDifficult, setDifficult] = useState<Boolean | null>(null);
 
-  /*useEffect(() => {
+  useEffect(() => {
     getDiff();
   }, [isDifficult]);
 
-  const getDiff = () => {
+  const getDiff = async () => {
     const user = getCurrentUserState();
-    const url = getUserWordsUrl(user, wordData);
-    axios({method: 'get', url, headers: {Authorization: `Bearer ${user.token}`}})
-      .then((res) => {
-        const { data } = res.data;
-        setDifficult(data.isDifficult);
-      })
-      .catch(() => {
-        const userWordData: UserWordData = {
-          difficulty: OREDERED_DIFF_LIST[wordData.group],
-          optional: {
-            isLearned: false
-          },
-        }
-        axios({method: 'post', url, headers: {Authorization: `Bearer ${user.token}`}, data: userWordData});
-        setDifficult(false);
-      });
-  }*/
+    const url = `${BASE_APP_URL}/users/${user.userId}/aggregatedWords/${wordData.id}`;
+    const response = await axios({method: 'get', url, headers: {Authorization: `Bearer ${user.token}`}});
+    setDifficult(response.data.isDifficult);
+  }
 
   const toggleDiffWord = async () => {
-    const method = isDifficult ? 'delete' : 'post';
     const user = getCurrentUserState();
     const url = getUserWordsUrl(user, wordData);
-    const axiosConfig: AxiosRequestConfig = {method, url, headers: {Authorization: `Bearer ${user.token}`}};
-    const userWordData: UserWordData = {
-      difficulty: OREDERED_DIFF_LIST[wordData.group],
-      optional: {
-        isLearned: false
-      },
-    };
-
-    if (!isDifficult) axiosConfig.data = userWordData;
+    const response = await axios({method: 'get', url, headers: {Authorization: `Bearer ${user.token}`}});
+    const userWordData: UserWordData = response.data;
+    userWordData.optional.isDifficult = !isDifficult;
+    const axiosConfig: AxiosRequestConfig = {method: 'put', url, headers: {Authorization: `Bearer ${user.token}`}, data: userWordData};
 
     await axios(axiosConfig);
     setDifficult(!isDifficult);
   }
   
   return (
-    <button className={`btn-${isDifficult ? 'danger' : 'success'} rounded d-flex align-items-center`} onClick={toggleDiffWord}>
-      <span className='material-icons'>
-        {isDifficult ? 'bookmark' : 'bookmark_border'}
-      </span>
-    </button>
+    <div>
+      {isDifficult !== null && <button className={`btn-${isDifficult ? 'danger' : 'success'} rounded d-flex align-items-center`} onClick={toggleDiffWord}>
+        <span className='material-icons'>
+          {isDifficult ? 'bookmark' : 'bookmark_border'}
+        </span>
+      </button>}
+    </div>
   )
 }

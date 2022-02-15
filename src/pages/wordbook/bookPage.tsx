@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { STATUS_200 } from '../../redux/constants';
-import { BASE_APP_URL, DIFFICULT_GROUP_INDEX, OREDERED_DIFF_LIST } from '../../utils/constants/constants';
-import { getUserDifficultWordList, getUserWordsUrl, getWordById, getWordsUrl, linkUserData } from "../../utils/functions/supportMethods";
+import { BASE_APP_URL, DIFFICULT_GROUP_INDEX } from '../../utils/constants/constants';
+import { getUserDifficultWordList, getWordsUrl, linkUserData } from "../../utils/functions/supportMethods";
 import { getCurrentUserState } from "../../utils/functions/localStorage"
-import { PageState, UserWord, UserWordData, WordData } from "../../utils/interfaces/interfaces";
+import { PageState, WordData } from "../../utils/interfaces/interfaces";
 import { Card } from "./word";
 
 export const BookPage = ({isAuthorized, pageState}: {isAuthorized: boolean, pageState: PageState}): JSX.Element | null => {
@@ -24,8 +24,11 @@ export const BookPage = ({isAuthorized, pageState}: {isAuthorized: boolean, page
           headers: {Authorization: `Bearer ${user.token}`}
         });
         const userUnlinkedData: Array<WordData> = unlinkedResponse.data[0].paginatedResults.filter((data: WordData) => data.page === page);
-
+        console.log(1);
         if (userUnlinkedData.length) await linkUserData(user, userUnlinkedData);
+        console.log(2);
+        const response = await axios({url: getWordsUrl(pageState), method: 'get'});
+        if (response.status === STATUS_200) setWordsData(response.data);
       }
     } else {
       const response = await axios({url: getWordsUrl(pageState), method: 'get'});

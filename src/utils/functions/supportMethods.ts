@@ -46,7 +46,8 @@ export const linkUserData = async (user: UserData, userUnlinkedData: Array<WordD
     const userWordData: UserWordData = {
       difficulty: OREDERED_DIFF_LIST[data.group],
       optional: {
-        isLearned: false
+        isLearned: false,
+        isDifficult: false,
       },
     }
     await axios({
