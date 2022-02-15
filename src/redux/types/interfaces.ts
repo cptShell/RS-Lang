@@ -1,4 +1,4 @@
-import { WordData } from "../../utils/interfaces/interfaces";
+import { ListQuestionsAudiocall } from "../../utils/interfaces/interfaces";
 
 export interface UserData {
   message: string;
@@ -11,5 +11,5 @@ export interface UserData {
 export interface StateAudiocallGame {
   startGame: boolean,
   endGame: boolean,
-  listWords: WordData[]
+  listQuestions: ListQuestionsAudiocall[]
 }

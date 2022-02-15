@@ -1,12 +1,12 @@
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
 import { BASE_APP_URL } from '../../utils/constants/constants';
-import { WordData } from '../../utils/interfaces/interfaces';
+import { ListQuestionsAudiocall, WordData } from '../../utils/interfaces/interfaces';
 import { getListAnswersAudiocall } from '../../utils/functions/audiocallGameFunctions';
 import { BASE_HEADERS, RESET_AUDIOCALL, START_AUDIOCALL, STATUS_200 } from '../constants';
 import { ActionResetAudiocallGame, ActionStartAudiocallGame } from '../types/types';
 
-export const startGame = (startGame: boolean, listWords: WordData[]): ActionStartAudiocallGame => ({ type: START_AUDIOCALL, payload: {startGame, listWords} });
+export const startGame = (startGame: boolean, listQuestions: ListQuestionsAudiocall[]): ActionStartAudiocallGame => ({ type: START_AUDIOCALL, payload: {startGame, listQuestions} });
 export const resetGame = (startGame: boolean): ActionResetAudiocallGame => ({ type: RESET_AUDIOCALL, payload: {startGame} });
 
 export function asyncGetListWords(numberGroup: string, page: string, controlButton?: (state: boolean) => void) {
@@ -21,7 +21,7 @@ export function asyncGetListWords(numberGroup: string, page: string, controlButt
       if (response.status === STATUS_200) {
         const listQuestions = await getListAnswersAudiocall(response.data, numberGroup);
         console.log(listQuestions);
-        dispatch(startGame(true, response.data));
+        dispatch(startGame(true, listQuestions));
       }
     } catch {
       console.error('Can\'t get words to audiocall game');

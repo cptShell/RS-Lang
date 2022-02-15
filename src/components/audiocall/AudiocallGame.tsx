@@ -13,7 +13,7 @@ const Audiocall = () => {
     };
   });
 
-  const words = audiocall.listWords.map((word) => <li key={word.id}>${word.word}</li>);
+  const words = audiocall.listQuestions.map((word) => <li key={word.id}>${word.word}</li>);
 
   return (
     <>

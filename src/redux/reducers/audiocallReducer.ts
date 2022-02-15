@@ -5,7 +5,7 @@ import { StateAudiocallGame } from '../types/interfaces';
 const DEFAULT_STATE_AUDIOCALL_GAME: StateAudiocallGame = {
   startGame: false,
   endGame: false,
-  listWords: [],
+  listQuestions: [],
 };
 
 export default function audiocallReducer(state = DEFAULT_STATE_AUDIOCALL_GAME, action: ActionAudiocallGame) {
