@@ -87,3 +87,15 @@ export interface ResponseUserWords {
   wordId: string,
   id: string
 }
+
+export interface listAnswersAudiocall {
+  wordTranslate: string;
+  isRight: boolean;
+}
+
+export interface ListQuestionsAudiocall {
+  id: string;
+  audio: string;
+  word: string;
+  wordsAnswers: listAnswersAudiocall[];
+}

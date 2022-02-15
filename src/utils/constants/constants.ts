@@ -79,3 +79,10 @@ export const DEFAULT_QUESTIONS_SPRINT_GAME: ListQuestionData = {
   rightTranslate: '',
   group: 0
 }
+
+export const MIN_NUMBER_WORD = 0;
+export const MAX_NUMBER_WORD = 9;
+export const NUMBER_WORDS_GAME = 10;
+export const MIN_INDEX = 0;
+
+export const MAX_ANSWER_AUDIOCALL_GAME = 5;
