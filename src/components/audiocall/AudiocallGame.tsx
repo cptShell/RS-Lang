@@ -30,10 +30,10 @@ const Audiocall = () => {
 
     if (counter <= listQuestions.length - 1) {
       setIsRight(isAnswerRight);
-      if (isAnswerRight) {
+      if (isRight) {
         setCurrentScore({score: currentScore.score + 10, tally: currentScore.tally + 1})
       } else {
-        setCurrentScore({score: currentScore.score, tally: currentScore.tally + 0})
+        setCurrentScore({score: currentScore.score, tally: 0})
       }
 
       const { id, word, audio, wordTranslate, group, rightTranslate } = currentWordData;
@@ -69,24 +69,25 @@ const Audiocall = () => {
       <button
         onClick={onCheckAnswer.bind(null, wordData.isRight)}
         data-number={index + 1}
+        className='audiocall__answer btn btn-secondary'
         disabled={disabledButton}
       >{`${index + 1} ${wordData.wordTranslate}`}</button>
     </li>
   ));
 
   return (
-    <div>
+    <div className='audiocall'>
       {endGame ? (
         <ResultRound result={listResults} score={score} />
       ) : (
-        <>
+        <div className='audiocall__board'>
           <Audio url={`${BASE_APP_URL}/${listQuestions[counter].audio}`} />
-          {disabledButton && <h2 className={!isRight ? 'red' : 'green'}>{listQuestions[counter].word}</h2>}
-          <ul>{listAnswers}</ul>
-          <button onClick={onNextQuestion} disabled={!disabledButton}>
+          <div className='audiocall__result'>{disabledButton && <h2 className={isRight ? 'alert alert-success' : 'alert alert-danger'}>{listQuestions[counter].word}</h2>}</div>
+          <ul className='audiocall__buttons'>{listAnswers}</ul>
+          <button onClick={onNextQuestion} className='btn btn-success' disabled={!disabledButton}>
             Дальше
           </button>
-        </>
+        </div>
       )}
     </div>
   );

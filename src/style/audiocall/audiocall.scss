@@ -1,0 +1,55 @@
+.audiocall {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 120px);
+  background: #053546;
+  color: white;
+  &__board {
+    padding: 50px 100px;
+    width: 80%;
+    min-height: 500px;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 10px;
+  }
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+
+  }
+  &__answer {
+    margin: 20px 0px;
+    min-width: 150px;
+    border: none;
+
+  }
+  &__result {
+    margin: 0 auto;
+    padding: 5px;
+    min-height: 100px;
+    max-width: 50%; 
+    text-align: center;
+  }
+
+}
+.speaker {
+  text-align: center;
+  &__button {
+    margin: 10px;
+    width: 80px;
+    height: 80px;
+    background: url("../assets/svg/audiocall1.svg") no-repeat center;
+    background-color: rgb(248, 248, 248);
+    background-size: 60px 60px;
+    border-radius: 100%;
+    border: none;
+    transition: all 0.1s ease;
+    &:active {
+      transform: scale(0.96);
+      box-shadow: 0 0 20px #ffffff;
+    }
+  }
+}

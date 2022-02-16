@@ -13,14 +13,13 @@ const Audio: React.FC<{url: string}> = ({ url }) => {
   };
 
   return (
-    <>
-      <button onClick={play}>
-        play
+    <div className='speaker'>
+      <button onClick={play} className='speaker__button'>
       </button>
       <audio ref={audioElement}>
           <source src={url} />
         </audio>
-    </>
+    </div>
   );
 };
 
