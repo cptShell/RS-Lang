@@ -2,8 +2,7 @@ import React from 'react';
 import { BASE_APP_URL } from '../../utils/constants/constants';
 import { TotalWordData } from '../../utils/interfaces/interfaces';
 import { VolumeButton } from './volumeButton';
-import { ControlPanel } from './controlPanel';
-import { LearnToggler } from './LearnToggler';
+import { UserControlPanel } from './controlPanel';
 
 export const Card = ({isAuthorized, totalWordData}:{isAuthorized: boolean, totalWordData: TotalWordData}): JSX.Element => {
   const { 
@@ -23,22 +22,9 @@ export const Card = ({isAuthorized, totalWordData}:{isAuthorized: boolean, total
   }: TotalWordData = totalWordData;
 
   const imgSrc = `${BASE_APP_URL}/${image}`;
-  let borderColor = 'warning';
-  if (totalWordData.userWordData) {
-    const {
-      userWordData: {
-        optional: {
-          isDifficult,
-          isLearned,
-        }
-      }
-    }: TotalWordData = totalWordData;
-    borderColor = isLearned ? 'success' : 'warning';
-    if (isDifficult) borderColor = 'danger';
-  }
 
   return (
-    <li className={`col d-flex flex-row justify-content-between gap-2 rounded-3 shadow border border-${borderColor} border-3`}>
+    <li className={`col d-flex flex-row justify-content-between gap-2 rounded-3 shadow`}>
       <img className='rounded-3' src={imgSrc} alt={word + ' image'} />
       <div className='d-flex flex-column gap-2 w-100 p-2'>
         <div>
@@ -57,7 +43,7 @@ export const Card = ({isAuthorized, totalWordData}:{isAuthorized: boolean, total
           <p>{'Значение: ' + textMeaningTranslate}</p>
           <p>{'Пример: ' + textExampleTranslate}</p>
         </div>
-        {(isAuthorized && totalWordData.userWordData) && <ControlPanel userWordData={totalWordData.userWordData}/>}
+        {(isAuthorized && totalWordData.userWordData) && <UserControlPanel userWordData={totalWordData.userWordData}/>}
       </div>
     </li>
   );
