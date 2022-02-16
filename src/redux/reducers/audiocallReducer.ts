@@ -5,6 +5,8 @@ import { StateAudiocallGame } from '../types/interfaces';
 const DEFAULT_STATE_AUDIOCALL_GAME: StateAudiocallGame = {
   startGame: false,
   endGame: false,
+  tally: 0,
+  score: 0,
   counter: 0,
   listQuestions: [],
   listResults: [],
@@ -17,9 +19,9 @@ export default function audiocallReducer(state = DEFAULT_STATE_AUDIOCALL_GAME, a
     case RESET_AUDIOCALL:
       return { ...state, ...action.payload, listResults: [] };
     case NEXT_QUESTION_AUDIOCALL:
-      return { ...state, counter: action.payload.counter, listResults: action.payload.results };
+      return { ...state, counter: action.payload.counter, score: action.payload.score, tally: action.payload.tally, listResults: action.payload.results };
     case END_AUDIOCALL:
-      return { ...state, endGame: action.payload.endGame, listResults: action.payload.results };
+      return { ...state, endGame: action.payload.endGame, score: action.payload.score, tally: action.payload.tally, listResults: action.payload.results };
     default:
       return state;
   }

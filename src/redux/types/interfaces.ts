@@ -11,6 +11,8 @@ export interface UserData {
 export interface StateAudiocallGame {
   startGame: boolean,
   endGame: boolean,
+  tally: number,
+  score: number,
   counter: number,
   listQuestions: ListQuestionsAudiocall[],
   listResults: ListQuestionData[]
