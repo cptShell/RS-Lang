@@ -1,4 +1,4 @@
-import axios, { AxiosPromise, AxiosResponse } from 'axios';
+import axios, { AxiosPromise } from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
 import { BASE_APP_URL } from '../../utils/constants/constants';
 import { ListQuestionData, ListQuestionsAudiocall, WordData } from '../../utils/interfaces/interfaces';
@@ -25,7 +25,6 @@ export function asyncGetListWords(numberGroup: string, page: string, controlLoad
       });
       if (response.status === STATUS_200) {
         const listQuestions = await getListAnswersAudiocall(response.data, numberGroup);
-        console.log(listQuestions);
         dispatch(startGame(true, listQuestions));
       }
     } catch {

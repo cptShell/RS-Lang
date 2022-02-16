@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Preloader from '../components/Preloader';
 import { asyncGetListWords } from '../redux/actions/audiocallCreator';
@@ -18,7 +18,6 @@ const Audiocall: React.FC = () => {
     const { target } = event;
     const btnNumber = (target as HTMLElement).getAttribute('data-number');
     if (btnNumber) {
-      console.log(btnNumber);
       const randomNumberPage = getRandomNumber(MIN_PAGE, MAX_PAGE);
       dispatch(asyncGetListWords(btnNumber, randomNumberPage.toString(), setLoading));
     }
