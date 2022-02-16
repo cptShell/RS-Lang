@@ -55,8 +55,8 @@ const Audiocall = () => {
   };
 
   const onNextQuestion = () => {
-    dispatch(answeredAction(false));
     dispatch(nextQuestion(counter + 1, score, tally, listResults));
+    dispatch(answeredAction(false));
   };
 
   const onKeyHandler = (event: KeyboardEvent) => {

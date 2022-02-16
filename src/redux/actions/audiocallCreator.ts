@@ -14,9 +14,9 @@ export const answeredAction = (answered: boolean): ActionAnsweredAudiocallGame =
 export const addCurrentScore = (score: number, tally: number): ActionAddScoreAudiocallGame => ({ type: ADD_SCORE_AUDIOCALL, payload: { score, tally } });
 export const nextQuestion = (counter: number, score: number, tally: number, results: ListQuestionData[]): ActionNextQuestionAudiocallGame => ({ type: NEXT_QUESTION_AUDIOCALL, payload: {counter, score, tally, results} });
 
-export function asyncGetListWords(numberGroup: string, page: string, controlButton?: (state: boolean) => void) {
+export function asyncGetListWords(numberGroup: string, page: string, controlLoading?: (state: boolean) => void) {
   return async function (dispatch: ThunkDispatch<unknown, unknown, ActionStartAudiocallGame>) {
-    if (controlButton) controlButton(true);
+    if (controlLoading) controlLoading(true);
     try {
       const response = await <AxiosPromise<WordData[]>>axios({
         method: 'get',
@@ -31,7 +31,7 @@ export function asyncGetListWords(numberGroup: string, page: string, controlButt
     } catch {
       console.error('Can\'t get words to audiocall game');
     } finally {
-      if (controlButton) controlButton(false);
+      if (controlLoading) controlLoading(false);
     }
   };
 }
