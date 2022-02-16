@@ -57,14 +57,6 @@ export interface ErrorsForm {
   name?: string;
 }
 
-export interface UserWordData {
-  difficulty: string,
-  optional: {
-    isLearned: boolean,
-    isDifficult: boolean,
-  }
-}
-
 export interface SprintGameState {
   counter: number;
   score: number;
@@ -81,6 +73,7 @@ export interface DataUserWord {
 interface OptionalDataWord {
   isLearned: boolean;
   isNewWord: boolean;
+  isDifficult: boolean;
   countRightAnswer: number;
   countWrongAnswer: number;
 }
@@ -90,4 +83,9 @@ export interface ResponseUserWords {
   optional: OptionalDataWord,
   wordId: string,
   id: string
+}
+
+export interface TotalWordData {
+  wordData: WordData,
+  userWordData?: ResponseUserWords,
 }
