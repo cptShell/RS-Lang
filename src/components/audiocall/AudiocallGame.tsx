@@ -5,12 +5,14 @@ import { RootState } from '../../redux/store';
 import { BASE_APP_URL } from '../../utils/constants/constants';
 import useAudio from '../../utils/hooks/useAudio';
 import { ListQuestionData } from '../../utils/interfaces/interfaces';
+import MuteButton from '../sprint/MuteButton';
 import ResultRound from '../sprint/ResultRound';
 import Audio from './Audio';
 
 const Audiocall = () => {
   const [playAudioRight] = useAudio('./sounds/right.mp3');
   const [playAudioFail] = useAudio('./sounds/fail.mp3');
+  const [mute, setMute] = useState<boolean>(false);
   const [disabledButton, setDisabledButton] = useState<boolean>(false);
   const [isRight, setIsRight] = useState<boolean>(false);
   const [currentScore, setCurrentScore] = useState<{ score: number; tally: number }>({ score: 0, tally: 0 });
@@ -23,17 +25,17 @@ const Audiocall = () => {
     const currentWordData = listQuestions[counter];
     setDisabledButton(true);
     if (isAnswerRight) {
-      playAudioRight();
+      !mute && playAudioRight();
     } else {
-      playAudioFail();
+      !mute && playAudioFail();
     }
 
     if (counter <= listQuestions.length - 1) {
       setIsRight(isAnswerRight);
       if (isRight) {
-        setCurrentScore({score: currentScore.score + 10, tally: currentScore.tally + 1})
+        setCurrentScore({ score: currentScore.score + 10, tally: currentScore.tally + 1 });
       } else {
-        setCurrentScore({score: currentScore.score, tally: 0})
+        setCurrentScore({ score: currentScore.score, tally: 0 });
       }
 
       const { id, word, audio, wordTranslate, group, rightTranslate } = currentWordData;
@@ -80,14 +82,23 @@ const Audiocall = () => {
       {endGame ? (
         <ResultRound result={listResults} score={score} />
       ) : (
+      <>
+        <div className='audiocall__header'>
+            <MuteButton isMute={mute} setMute={setMute} />
+          </div>
         <div className='audiocall__board'>
           <Audio url={`${BASE_APP_URL}/${listQuestions[counter].audio}`} />
-          <div className='audiocall__result'>{disabledButton && <h2 className={isRight ? 'alert alert-success' : 'alert alert-danger'}>{listQuestions[counter].word}</h2>}</div>
+          <div className='audiocall__result'>
+            {disabledButton && (
+              <h2 className={isRight ? 'alert alert-success' : 'alert alert-danger'}>{listQuestions[counter].word}</h2>
+            )}
+          </div>
           <ul className='audiocall__buttons'>{listAnswers}</ul>
           <button onClick={onNextQuestion} className='btn btn-success' disabled={!disabledButton}>
             Дальше
           </button>
         </div>
+      </>  
       )}
     </div>
   );
