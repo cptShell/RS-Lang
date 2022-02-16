@@ -40,6 +40,9 @@ export const DELAY_SECOND = 1000;
 export const INIT_TIMER_SPRINT_GAME = 60;
 export const LEFT_KEY = 'ArrowLeft';
 export const RIGHT_KEY = 'ArrowRight';
+export const SPACE_KEY = 'Space';
+export const ENTER_KEY = 'Enter';
+export const NUMPAD_ENTER_KEY = 'NumpadEnter';
 export const DATA_IS_EXIST_CODE = 417; 
 
 export const SPRINT_LEVEL_DATA = [

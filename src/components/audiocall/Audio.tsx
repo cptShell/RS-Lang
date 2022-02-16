@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
-const Audio: React.FC<{url: string}> = ({ url }) => {
+const Audio = React.forwardRef<HTMLButtonElement, {url: string}>((props, ref) => {
   const audioElement = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     audioElement.current?.load();
     play();
-  }, [url]);
+  }, [props.url]);
 
   const play = () => {
     audioElement.current?.play();
@@ -14,13 +14,13 @@ const Audio: React.FC<{url: string}> = ({ url }) => {
 
   return (
     <div className='speaker'>
-      <button onClick={play} className='speaker__button'>
+      <button onClick={play} className='speaker__button' ref={ref}>
       </button>
       <audio ref={audioElement}>
-          <source src={url} />
+          <source src={props.url} />
         </audio>
     </div>
   );
-};
+});
 
 export default Audio;
