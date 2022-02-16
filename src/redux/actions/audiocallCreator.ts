@@ -3,14 +3,15 @@ import { ThunkDispatch } from 'redux-thunk';
 import { BASE_APP_URL } from '../../utils/constants/constants';
 import { ListQuestionData, ListQuestionsAudiocall, WordData } from '../../utils/interfaces/interfaces';
 import { getListAnswersAudiocall } from '../../utils/functions/audiocallGameFunctions';
-import { ANSWERED_AUDIOCALL, BASE_HEADERS, END_AUDIOCALL, NEXT_QUESTION_AUDIOCALL, RESET_AUDIOCALL, START_AUDIOCALL, STATUS_200 } from '../constants';
-import { ActionAnsweredAudiocallGame, ActionEndAudiocallGame, ActionNextQuestionAudiocallGame, ActionResetAudiocallGame, ActionStartAudiocallGame } from '../types/types';
+import { ADD_SCORE_AUDIOCALL, ANSWERED_AUDIOCALL, BASE_HEADERS, END_AUDIOCALL, NEXT_QUESTION_AUDIOCALL, RESET_AUDIOCALL, START_AUDIOCALL, STATUS_200 } from '../constants';
+import { ActionAddScoreAudiocallGame, ActionAnsweredAudiocallGame, ActionEndAudiocallGame, ActionNextQuestionAudiocallGame, ActionResetAudiocallGame, ActionStartAudiocallGame } from '../types/types';
 
 export const startGame = (startGame: boolean, listQuestions: ListQuestionsAudiocall[]): ActionStartAudiocallGame => ({ type: START_AUDIOCALL, payload: {startGame, listQuestions} });
 export const finishGame = (endGame: boolean,  score: number, tally: number, results: ListQuestionData[]): ActionEndAudiocallGame => ({ type: END_AUDIOCALL, payload: {endGame, score, tally, results} });
-export const resetGame = (startGame: boolean, answered: boolean, endGame: boolean, counter: number): ActionResetAudiocallGame => ({ type: RESET_AUDIOCALL, payload: {startGame, endGame, answered, counter} });
+export const resetGame = (startGame: boolean, answered: boolean, score: number, tally: number, endGame: boolean, counter: number): ActionResetAudiocallGame => ({ type: RESET_AUDIOCALL, payload: {startGame, endGame, score, tally, answered, counter} });
 export const answeredAction = (answered: boolean): ActionAnsweredAudiocallGame => ({ type: ANSWERED_AUDIOCALL, payload: {answered} });
 
+export const addCurrentScore = (score: number, tally: number): ActionAddScoreAudiocallGame => ({ type: ADD_SCORE_AUDIOCALL, payload: { score, tally } });
 export const nextQuestion = (counter: number, score: number, tally: number, results: ListQuestionData[]): ActionNextQuestionAudiocallGame => ({ type: NEXT_QUESTION_AUDIOCALL, payload: {counter, score, tally, results} });
 
 export function asyncGetListWords(numberGroup: string, page: string, controlButton?: (state: boolean) => void) {

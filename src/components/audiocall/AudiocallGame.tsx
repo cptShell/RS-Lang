@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nextQuestion, resetGame, finishGame, answeredAction } from '../../redux/actions/audiocallCreator';
+import { nextQuestion, resetGame, finishGame, answeredAction, addCurrentScore } from '../../redux/actions/audiocallCreator';
 import { RootState } from '../../redux/store';
-import { BASE_APP_URL, ENTER_KEY, NUMPAD_ENTER_KEY, SPACE_KEY } from '../../utils/constants/constants';
+import { BASE_APP_URL, ENTER_KEY, MAX_NUMBER_KEY, MIN_NUMBER_KEY, NUMPAD_ENTER_KEY, RIGHT_ANSWER_SCORE, SPACE_KEY } from '../../utils/constants/constants';
 import useAudio from '../../utils/hooks/useAudio';
 import { ListQuestionData } from '../../utils/interfaces/interfaces';
 import MuteButton from '../sprint/MuteButton';
@@ -15,9 +15,8 @@ const Audiocall = () => {
   const [playAudioFail] = useAudio('./sounds/fail.mp3');
   const [mute, setMute] = useState<boolean>(false);
   const [isRight, setIsRight] = useState<boolean>(false);
-  const [currentScore, setCurrentScore] = useState<{ score: number; tally: number }>({ score: 0, tally: 0 });
-  let {
-    audiocall: { counter, answered, score, listQuestions, listResults, endGame },
+  const {
+    audiocall: { counter, answered, score, tally, listQuestions, listResults, endGame },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
 
@@ -26,18 +25,14 @@ const Audiocall = () => {
     dispatch(answeredAction(true));
     if (isAnswerRight) {
       !mute && playAudioRight();
+      dispatch(addCurrentScore(score + RIGHT_ANSWER_SCORE, tally + 1));
     } else {
       !mute && playAudioFail();
+      dispatch(addCurrentScore(score, 0));
     }
 
     if (counter <= listQuestions.length - 1) {
       setIsRight(isAnswerRight);
-      if (isRight) {
-        setCurrentScore({ score: currentScore.score + 10, tally: currentScore.tally + 1 });
-      } else {
-        setCurrentScore({ score: currentScore.score, tally: 0 });
-      }
-
       const { id, word, audio, wordTranslate, group, rightTranslate } = currentWordData;
       const result: ListQuestionData = {
         id,
@@ -50,20 +45,24 @@ const Audiocall = () => {
       };
       listResults.push(result);
       if (counter === listQuestions.length - 1) {
-        dispatch(finishGame(true, currentScore.score, currentScore.tally, listResults));
+        if (isAnswerRight) {
+          dispatch(finishGame(true, score + RIGHT_ANSWER_SCORE, tally + 1, listResults));
+        } else {
+          dispatch(finishGame(true, score, 0, listResults));
+        }
       }
     }
   };
 
   const onNextQuestion = () => {
     dispatch(answeredAction(false));
-    dispatch(nextQuestion(counter + 1, currentScore.score, currentScore.tally, listResults));
+    dispatch(nextQuestion(counter + 1, score, tally, listResults));
   };
 
   const onKeyHandler = (event: KeyboardEvent) => {
     const numberKey = Number(event.key);
     const codeKey = event.code;
-    if(numberKey >= 1 && numberKey <= 5 && !answered) {
+    if(numberKey >= MIN_NUMBER_KEY && numberKey <= MAX_NUMBER_KEY && !answered) {
       const isRightAnswer = listQuestions[counter].wordsAnswers[numberKey - 1].isRight;
       onCheckAnswer(isRightAnswer);
     }
@@ -78,7 +77,7 @@ const Audiocall = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetGame(false, false, false, 0));
+      dispatch(resetGame(false, false, 0, 0, false, 0));
     };
   }, []);
 

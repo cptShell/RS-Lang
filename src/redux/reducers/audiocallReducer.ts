@@ -1,5 +1,5 @@
 import { ActionAudiocallGame } from '../types/types';
-import { ANSWERED_AUDIOCALL, END_AUDIOCALL, NEXT_QUESTION_AUDIOCALL, RESET_AUDIOCALL, START_AUDIOCALL } from '../constants';
+import { ADD_SCORE_AUDIOCALL, ANSWERED_AUDIOCALL, END_AUDIOCALL, NEXT_QUESTION_AUDIOCALL, RESET_AUDIOCALL, START_AUDIOCALL } from '../constants';
 import { StateAudiocallGame } from '../types/interfaces';
 
 const DEFAULT_STATE_AUDIOCALL_GAME: StateAudiocallGame = {
@@ -21,6 +21,8 @@ export default function audiocallReducer(state = DEFAULT_STATE_AUDIOCALL_GAME, a
       return { ...state, ...action.payload, listResults: [] };
     case ANSWERED_AUDIOCALL: 
       return { ...state, answered: action.payload.answered };
+    case ADD_SCORE_AUDIOCALL: 
+      return { ...state, score: action.payload.score, tally: action.payload.tally };
     case NEXT_QUESTION_AUDIOCALL:
       return {
         ...state,
