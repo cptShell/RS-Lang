@@ -48,6 +48,9 @@ export const DELAY_SECOND = 1000;
 export const INIT_TIMER_SPRINT_GAME = 60;
 export const LEFT_KEY = 'ArrowLeft';
 export const RIGHT_KEY = 'ArrowRight';
+export const SPACE_KEY = 'Space';
+export const ENTER_KEY = 'Enter';
+export const NUMPAD_ENTER_KEY = 'NumpadEnter';
 export const DATA_IS_EXIST_CODE = 417; 
 
 export const SPRINT_LEVEL_DATA = [
@@ -87,3 +90,13 @@ export const DEFAULT_QUESTIONS_SPRINT_GAME: ListQuestionData = {
   rightTranslate: '',
   group: 0
 }
+
+export const MIN_NUMBER_WORD = 0;
+export const MAX_NUMBER_WORD = 9;
+export const NUMBER_WORDS_GAME = 5;
+export const MIN_INDEX = 0;
+export const RIGHT_ANSWER_SCORE = 10;
+export const MIN_NUMBER_KEY = 1;
+export const MAX_NUMBER_KEY = 5;
+
+export const MAX_ANSWER_AUDIOCALL_GAME = 5;

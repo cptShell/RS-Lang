@@ -34,13 +34,13 @@ const ResultRound: React.FC<{ result: ListQuestionData[], score: number }> = ({ 
     </li>
   ));
   return (
-    <div className='sprint-result'>
+    <div className='result'>
       <h2>Текущий результат: {score}</h2>
-      <p className='sprint-result__right'>
+      <p className='result__right'>
         Знаю: <span>{rightAnswer.length}</span>
       </p>
       <ul className='list-result'>{rightAnswerList}</ul>
-      <p className='sprint-result__wrong'>
+      <p className='result__wrong'>
         Ошибок: <span>{wrongAnswer.length}</span>
       </p>
       <ul className='list-result'>{wrongAnswerList}</ul>
