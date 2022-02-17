@@ -85,7 +85,23 @@ export interface ResponseUserWords {
   id: string
 }
 
+
 export interface TotalWordData {
   wordData: WordData,
   userWordData?: ResponseUserWords,
+}
+
+export interface listAnswersAudiocall {
+  wordTranslate: string;
+  isRight: boolean;
+}
+
+export interface ListQuestionsAudiocall {
+  id: string;
+  audio: string;
+  word: string;
+  wordTranslate: string;
+  wordsAnswers: listAnswersAudiocall[];
+  rightTranslate: string;
+  group: number;
 }
