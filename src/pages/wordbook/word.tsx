@@ -7,6 +7,7 @@ import { UserControlPanel } from './controlPanel';
 export const Card = ({isAuthorized, totalWordData}:{isAuthorized: boolean, totalWordData: TotalWordData}): JSX.Element => {
   const { 
     wordData: {
+      group,
       image,
       word,
       wordTranslate,
@@ -43,7 +44,7 @@ export const Card = ({isAuthorized, totalWordData}:{isAuthorized: boolean, total
           <p>{'Значение: ' + textMeaningTranslate}</p>
           <p>{'Пример: ' + textExampleTranslate}</p>
         </div>
-        {(isAuthorized && totalWordData.userWordData) && <UserControlPanel userWordData={totalWordData.userWordData}/>}
+        {(isAuthorized && totalWordData.userWordData) && <UserControlPanel group={group} userWordData={totalWordData.userWordData}/>}
       </div>
     </li>
   );

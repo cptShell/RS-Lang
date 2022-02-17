@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { DataUserWord, ResponseUserWords } from '../../utils/interfaces/interfaces';
+import { ResponseUserWords } from '../../utils/interfaces/interfaces';
 import { getUserWordsUrl } from '../../utils/functions/supportMethods';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getCurrentUserState } from '../../utils/functions/localStorage';
+import { WordStat } from './wordStat';
 
-export const UserControlPanel = ({userWordData}: {userWordData: ResponseUserWords}) => {
+export const UserControlPanel = ({userWordData, group}: {userWordData: ResponseUserWords, group: number}) => {
   const [userWordState, setUserWordState] = useState<ResponseUserWords>(userWordData);
   const {
     optional: {
@@ -30,12 +31,26 @@ export const UserControlPanel = ({userWordData}: {userWordData: ResponseUserWord
     const url = getUserWordsUrl(user, wordId);
     const {difficulty, optional}: ResponseUserWords = userWordState;
     const axiosConfig: AxiosRequestConfig = {method: 'put', url, headers: {Authorization: `Bearer ${user.token}`}, data: {difficulty, optional}};
-    const minigameStatText = ``
 
     await axios(axiosConfig);
     setUserWordState({...userWordData});
   }
 
+  let gameStatMessage: string;
+  if (!countRightAnswer && !countWrongAnswer) {
+    gameStatMessage = 'Угадайте это слово в миниигре, чтобы отобразить статистику';
+  } else {
+    gameStatMessage = `Правильные ответ: ${countRightAnswer} из ${countRightAnswer + countWrongAnswer}`;
+  }
+
+  let wordProgressMessage: string;
+  if (countRightAnswer < ((group + 1) * 2)) {
+    const neededCountNum = (group + 1) * 2 - countRightAnswer;
+    const neededCountWord = [2,3,4].some(num => neededCountNum === num) ? 'раза' : 'раз';
+    wordProgressMessage = `Угадайте это слово еще ${neededCountNum} ${neededCountWord}, для`
+  } else {
+    wordProgressMessage = `Слово полностью изучено`
+  }
   
   return (
     <div className='d-flex flex-column gap-2 border-top border-2 p-2'>
@@ -55,11 +70,7 @@ export const UserControlPanel = ({userWordData}: {userWordData: ResponseUserWord
         </button>
         {!isLearned ? 'Слово не изучено' : 'Слово изучено'}
       </div>
-      <div className='d-flex flex-column gap-2 border-top border-2 p-2'>
-        <span>
-          {!countRightAnswer && !countWrongAnswer ? 'Угадайте это слово в миниигре, чтобы отобразить статистику' : `угадано ${countRightAnswer} из ${countRightAnswer + countWrongAnswer}`}
-        </span>
-      </div>
+      <WordStat group={group} userWordData={userWordData}/>
     </div>
   )
 }
