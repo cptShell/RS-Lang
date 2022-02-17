@@ -3,7 +3,7 @@ import { ResponseUserWords } from '../../utils/interfaces/interfaces';
 import { getUserWordsUrl } from '../../utils/functions/supportMethods';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getCurrentUserState } from '../../utils/functions/localStorage';
-import { WordStat } from './wordStat';
+import { WordStatistics } from './wordStatistics';
 
 export const UserControlPanel = ({userWordData, group}: {userWordData: ResponseUserWords, group: number}) => {
   const [userWordState, setUserWordState] = useState<ResponseUserWords>(userWordData);
@@ -40,7 +40,7 @@ export const UserControlPanel = ({userWordData, group}: {userWordData: ResponseU
   if (!countRightAnswer && !countWrongAnswer) {
     gameStatMessage = 'Угадайте это слово в миниигре, чтобы отобразить статистику';
   } else {
-    gameStatMessage = `Правильные ответ: ${countRightAnswer} из ${countRightAnswer + countWrongAnswer}`;
+    gameStatMessage = `Правильные ответы: ${countRightAnswer} из ${countRightAnswer + countWrongAnswer}`;
   }
 
   let wordProgressMessage: string;
@@ -53,24 +53,24 @@ export const UserControlPanel = ({userWordData, group}: {userWordData: ResponseU
   }
   
   return (
-    <div className='d-flex flex-column gap-2 border-top border-2 p-2'>
-      <div className='d-flex align-items-center gap-2'>
+    <div className='d-flex flex-column gap-2 border-top border-2'>
+      <WordStatistics group={group} userWordData={userWordData}/>
+      <div className='d-flex align-items-center gap-2 border-top border-2 pt-2'>
         <button className={`btn-${isDifficult ? 'danger' : 'success'} rounded d-flex align-items-center h-100`} onClick={() => toggleUserWordState('difficult')}>
           <span className='material-icons'>
-            {isDifficult ? 'bookmark' : 'bookmark_border'}
+            {!isDifficult ? 'bookmark' : 'bookmark_border'}
           </span>
         </button>
         {isDifficult ? 'Слово отмечено как "Сложное"' : 'Нажмите, чтобы отметить как "Сложное"'}
       </div>
       <div className='d-flex align-items-center gap-2'>
-        <button className={`btn-success rounded d-flex align-items-center h-100`} onClick={() => toggleUserWordState('learn')}>
+        <button className={`btn-${!isLearned ? 'danger' : 'success'} rounded d-flex align-items-center h-100`} onClick={() => toggleUserWordState('learn')}>
           <span className='material-icons'>
             {`radio_button_${isLearned ? '' : 'un'}checked`}
           </span>
         </button>
         {!isLearned ? 'Слово не изучено' : 'Слово изучено'}
       </div>
-      <WordStat group={group} userWordData={userWordData}/>
     </div>
   )
 }

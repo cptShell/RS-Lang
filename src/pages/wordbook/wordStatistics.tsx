@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ResponseUserWords } from '../../utils/interfaces/interfaces';
-import { getUserWordsUrl } from '../../utils/functions/supportMethods';
-import axios, { AxiosRequestConfig } from 'axios';
-import { getCurrentUserState } from '../../utils/functions/localStorage';
 
-export const WordStat = ({userWordData, group}: {userWordData: ResponseUserWords, group: number}) => {
+export const WordStatistics = ({userWordData, group}: {userWordData: ResponseUserWords, group: number}) => {
   const {
     optional: {
       countRightAnswer,
@@ -29,13 +26,11 @@ export const WordStat = ({userWordData, group}: {userWordData: ResponseUserWords
   }
 
   return (
-    <div className='d-flex flex-column gap-2 border-top border-2 p-2'>
+    <div className='d-flex flex-column gap-2'>
       <span>{ gameStatMessage }</span>
-      <div className='d-flex align-items-center'>
+      <div className='d-flex align-items-center gap-2'>
         <span>{ wordProgressMessage }</span>
-        <span className='material-icons text-success big'>
-          star
-        </span>
+        <span className='material-icons text-success big'>star</span>
       </div>
     </div>
   )

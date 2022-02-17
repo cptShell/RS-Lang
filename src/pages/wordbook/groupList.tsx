@@ -19,7 +19,9 @@ export const GroupList = ({isAuthorized, pageState, setPageState}: {
     const className = `btn btn${isActive}-${ORDERED_BTN_STYLE_LIST[index]}`;
     return (
       <li key={index}>
-        <button onClick={() => changeGroup(index)} className={className}>{index + 1}</button>
+        <button onClick={() => changeGroup(index)} className={className}>
+          {index === BASIC_GROUP_AMOUNT ? 'Сложные слова' : index + 1}
+        </button>
       </li>
     );
   });
