@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { playAudioInOrder } from '../../utils/functions/supportMethods';
-import { WordData } from '../../utils/interfaces/interfaces';
 
-export const VolumeButton = ({wordData}: {wordData: WordData}) => {
-  const { audio: audioPath, audioExample, audioMeaning}: WordData = wordData;
-  const boundedPlayAudio = playAudioInOrder.bind(this, [audioPath, audioMeaning, audioExample]);
+export const VolumeButton = ({orderedAudioList}: {orderedAudioList: Array<string>}) => {
+  const boundedPlayAudio = playAudioInOrder.bind(this, orderedAudioList);
 
   return (
     <button className='btn-success rounded d-flex align-items-center' onClick={boundedPlayAudio}>

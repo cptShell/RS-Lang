@@ -1,7 +1,7 @@
 import axios from "axios";
 import { UserData } from "../../redux/types/interfaces";
 import { BASE_APP_URL, OREDERED_DIFF_LIST } from "../constants/constants";
-import { PageState, UserWord, UserWordData, WordData } from "../interfaces/interfaces";
+import { DataUserWord, PageState, UserWord, WordData } from "../interfaces/interfaces";
 
 export const playAudioInOrder = (orderedPathCollection: Array<string>): void => {
   const audioOrder: Array<HTMLAudioElement> = orderedPathCollection.map((path, index) => {
@@ -25,8 +25,8 @@ export const getWordsUrl = (pageState?: PageState) => {
   return `${BASE_APP_URL}/words${postfix}`;
 }
 
-export const getUserWordsUrl = (user: UserData, wordData?: WordData) => {
-  const postfix: string = wordData ? `/${wordData.id}` : '';
+export const getUserWordsUrl = (user: UserData, id?: string) => {
+  const postfix: string = id ? `/${id}` : '';
   return `${BASE_APP_URL}/users/${user.userId}/words${postfix}`;
 }
 
@@ -43,11 +43,14 @@ export const getUserDifficultWordList = async (user: UserData) => {
 
 export const linkUserData = async (user: UserData, userUnlinkedData: Array<WordData>) => {
   await Promise.all(userUnlinkedData.map(async (data) => {
-    const userWordData: UserWordData = {
+    const userWordData: DataUserWord = {
       difficulty: OREDERED_DIFF_LIST[data.group],
       optional: {
         isLearned: false,
+        isNewWord: true,
         isDifficult: false,
+        countRightAnswer: 0,
+        countWrongAnswer: 0,
       },
     }
     await axios({

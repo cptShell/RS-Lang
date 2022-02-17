@@ -18,3 +18,13 @@ header {
     flex-direction: column !important;
   }
 }
+
+img {
+  object-fit: cover;
+}
+
+.material-icons {
+  &.small {font-size: 16px}
+  &.medium {font-size: 24px}
+  &.big {font-size: 32px}
+}
