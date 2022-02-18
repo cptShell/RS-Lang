@@ -24,7 +24,17 @@ export const BookPage = ({isAuthorized, pageState, setPageState}: {
       const user = getCurrentUserState();
       if (group === DIFFICULT_GROUP_INDEX) {
         const wordList: Array<WordData> = await getUserDifficultWordList(user);
-        const mergedList: Array<TotalWordData> = wordList.map(word => {return { wordData: word }});
+        const userWordList: Array<ResponseUserWords> = await Promise.all(wordList.map(async (wordData: WordData) => {
+          const userWordUrl: string = getUserWordsUrl(user, wordData.id);
+          const response = await axios({
+            method: 'get',
+            url: userWordUrl,
+            headers: {Authorization: `Bearer ${user.token}`},
+          });
+          const userData: ResponseUserWords = response.data;
+          return userData;
+        }));
+        const mergedList: Array<TotalWordData> = wordList.map((word, index) => {return { wordData: word, userWordData: userWordList[index] }});
         setMergedDataList(mergedList);
       } else {
         const unlinkedResponse = await axios({

@@ -4,14 +4,18 @@ import { getUserWordsUrl } from '../../utils/functions/supportMethods';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getCurrentUserState } from '../../utils/functions/localStorage';
 import { WordStatistics } from './wordStatistics';
+import { DIFFICULT_GROUP_INDEX } from '../../utils/constants/constants';
 
-export const UserControlPanel = ({userWordData, group, learnedCount, setLearnedCount}: {
+export const UserControlPanel = ({userWordData, group, learnedCount, setLearnedCount, setHidden, selectedGroup}: {
   userWordData: ResponseUserWords,
   group: number,
   learnedCount: number,
   setLearnedCount: (leanedCount: number) => void,
+  setHidden: (value: boolean) => void,
+  selectedGroup: number,
 }) => {
   const [userWordState, setUserWordState] = useState<ResponseUserWords>(userWordData);
+
   const {
     optional: {
       isDifficult,
@@ -22,10 +26,13 @@ export const UserControlPanel = ({userWordData, group, learnedCount, setLearnedC
     wordId,
   }: ResponseUserWords = userWordData;
 
+  console.log(selectedGroup);
+
   const toggleUserWordState = async (caseWord: string): Promise<void> => {
     switch(caseWord) {
       case 'difficult':
         userWordState.optional.isDifficult = !isDifficult;
+        if (selectedGroup === DIFFICULT_GROUP_INDEX) setHidden(true);
         break;
       case 'learn':
         userWordState.optional.isLearned = !isLearned;
@@ -61,22 +68,36 @@ export const UserControlPanel = ({userWordData, group, learnedCount, setLearnedC
   return (
     <div className='d-flex flex-column gap-2 border-top border-2'>
       <WordStatistics group={group} userWordData={userWordData}/>
-      <div className='d-flex align-items-center gap-2 border-top border-2 pt-2'>
-        <button className={`btn-${isDifficult ? 'danger' : 'success'} rounded d-flex align-items-center h-100`} onClick={() => toggleUserWordState('difficult')}>
-          <span className='material-icons'>
-            {!isDifficult ? 'bookmark' : 'bookmark_border'}
-          </span>
-        </button>
-        {isDifficult ? 'Слово отмечено как "Сложное"' : 'Нажмите, чтобы отметить как "Сложное"'}
-      </div>
-      <div className='d-flex align-items-center gap-2'>
-        <button className={`btn-${!isLearned ? 'danger' : 'success'} rounded d-flex align-items-center h-100`} onClick={() => toggleUserWordState('learn')}>
-          <span className='material-icons'>
-            {`radio_button_${isLearned ? '' : 'un'}checked`}
-          </span>
-        </button>
-        {!isLearned ? 'Слово не изучено' : 'Слово изучено'}
-      </div>
+      {
+        selectedGroup === DIFFICULT_GROUP_INDEX ?
+        (
+          <div className='d-flex align-items-center gap-2 border-top border-2 pt-2'>
+            <button className={`btn-success rounded d-flex align-items-center h-100`} onClick={() => toggleUserWordState('difficult')}>
+              <span className='material-icons'>highlight_off</span>
+            </button>
+          Убрать слово из списка сложных
+          </div>
+        ) : (
+          <div className='d-flex flex-column gap-2 pt-2 border-top border-2'>
+            <div className='d-flex align-items-center gap-2 pt-2'>
+              <button className={`btn-${isDifficult ? 'danger' : 'success'} rounded d-flex align-items-center h-100`} onClick={() => toggleUserWordState('difficult')}>
+                <span className='material-icons'>
+                  {!isDifficult ? 'bookmark' : 'bookmark_border'}
+                </span>
+              </button>
+              {isDifficult ? 'Слово отмечено как "Сложное"' : 'Нажмите, чтобы отметить как "Сложное"'}
+            </div>
+            <div className='d-flex align-items-center gap-2'>
+              <button className={`btn-${!isLearned ? 'danger' : 'success'} rounded d-flex align-items-center h-100`} onClick={() => toggleUserWordState('learn')}>
+                <span className='material-icons'>
+                  {`radio_button_${isLearned ? '' : 'un'}checked`}
+                </span>
+              </button>
+              {!isLearned ? 'Слово не изучено' : 'Слово изучено'}
+            </div>
+          </div>
+        )
+      }
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { UserData } from "../../redux/types/interfaces";
 import { BASE_APP_URL, OREDERED_DIFF_LIST } from "../constants/constants";
-import { DataUserWord, PageState, UserWord, WordData } from "../interfaces/interfaces";
+import { DataUserWord, PageState, ResponseUserWords, WordData } from "../interfaces/interfaces";
 
 export const playAudioInOrder = (orderedPathCollection: Array<string>): void => {
   const audioOrder: Array<HTMLAudioElement> = orderedPathCollection.map((path, index) => {
@@ -33,7 +33,9 @@ export const getUserWordsUrl = (user: UserData, id?: string) => {
 export const getUserDifficultWordList = async (user: UserData) => {
   const url = getUserWordsUrl(user);
   const response = await axios({method: 'get', url, headers: {Authorization: `Bearer ${user.token}`}});
-  const wordList = await Promise.all(response.data.map(async (userWord: UserWord) => {
+  const userDataList: Array<ResponseUserWords> = response.data;
+  const diffDataList = userDataList.filter(data => data.optional.isDifficult);
+  const wordList = await Promise.all(diffDataList.map(async (userWord: ResponseUserWords) => {
     const url = getWordById(userWord.wordId);
     const response = await axios({method: 'get', url});
     return response.data;

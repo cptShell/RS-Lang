@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Card } from "./word";
 import { BookPagination } from './bookPagination';
 import { PageState, TotalWordData } from "../../utils/interfaces/interfaces";
+import { group } from "console";
+import { DIFFICULT_GROUP_INDEX } from "../../utils/constants/constants";
 
 export const WordList = ({learnedCount, mergedDataList, pageState, isAuthorized, setPageState, setMergedDataList}: {
   learnedCount: number,
@@ -24,6 +26,7 @@ export const WordList = ({learnedCount, mergedDataList, pageState, isAuthorized,
       />
       {mergedDataList.map((mergedData) => (
         <Card 
+          selectedGroup={pageState.group}
           isAuthorized={isAuthorized}
           key={mergedData.wordData.id}
           totalWordData={mergedData}
