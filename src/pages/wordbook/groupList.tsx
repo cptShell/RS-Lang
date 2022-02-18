@@ -2,16 +2,18 @@ import React from "react";
 import { BASIC_GROUP_AMOUNT, ORDERED_BTN_STYLE_LIST } from '../../utils/constants/constants';
 import { PageState } from "../../utils/interfaces/interfaces";
 
-export const GroupList = ({isAuthorized, pageState, setPageState}: {
+export const GroupList = ({isAuthorized, pageState, setPageState, setMergedDataList}: {
   isAuthorized: boolean,
   pageState: PageState,
   setPageState: (state: PageState) => void,
+  setMergedDataList: (mergedDataList: null) => void,
 }): JSX.Element => {
   const { group }: PageState = pageState;
   const groupCount = BASIC_GROUP_AMOUNT + Number(isAuthorized);
   const changeGroup = (nextGroup: number) => {
     const nextState = {page: 0, group: nextGroup};
     setPageState(nextState);
+    setMergedDataList(null);
   }
 
   const groupBullets: Array<JSX.Element> = new Array(groupCount).fill(0).map((_, index) => {

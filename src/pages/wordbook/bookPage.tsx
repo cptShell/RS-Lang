@@ -4,11 +4,20 @@ import { BASE_APP_URL, DIFFICULT_GROUP_INDEX } from '../../utils/constants/const
 import { getUserDifficultWordList, getUserWordsUrl, getWordsUrl, linkUserData } from "../../utils/functions/supportMethods";
 import { getCurrentUserState } from "../../utils/functions/localStorage"
 import { PageState, ResponseUserWords, TotalWordData, WordData } from "../../utils/interfaces/interfaces";
-import { Card } from "./word";
+import { WordList } from './wordList';
+import { GroupList } from './groupList';
+import ListGames from './ListGames';
 
-export const BookPage = ({isAuthorized, pageState}: {isAuthorized: boolean, pageState: PageState}): JSX.Element | null => {
+export const BookPage = ({isAuthorized, pageState, setPageState}: {
+  isAuthorized: boolean,
+  pageState: PageState,
+  setPageState: (pageState: PageState) => void,
+}): JSX.Element | null => {
   const [mergedDataList, setMergedDataList] = useState<Array<TotalWordData> | null>(null);
   const {group, page}: PageState = pageState;
+  const learnedCount = mergedDataList?.reduce((res, data) => {
+    return res + Number(data.userWordData?.optional.isLearned || 0);
+  }, 0) || 0;
 
   const getData = async () => {
     if (isAuthorized) {
@@ -60,10 +69,26 @@ export const BookPage = ({isAuthorized, pageState}: {isAuthorized: boolean, page
   }, [pageState]);
 
   return (
-    <ul className="d-flex flex-column gap-3">
-      {mergedDataList && mergedDataList.map((mergedData) => (
-        <Card isAuthorized={isAuthorized} key={mergedData.wordData.id} totalWordData={mergedData}/>
-      ))}
-    </ul>
+    mergedDataList && 
+    <div className='container-fluid d-flex flex-column gap-2 p-2'>
+      <div className='d-flex flex-wrap flex-row justify-content-between gap-2'>
+        <ListGames pageState={pageState} />
+        <GroupList
+          isAuthorized={isAuthorized}
+          pageState={pageState}
+          setPageState={setPageState}
+          setMergedDataList={setMergedDataList}
+        />
+      </div>
+      <WordList 
+        learnedCount={learnedCount}
+        mergedDataList={mergedDataList}
+        pageState={pageState}
+        isAuthorized={isAuthorized}
+        setPageState={setPageState}
+        setMergedDataList={setMergedDataList}
+      />
+    </div>
+
   );
 };

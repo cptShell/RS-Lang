@@ -4,7 +4,12 @@ import { TotalWordData } from '../../utils/interfaces/interfaces';
 import { VolumeButton } from './volumeButton';
 import { UserControlPanel } from './controlPanel';
 
-export const Card = ({isAuthorized, totalWordData}:{isAuthorized: boolean, totalWordData: TotalWordData}): JSX.Element => {
+export const Card = ({isAuthorized, totalWordData, learnedCount, setLearnedCount}:{
+  isAuthorized: boolean,
+  totalWordData: TotalWordData,
+  learnedCount: number,
+  setLearnedCount: (learnedCount: number) => void,
+}): JSX.Element => {
   const { 
     wordData: {
       group,
@@ -44,7 +49,13 @@ export const Card = ({isAuthorized, totalWordData}:{isAuthorized: boolean, total
           <p>{'Значение: ' + textMeaningTranslate}</p>
           <p>{'Пример: ' + textExampleTranslate}</p>
         </div>
-        {(isAuthorized && totalWordData.userWordData) && <UserControlPanel group={group} userWordData={totalWordData.userWordData}/>}
+        {(isAuthorized && totalWordData.userWordData) && 
+          <UserControlPanel 
+            group={group}
+            userWordData={totalWordData.userWordData}
+            learnedCount={learnedCount}
+            setLearnedCount={setLearnedCount}
+          />}
       </div>
     </li>
   );

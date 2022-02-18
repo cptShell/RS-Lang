@@ -5,7 +5,12 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { getCurrentUserState } from '../../utils/functions/localStorage';
 import { WordStatistics } from './wordStatistics';
 
-export const UserControlPanel = ({userWordData, group}: {userWordData: ResponseUserWords, group: number}) => {
+export const UserControlPanel = ({userWordData, group, learnedCount, setLearnedCount}: {
+  userWordData: ResponseUserWords,
+  group: number,
+  learnedCount: number,
+  setLearnedCount: (leanedCount: number) => void,
+}) => {
   const [userWordState, setUserWordState] = useState<ResponseUserWords>(userWordData);
   const {
     optional: {
@@ -24,6 +29,7 @@ export const UserControlPanel = ({userWordData, group}: {userWordData: ResponseU
         break;
       case 'learn':
         userWordState.optional.isLearned = !isLearned;
+        setLearnedCount(learnedCount + (userWordState.optional.isLearned ? 1 : -1));
         break;
     }
 
