@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { RootState } from '../../redux/store';
+import { addStatisticUser } from '../../utils/functions/statistics';
 import { BASE_APP_URL, MESSAGE_IS_AUTH } from '../../utils/constants/constants';
 import { addDataAboutWordsToUserWords } from '../../utils/functions/sprintGameFunctions';
 import { DataGame, ListQuestionData } from '../../utils/interfaces/interfaces';
@@ -18,9 +20,13 @@ const ResultRound: React.FC<{ result: ListQuestionData[], score: number, dataGam
   }
 
   useEffect(() => {
-    if (userData.message === MESSAGE_IS_AUTH && userData.token){
-      addDataAboutWordsToUserWords(result, userData);
+    const addData = async () => {
+      if (userData.message === MESSAGE_IS_AUTH && userData.token){
+        addDataAboutWordsToUserWords(result, userData);
+        await addStatisticUser(result, userData);
+      }
     }
+    addData();
   }, []);
 
   const rightAnswerList = rightAnswer.map((word) => (
@@ -52,7 +58,10 @@ const ResultRound: React.FC<{ result: ListQuestionData[], score: number, dataGam
         Ошибок: <span>{wrongAnswer.length}</span>
       </p>
       <ul className='list-result'>{wrongAnswerList}</ul>
-      <button onClick={onRepeatGame} className='btn btn-success repeat-button'>Играть ещё</button>
+      <div className='result-buttons'>
+        <button onClick={onRepeatGame} className='btn btn-success'>Играть ещё</button>
+        <NavLink className='btn btn-primary' to={'/book'}>Учебник</NavLink>
+      </div>
     </div>
   );
 };

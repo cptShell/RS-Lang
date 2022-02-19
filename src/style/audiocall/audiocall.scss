@@ -64,6 +64,8 @@
   }
 }
 
-.repeat-button {
-  margin: 10px 10px;
+.result-buttons {
+  padding: 10px 10px;
+  display: flex;
+  justify-content: space-around;
 }

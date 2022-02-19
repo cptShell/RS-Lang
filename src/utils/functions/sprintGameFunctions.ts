@@ -218,7 +218,7 @@ export const addDataAboutWordsToUserWords = (listWords: ListQuestionData[], user
   });
 };
 
-const getUserWords = async (userData: UserData) => {
+export const getUserWords = async (userData: UserData) => {
   try{
     const { userId, token } = userData;
     const response: AxiosResponse<ResponseUserWords[]> = await axios({

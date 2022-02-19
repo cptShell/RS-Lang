@@ -93,7 +93,7 @@ export const DEFAULT_QUESTIONS_SPRINT_GAME: ListQuestionData = {
 
 export const MIN_NUMBER_WORD = 0;
 export const MAX_NUMBER_WORD = 9;
-export const NUMBER_WORDS_GAME = 5;
+export const NUMBER_WORDS_GAME = 3;
 export const MIN_INDEX = 0;
 export const RIGHT_ANSWER_SCORE = 10;
 export const MIN_NUMBER_KEY = 1;
