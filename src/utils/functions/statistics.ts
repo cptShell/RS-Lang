@@ -1,18 +1,21 @@
 import axios, { AxiosResponse } from 'axios';
+import { STATUS_200 } from '../../redux/constants';
 import { UserData } from '../../redux/types/interfaces';
 import { BASE_APP_URL } from '../constants/constants';
 import { ListQuestionData } from '../interfaces/interfaces';
 import { getUserWords } from './sprintGameFunctions';
 
 type AveragePercent = {
-  counter: number,
-  percent: number
-}
+  counter: number;
+  percent: number;
+};
 
 interface OptionalStatisticData {
-  percent: AveragePercent;
-  seriesRightAnswer: number;
-  counterNewWords: number;
+  [nameStatistic: string]: {
+    percent: AveragePercent;
+    seriesRightAnswer: number;
+    counterNewWords: number;
+  };
 }
 
 interface StatisticData {
@@ -23,6 +26,11 @@ interface StatisticData {
 const IS_NOT_EXECUTE_STATISTIC_CODE = 404;
 
 const SERIES = 7;
+
+enum TypeStatistic {
+  AUDIOCALL = 'audiocall',
+  SPRINT = 'sprint',
+}
 
 export const getPercentRightAnswer = (allAnswers: ListQuestionData[]) => {
   const rightAnswer = allAnswers.filter((dataWord) => dataWord.isRight);
@@ -40,7 +48,7 @@ const getStatistic = async ({ userId, token }: UserData): Promise<AxiosResponse<
     return statistic;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      console.error("Can't get statistics!");
+      console.error(`Can't get statistics!`);
       return error.response;
     }
   }
@@ -56,58 +64,80 @@ const setStatistic = async ({ userId, token }: UserData, dataStatistic: Statisti
     });
     return response;
   } catch {
-    console.log('Can\'t set statistics!');
+    console.log("Can't set statistics!");
   }
 };
 
-const updateStatistic = async (userData: UserData, currentStatistic: StatisticData, listWords: ListQuestionData[], newSeriesRightAnswer: number) => {
+const updateStatistic = async (
+  userData: UserData,
+  currentStatistic: StatisticData,
+  listWords: ListQuestionData[],
+  newSeriesRightAnswer: number,
+  statisticName: keyof OptionalStatisticData
+) => {
   const currentUserWordData = await getUserWords(userData);
 
   let numberNewWords = 0;
-  let numberLearnedWords = 0;
-  const { counter, percent } = currentStatistic.optional.percent;
+  const { counter, percent } = currentStatistic.optional[statisticName].percent;
 
   if (currentUserWordData) {
-    numberNewWords = currentUserWordData.data.filter(dataWord => dataWord.optional.isNewWord).length;
-    numberLearnedWords = currentUserWordData.data.filter(dataWord => dataWord.optional.isLearned).length;
+    numberNewWords = currentUserWordData.data.filter((dataWord) => dataWord.optional.isNewWord).length;
   }
 
-  const newStatistic = {
-    learnedWords: currentStatistic.learnedWords + numberLearnedWords,
+  const updatedStatistic = {
+    learnedWords: currentStatistic.learnedWords,
     optional: {
-      percent: { counter: counter + 1, percent: percent + getPercentRightAnswer(listWords)},
-      seriesRightAnswer: newSeriesRightAnswer > currentStatistic.optional.seriesRightAnswer ? newSeriesRightAnswer : currentStatistic.optional.seriesRightAnswer,
-      counterNewWords: currentStatistic.optional.counterNewWords
-    }
-  }
-  await setStatistic(userData, newStatistic);
-}
+      ...currentStatistic.optional,
+      [statisticName]: {
+        percent: { counter: counter + 1, percent: percent + getPercentRightAnswer(listWords) },
+        seriesRightAnswer:
+          newSeriesRightAnswer > currentStatistic.optional[statisticName].seriesRightAnswer
+            ? newSeriesRightAnswer
+            : currentStatistic.optional[statisticName].seriesRightAnswer,
+        counterNewWords:
+          currentStatistic.optional[statisticName].counterNewWords +
+          (numberNewWords - currentStatistic.optional[statisticName].counterNewWords),
+      },
+    },
+  };
 
-export const getInitialStatisticData = async (userData: UserData, allAnswers: ListQuestionData[], seriesRightAnswer: number): Promise<StatisticData> => {
+  await setStatistic(userData, updatedStatistic);
+};
+
+export const getInitialStatisticData = async (
+  userData: UserData,
+  allAnswers: ListQuestionData[],
+  seriesRightAnswer: number,
+  statisticName: keyof OptionalStatisticData
+): Promise<void> => {
   const currentUserWordData = await getUserWords(userData);
+  const currentStatistic = await getStatistic(userData);
   let counterNewWords = 0;
   let learnedWords = 0;
   if (currentUserWordData) {
-    counterNewWords = currentUserWordData.data.filter(dataWord => dataWord.optional.isNewWord).length;
-    learnedWords = currentUserWordData.data.filter(dataWord => dataWord.optional.isLearned).length;
+    counterNewWords = currentUserWordData.data.filter((dataWord) => dataWord.optional.isNewWord).length;
+    learnedWords = currentUserWordData.data.filter((dataWord) => dataWord.optional.isLearned).length;
   }
-  const percent = {counter: 1, percent: getPercentRightAnswer(allAnswers)};
-  return { learnedWords, optional: {percent, seriesRightAnswer, counterNewWords}};
+  const percent: AveragePercent = { counter: 1, percent: getPercentRightAnswer(allAnswers) };
+  const newStatistic = { learnedWords, optional: { [statisticName]: { percent, seriesRightAnswer, counterNewWords } } };
+  if (currentStatistic?.status === STATUS_200) {
+    Object.assign(newStatistic.optional, currentStatistic.data.optional);
+  }
+  await setStatistic(userData, newStatistic);
 };
 
 export const addStatisticUser = async (listWords: ListQuestionData[], userData: UserData) => {
   try {
+
+    const nameStatistic = TypeStatistic.AUDIOCALL;
+
     const currentStatistic = await getStatistic(userData);
-    if (currentStatistic?.status === IS_NOT_EXECUTE_STATISTIC_CODE) {
-      const statisticData = await getInitialStatisticData(userData, listWords, SERIES);
-      await setStatistic(userData, statisticData);
-    } else if(currentStatistic?.status === 200){
-      await updateStatistic(userData, currentStatistic.data, listWords, SERIES);
+    if (currentStatistic?.status === IS_NOT_EXECUTE_STATISTIC_CODE || !currentStatistic?.data.optional[nameStatistic]) {
+      await getInitialStatisticData(userData, listWords, SERIES, nameStatistic);
+    } else if (currentStatistic?.status === STATUS_200) {
+      await updateStatistic(userData, currentStatistic.data, listWords, SERIES, nameStatistic);
     }
   } catch {
-    console.log('Can\'t add statistics data!');
+    console.log(`Can't add statistics data!`);
   }
-  const stat = await getStatistic(userData);
-  console.log(stat);
-  
 };
