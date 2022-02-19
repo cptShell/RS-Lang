@@ -42,6 +42,7 @@ export const UserControlPanel = ({userWordData, group, learnedCount, setLearnedC
           userWordState.optional.isDifficult = false;
         }
         setLearned(userWordState.optional.isLearned);
+        setDifficult(userWordState.optional.isDifficult);
         break;
     }
 
