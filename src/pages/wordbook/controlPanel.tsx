@@ -66,9 +66,9 @@ export const UserControlPanel = ({userWordData, group, learnedCount, setLearnedC
   if (countRightAnswer < ((group + 1) * 2)) {
     const neededCountNum = (group + 1) * 2 - countRightAnswer;
     const neededCountWord = [2,3,4].some(num => neededCountNum === num) ? 'раза' : 'раз';
-    wordProgressMessage = `Угадайте это слово еще ${neededCountNum} ${neededCountWord}, для`
+    wordProgressMessage = `Угадайте это слово еще ${neededCountNum} ${neededCountWord}, для`;
   } else {
-    wordProgressMessage = `Слово полностью изучено`
+    wordProgressMessage = `Слово полностью изучено`;
   }
   
   return (

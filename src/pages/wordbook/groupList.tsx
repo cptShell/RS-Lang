@@ -29,8 +29,7 @@ export const GroupList = ({isAuthorized, pageState, setPageState, setMergedDataL
   });
   return (
     <ul className="btn-group d-flex gap-2 align-items-center">
-      Группы:
-      {groupBullets}
+      Группы: {groupBullets}
     </ul>
   );
 };

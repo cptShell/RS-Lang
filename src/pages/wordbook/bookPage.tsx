@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
-import { BASE_APP_URL, DIFFICULT_GROUP_INDEX } from '../../utils/constants/constants';
+import { BASE_APP_URL, DIFFICULT_GROUP_INDEX, MAX_WORDS_PER_PAGE } from '../../utils/constants/constants';
 import { getUserDifficultWordList, getUserWordsUrl, getWordsUrl, linkUserData } from "../../utils/functions/supportMethods";
 import { getCurrentUserState } from "../../utils/functions/localStorage"
 import { PageState, ResponseUserWords, TotalWordData, WordData } from "../../utils/interfaces/interfaces";
@@ -79,12 +79,15 @@ export const BookPage = ({isAuthorized, pageState, setPageState}: {
     getData();
   }, [pageState]);
 
+  const isPageComplete = learnedCount === MAX_WORDS_PER_PAGE;
+  const isDiffPage = pageState.group === DIFFICULT_GROUP_INDEX; 
+
   return (
     mergedDataList ?
     (
       <div className='container-fluid d-flex flex-column gap-2 p-2'>
         <div className='d-flex justify-content-between flex-wrap gap-2'>
-          <ListGames pageState={pageState} />
+          {(!isPageComplete && !isDiffPage) && <ListGames pageState={pageState} />}
           <GroupList
             isAuthorized={isAuthorized}
             pageState={pageState}
@@ -104,6 +107,5 @@ export const BookPage = ({isAuthorized, pageState, setPageState}: {
     ) : (
       <Preloader />
     )
-
   );
 };
