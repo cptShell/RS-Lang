@@ -18,6 +18,9 @@ import {
 } from '../constants/constants';
 import { TypeDifficultyWord, TypeMethodRequest } from '../enum/enum';
 import { DataUserWord, ListQuestionData, ResponseUserWords, WordData } from '../interfaces/interfaces';
+import { OptionalDataWord } from '../../utils/interfaces/interfaces';
+import { getAnswerGap } from './supportMethods';
+import { workerData } from 'worker_threads';
 
 const getNumberPages = (numberPage: string): Array<string> => {
   const listPages: Array<number> = [];
@@ -152,31 +155,35 @@ const getOptionalUserDataWord = async (
   userData?: UserData
 ) => {
   if (typeMethod === TypeMethodRequest.POST) {
-    return {
+    const userWordOptional: OptionalDataWord = {
       isLearned: false,
       isNewWord: true,
+      isDifficult: false,
       countRightAnswer: wordData.isRight ? 1 : 0,
       countWrongAnswer: !wordData.isRight ? 1 : 0,
-    };
+      rowAnswers: wordData.isRight ? 1 : 0,
+    }
+    return userWordOptional;
   }
   if (typeMethod === TypeMethodRequest.PUT) {
     if (userData) {
       const currentUserWordData = await getDataUserWordById(wordData, userData);
       if (currentUserWordData) {
-        const {
-          data: { optional },
-        } = currentUserWordData;
-        let isWordLearned = optional.countRightAnswer > NUMBER_RIGHT_ANSWER;
-        const countWrongAnswer = !wordData.isRight ? optional.countWrongAnswer + 1 : optional.countWrongAnswer;
-        if (countWrongAnswer >= 1) {
-          isWordLearned = false;
+        const userData = currentUserWordData.data;
+        const { optional } = userData;
+        const answerGap = getAnswerGap(userData.difficulty);
+
+        if (wordData.isRight) {
+          optional.countRightAnswer += 1;
+          optional.rowAnswers += 1;
+          if (optional.rowAnswers >= answerGap) optional.isLearned = true;
+        } else {
+          optional.countWrongAnswer += 1;
+          optional.rowAnswers = 0;
+          optional.isLearned = false;
         }
-        return {
-          isLearned: isWordLearned,
-          isNewWord: false,
-          countRightAnswer: wordData.isRight ? optional.countRightAnswer + 1 : optional.countRightAnswer,
-          countWrongAnswer: countWrongAnswer,
-        };
+
+        return optional;
       }
     } else {
       throw new Error('No user data');

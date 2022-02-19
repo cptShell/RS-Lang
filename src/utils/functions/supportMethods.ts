@@ -53,6 +53,7 @@ export const linkUserData = async (user: UserData, userUnlinkedData: Array<WordD
         isDifficult: false,
         countRightAnswer: 0,
         countWrongAnswer: 0,
+        rowAnswers: 0,
       },
     }
     await axios({
@@ -62,4 +63,22 @@ export const linkUserData = async (user: UserData, userUnlinkedData: Array<WordD
       data: userWordData,
     });
   }));
+}
+
+export const getAnswerGap = (difficulty: string): number => {
+  let gap: number;
+  switch(difficulty) {
+    case 'easy':
+      gap = 2;
+      break;
+    case 'normal':
+      gap = 4;
+      break;
+    case 'hard':
+      gap = 6;
+      break;
+    default:
+      gap = 2;
+  }
+  return gap;
 }

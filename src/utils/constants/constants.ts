@@ -22,7 +22,8 @@ export const OREDERED_DIFF_LIST: Array<string> = [
   'normal',
   'hard',
   'hard',
-]
+];
+export const ORDERED_ANSWER_GAP: Array<number> = [2,2,4,4,6,6]
 export const REG_EXP_EMAIL = /\S+@\S+\.\S+/;
 export const MESSAGE_IS_AUTH = 'Authenticated';
 export const START_LEVEL = 1;
