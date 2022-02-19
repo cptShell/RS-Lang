@@ -100,3 +100,6 @@ export const MIN_NUMBER_KEY = 1;
 export const MAX_NUMBER_KEY = 5;
 
 export const MAX_ANSWER_AUDIOCALL_GAME = 5;
+
+export const INIT_GROUP = '0';
+export const INIT_PAGE = '0';

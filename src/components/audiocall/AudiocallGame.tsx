@@ -4,12 +4,12 @@ import { nextQuestion, resetGame, finishGame, answeredAction, addCurrentScore } 
 import { RootState } from '../../redux/store';
 import { BASE_APP_URL, ENTER_KEY, MAX_NUMBER_KEY, MIN_NUMBER_KEY, NUMPAD_ENTER_KEY, RIGHT_ANSWER_SCORE, SPACE_KEY } from '../../utils/constants/constants';
 import useAudio from '../../utils/hooks/useAudio';
-import { ListQuestionData } from '../../utils/interfaces/interfaces';
+import { DataGame, ListQuestionData } from '../../utils/interfaces/interfaces';
 import MuteButton from '../sprint/MuteButton';
 import ResultRound from '../sprint/ResultRound';
 import Audio from './Audio';
 
-const Audiocall = () => {
+const Audiocall: React.FC<{dataGame: DataGame}> = ({dataGame}) => {
   const play = useRef<HTMLButtonElement>(null);
   const [playAudioRight] = useAudio('./sounds/right.mp3');
   const [playAudioFail] = useAudio('./sounds/fail.mp3');
@@ -82,7 +82,9 @@ const Audiocall = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('keydown', onKeyHandler, false);
+    if(!endGame) {
+      window.addEventListener('keydown', onKeyHandler, false);
+    }
     return () => window.removeEventListener('keydown', onKeyHandler, false);
   }, [counter, answered, endGame]);
 
@@ -100,7 +102,7 @@ const Audiocall = () => {
   return (
     <div className='audiocall'>
       {endGame ? (
-        <ResultRound result={listResults} score={score} />
+        <ResultRound result={listResults} score={score} dataGame={dataGame}/>
       ) : (
       <>
         <div className='audiocall__header'>

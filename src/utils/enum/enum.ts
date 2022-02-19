@@ -20,3 +20,8 @@ export enum TypeDifficultyWord {
   'medium',
   'hard',
 }
+
+export enum NameGame {
+  AUDIOCALL = 'audiocall',
+  SPRINT = 'sprint'
+}
