@@ -16,7 +16,7 @@ export const WordList = ({learnedCount, mergedDataList, pageState, isAuthorized,
   const [count, setLearnedCount] = useState(learnedCount);
 
   return (
-    <ul className="d-flex flex-column gap-3">
+    <ul className="d-flex flex-column gap-2">
       <BookPagination
         isAuthorized={isAuthorized}
         pageState={pageState}

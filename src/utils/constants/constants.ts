@@ -13,7 +13,7 @@ export const ORDERED_BTN_STYLE_LIST: Array<string> = [
   'warning',
   'danger',
   'danger',
-  'danger',
+  'dark',
 ];
 export const OREDERED_DIFF_LIST: Array<string> = [
   'easy',

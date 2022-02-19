@@ -12,6 +12,9 @@ export const Card = ({isAuthorized, totalWordData, learnedCount, setLearnedCount
   selectedGroup: number,
 }): JSX.Element => {
   const [isHidden, setHidden] = useState(false);
+  const [isDifficult, setDifficult] = useState(totalWordData.userWordData?.optional.isDifficult || false);
+  const [isLearned, setLearned] = useState(totalWordData.userWordData?.optional.isLearned || false);
+
   const { 
     wordData: {
       group,
@@ -30,9 +33,12 @@ export const Card = ({isAuthorized, totalWordData, learnedCount, setLearnedCount
   }: TotalWordData = totalWordData;
 
   const imgSrc = `${BASE_APP_URL}/${image}`;
-  console.log(totalWordData);
+  let cardStyle: string = '';
+  if (isDifficult) cardStyle = 'difficult';
+  if (isLearned) cardStyle = 'learned';
+  
   return (
-    <li className={`col d-flex flex-row justify-content-between gap-2 rounded-3 shadow ${isHidden ? 'hidden' : ''}`}>
+    <li className={`col d-flex flex-row justify-content-between gap-2 rounded-3 shadow ${isHidden ? 'hidden' : ''} ${cardStyle}`}>
       <img className='rounded-3' src={imgSrc} alt={word + ' image'} />
       <div className='d-flex flex-column gap-2 w-100 p-2'>
         <div>
@@ -60,6 +66,8 @@ export const Card = ({isAuthorized, totalWordData, learnedCount, setLearnedCount
             learnedCount={learnedCount}
             setLearnedCount={setLearnedCount}
             setHidden={setHidden}
+            setDifficult={setDifficult}
+            setLearned={setLearned}
           />
         }
       </div>

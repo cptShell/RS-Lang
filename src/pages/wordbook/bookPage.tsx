@@ -7,6 +7,7 @@ import { PageState, ResponseUserWords, TotalWordData, WordData } from "../../uti
 import { WordList } from './wordList';
 import { GroupList } from './groupList';
 import ListGames from './ListGames';
+import Preloader from '../../components/Preloader';
 
 export const BookPage = ({isAuthorized, pageState, setPageState}: {
   isAuthorized: boolean,
@@ -79,26 +80,30 @@ export const BookPage = ({isAuthorized, pageState, setPageState}: {
   }, [pageState]);
 
   return (
-    mergedDataList && 
-    <div className='container-fluid d-flex flex-column gap-2 p-2'>
-      <div className='d-flex flex-wrap flex-row justify-content-between gap-2'>
-        <ListGames pageState={pageState} />
-        <GroupList
-          isAuthorized={isAuthorized}
+    mergedDataList ?
+    (
+      <div className='container-fluid d-flex flex-column gap-2 p-2'>
+        <div className='d-flex justify-content-between flex-wrap gap-2'>
+          <ListGames pageState={pageState} />
+          <GroupList
+            isAuthorized={isAuthorized}
+            pageState={pageState}
+            setPageState={setPageState}
+            setMergedDataList={setMergedDataList}
+          />
+        </div>
+        <WordList 
+          learnedCount={learnedCount}
+          mergedDataList={mergedDataList}
           pageState={pageState}
+          isAuthorized={isAuthorized}
           setPageState={setPageState}
           setMergedDataList={setMergedDataList}
         />
       </div>
-      <WordList 
-        learnedCount={learnedCount}
-        mergedDataList={mergedDataList}
-        pageState={pageState}
-        isAuthorized={isAuthorized}
-        setPageState={setPageState}
-        setMergedDataList={setMergedDataList}
-      />
-    </div>
+    ) : (
+      <Preloader />
+    )
 
   );
 };

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PageState } from '../../utils/interfaces/interfaces';
 
 
 
-const ListGames: React.FC<{pageState: {group: number, page: number}}> = (props) => {
+const ListGames: React.FC<{pageState: PageState}> = (props) => {
   const navigate = useNavigate();
   const { group, page } = props.pageState;
 
@@ -12,10 +13,12 @@ const ListGames: React.FC<{pageState: {group: number, page: number}}> = (props) 
   }
 
   return (
-    <ul className='btn-group d-flex justify-content-center gap-2'>
-      <li><button className='btn btn-success' onClick={onStartSprint}>Спринт</button></li>
-      <li><button className='btn btn-success'>Аудиовызов</button></li>
-    </ul>
+    <div className='btn-group d-flex justify-content-center align-items-center gap-2'>
+      Проверьте себя в
+      <button className='btn btn-success' onClick={onStartSprint}>Спринте</button>
+      или
+      <button className='btn btn-success'>Аудиовызове</button>
+    </div>
   )
 }
 

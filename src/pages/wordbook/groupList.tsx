@@ -18,16 +18,19 @@ export const GroupList = ({isAuthorized, pageState, setPageState, setMergedDataL
 
   const groupBullets: Array<JSX.Element> = new Array(groupCount).fill(0).map((_, index) => {
     const isActive: string = index !== group ? '' : '-outline';
-    const className = `btn btn${isActive}-${ORDERED_BTN_STYLE_LIST[index]}`;
+    const className = `btn btn${isActive}-${ORDERED_BTN_STYLE_LIST[index]} h-100`;
     return (
-      <li key={index}>
+      <li key={index} className='h-100'>
         <button onClick={() => changeGroup(index)} className={className}>
-          {index === BASIC_GROUP_AMOUNT ? 'Сложные слова' : index + 1}
+          {index === BASIC_GROUP_AMOUNT ? <span className="d-flex h-100 align-items-center material-icons small-medium">bookmark</span> : index + 1}
         </button>
       </li>
     );
   });
   return (
-    <ul className="btn-group d-flex justify-content-center gap-2">{groupBullets}</ul>
+    <ul className="btn-group d-flex gap-2 align-items-center">
+      Группы:
+      {groupBullets}
+    </ul>
   );
 };
