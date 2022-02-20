@@ -12,13 +12,15 @@ const ListGames: React.FC<{pageState: PageState}> = (props) => {
     navigate(`/sprint?group=${group}&page=${page}`);
   }
 
+  const onStartAudiocall = async () => {
+    navigate(`/audiocall?group=${group}&page=${page}`);
+  }
+
   return (
-    <div className='btn-group d-flex justify-content-center align-items-center gap-2'>
-      Проверьте себя в
-      <button className='btn btn-success' onClick={onStartSprint}>Спринте</button>
-      или
-      <button className='btn btn-success'>Аудиовызове</button>
-    </div>
+    <ul className='btn-group d-flex justify-content-center gap-2'>
+      <li><button className='btn btn-success' onClick={onStartSprint}>Спринт</button></li>
+      <li><button className='btn btn-success'onClick={onStartAudiocall}>Аудиовызов</button></li>
+    </ul>
   )
 }
 

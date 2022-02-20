@@ -4,18 +4,18 @@ import { nextQuestion, resetGame, finishGame, answeredAction, addCurrentScore } 
 import { RootState } from '../../redux/store';
 import { BASE_APP_URL, ENTER_KEY, MAX_NUMBER_KEY, MIN_NUMBER_KEY, NUMPAD_ENTER_KEY, RIGHT_ANSWER_SCORE, SPACE_KEY } from '../../utils/constants/constants';
 import useAudio from '../../utils/hooks/useAudio';
-import { ListQuestionData } from '../../utils/interfaces/interfaces';
+import { DataGame, ListQuestionData } from '../../utils/interfaces/interfaces';
 import MuteButton from '../sprint/MuteButton';
 import ResultRound from '../sprint/ResultRound';
 import Audio from './Audio';
 
-const Audiocall = () => {
+const Audiocall: React.FC<{dataGame: DataGame}> = ({dataGame}) => {
   const play = useRef<HTMLButtonElement>(null);
   const [playAudioRight] = useAudio('./sounds/right.mp3');
   const [playAudioFail] = useAudio('./sounds/fail.mp3');
   const [mute, setMute] = useState<boolean>(false);
   const [isRight, setIsRight] = useState<boolean>(false);
-  const {
+  let {
     audiocall: { counter, answered, score, tally, listQuestions, listResults, endGame },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
@@ -24,11 +24,12 @@ const Audiocall = () => {
     const currentWordData = listQuestions[counter];
     dispatch(answeredAction(true));
     if (isAnswerRight) {
+      const newTally = tally + 1 > tally ? tally + 1 : tally;
       !mute && playAudioRight();
-      dispatch(addCurrentScore(score + RIGHT_ANSWER_SCORE, tally + 1));
+      dispatch(addCurrentScore(score + RIGHT_ANSWER_SCORE, newTally));
     } else {
       !mute && playAudioFail();
-      dispatch(addCurrentScore(score, 0));
+      dispatch(addCurrentScore(score, tally));
     }
 
     if (counter <= listQuestions.length - 1) {
@@ -48,7 +49,7 @@ const Audiocall = () => {
         if (isAnswerRight) {
           dispatch(finishGame(true, score + RIGHT_ANSWER_SCORE, tally + 1, listResults));
         } else {
-          dispatch(finishGame(true, score, 0, listResults));
+          dispatch(finishGame(true, score, tally, listResults));
         }
       }
     }
@@ -82,7 +83,9 @@ const Audiocall = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('keydown', onKeyHandler, false);
+    if(!endGame) {
+      window.addEventListener('keydown', onKeyHandler, false);
+    }
     return () => window.removeEventListener('keydown', onKeyHandler, false);
   }, [counter, answered, endGame]);
 
@@ -100,7 +103,7 @@ const Audiocall = () => {
   return (
     <div className='audiocall'>
       {endGame ? (
-        <ResultRound result={listResults} score={score} />
+        <ResultRound result={listResults} score={score} maxSeries={tally} dataGame={dataGame}/>
       ) : (
       <>
         <div className='audiocall__header'>
