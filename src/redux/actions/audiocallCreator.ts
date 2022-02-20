@@ -70,6 +70,7 @@ export function asyncGetListWords(numberGroup: string, page: string, controlLoad
       }));
       if (response.status === STATUS_200) {
         const listQuestions = await getListAnswersAudiocall(response.data, numberGroup);
+        /* JUST DO IT!! */
         dispatch(startGame(true, listQuestions));
       }
     } catch {
