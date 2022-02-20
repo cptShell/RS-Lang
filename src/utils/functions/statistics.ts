@@ -26,8 +26,6 @@ export interface StatisticData {
 
 const IS_NOT_EXECUTE_STATISTIC_CODE = 404;
 
-const SERIES = 10;
-
 export const getPercentRightAnswer = (allAnswers: ListQuestionData[]) => {
   const rightAnswer = allAnswers.filter((dataWord) => dataWord.isRight);
   const percentRightAnswers = (100 / allAnswers.length) * rightAnswer.length;
@@ -134,13 +132,13 @@ export const getInitialStatisticData = async (
   await setStatistic(userData, newStatistic);
 };
 
-export const addStatisticUser = async (listWords: ListQuestionData[], userData: UserData, nameStatistic: NameGame) => {
+export const addStatisticUser = async (listWords: ListQuestionData[], userData: UserData, nameStatistic: NameGame, maxSeries: number) => {
   try {
     const currentStatistic = await getStatistic(userData);
     if (currentStatistic?.status === IS_NOT_EXECUTE_STATISTIC_CODE || !currentStatistic?.data.optional[nameStatistic]) {
-      await getInitialStatisticData(userData, listWords, SERIES, nameStatistic);
+      await getInitialStatisticData(userData, listWords, maxSeries, nameStatistic);
     } else if (currentStatistic?.status === STATUS_200) {
-      await updateStatistic(userData, currentStatistic.data, listWords, SERIES, nameStatistic);
+      await updateStatistic(userData, currentStatistic.data, listWords, maxSeries, nameStatistic);
     }
   } catch {
     console.log(`Can't add statistics data!`);

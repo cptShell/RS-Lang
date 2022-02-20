@@ -21,7 +21,7 @@ const SprintGame: React.FC<{ listWords: WordData[], dataGame: DataGame }> = (pro
   const [playAudioRight] = useAudio('./sounds/right.mp3');
   const [playAudioFail] = useAudio('./sounds/fail.mp3');
   const [stateSprint, setStateSprint] = useState<SprintGameState>(DEFAULT_SPRINT_GAME_STATE);
-  let { factor, level, score, counter, endGame } = stateSprint;
+  let { factor, level, maxLevel, score, counter, endGame } = stateSprint;
   const [listQuestionsWords] = useState<ListQuestionData[]>(getListQuestionWords(props.listWords));
   const [result, setResult] = useState<ListQuestionData[]>([]);
   const [mute, setMute] = useState<boolean>(false);
@@ -34,6 +34,7 @@ const SprintGame: React.FC<{ listWords: WordData[], dataGame: DataGame }> = (pro
     if (isRightAnswer) {
       !mute && playAudioRight();
       level = level + 1;
+      maxLevel = level >= maxLevel ? level: maxLevel;
       factor = getFactorScore(level);
       score = score + factor;
       currentWord.isRight = true;
@@ -46,10 +47,10 @@ const SprintGame: React.FC<{ listWords: WordData[], dataGame: DataGame }> = (pro
     if (counter <= listQuestionsWords.length - 1) {
       setResult([...result, currentWord]);
       if (counter === listQuestionsWords.length - 1) {
-        setStateSprint({ ...stateSprint, score, factor, level, endGame: true });
+        setStateSprint({ ...stateSprint, score, factor, level, maxLevel, endGame: true });
         return;
       }
-      setStateSprint({ ...stateSprint, counter: counter + 1, score, factor, level });
+      setStateSprint({ ...stateSprint, counter: counter + 1, score, factor, level, maxLevel });
     }
   };
 
@@ -80,7 +81,7 @@ const SprintGame: React.FC<{ listWords: WordData[], dataGame: DataGame }> = (pro
   return (
     <div className='sprint'>
       {stateSprint.endGame ? (
-        <ResultRound result={result} score={score} dataGame={props.dataGame}/>
+        <ResultRound result={result} score={score} maxSeries={maxLevel} dataGame={props.dataGame}/>
       ) : (
         <div className='sprint-board'>
           <div className='sprint-board__header'>
@@ -95,10 +96,10 @@ const SprintGame: React.FC<{ listWords: WordData[], dataGame: DataGame }> = (pro
             <h3 className='sprint-translate'>{wordTranslate}</h3>
             <div className='sprint-buttons'>
               <button className='btn btn-success' onClick={onCheckAnswer.bind(null, true)}>
-                right
+                Правильно
               </button>
               <button className='btn btn-danger' onClick={onCheckAnswer.bind(null, false)}>
-                wrong
+                Неправильно
               </button>
             </div>
           </div>

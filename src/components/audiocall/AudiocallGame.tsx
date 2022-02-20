@@ -102,7 +102,7 @@ const Audiocall: React.FC<{dataGame: DataGame}> = ({dataGame}) => {
   return (
     <div className='audiocall'>
       {endGame ? (
-        <ResultRound result={listResults} score={score} dataGame={dataGame}/>
+        <ResultRound result={listResults} score={score} maxSeries={10} dataGame={dataGame}/>
       ) : (
       <>
         <div className='audiocall__header'>

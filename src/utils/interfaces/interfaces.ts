@@ -62,6 +62,7 @@ export interface SprintGameState {
   counter: number;
   score: number;
   level: number;
+  maxLevel: number;
   factor: number;
   endGame: boolean;
 }

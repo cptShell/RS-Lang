@@ -38,6 +38,7 @@ export const DEFAULT_SPRINT_GAME_STATE = {
   counter: 0,
   score: 0,
   level: START_LEVEL,
+  maxLevel: START_LEVEL,
   factor: MIN_FACTOR,
   endGame: false,
 };
