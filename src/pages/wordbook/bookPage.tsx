@@ -1,21 +1,41 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
-import { BASE_APP_URL, DIFFICULT_GROUP_INDEX } from '../../utils/constants/constants';
+import { BASE_APP_URL, DIFFICULT_GROUP_INDEX, MAX_WORDS_PER_PAGE } from '../../utils/constants/constants';
 import { getUserDifficultWordList, getUserWordsUrl, getWordsUrl, linkUserData } from "../../utils/functions/supportMethods";
 import { getCurrentUserState } from "../../utils/functions/localStorage"
 import { PageState, ResponseUserWords, TotalWordData, WordData } from "../../utils/interfaces/interfaces";
-import { Card } from "./word";
+import { WordList } from './wordList';
+import { GroupList } from './groupList';
+import ListGames from './ListGames';
+import Preloader from '../../components/Preloader';
 
-export const BookPage = ({isAuthorized, pageState}: {isAuthorized: boolean, pageState: PageState}): JSX.Element | null => {
+export const BookPage = ({isAuthorized, pageState, setPageState}: {
+  isAuthorized: boolean,
+  pageState: PageState,
+  setPageState: (pageState: PageState) => void,
+}): JSX.Element | null => {
   const [mergedDataList, setMergedDataList] = useState<Array<TotalWordData> | null>(null);
   const {group, page}: PageState = pageState;
+  const learnedCount = mergedDataList?.reduce((res, data) => {
+    return res + Number(data.userWordData?.optional.isLearned || 0);
+  }, 0) || 0;
 
   const getData = async () => {
     if (isAuthorized) {
       const user = getCurrentUserState();
       if (group === DIFFICULT_GROUP_INDEX) {
         const wordList: Array<WordData> = await getUserDifficultWordList(user);
-        const mergedList: Array<TotalWordData> = wordList.map(word => {return { wordData: word }});
+        const userWordList: Array<ResponseUserWords> = await Promise.all(wordList.map(async (wordData: WordData) => {
+          const userWordUrl: string = getUserWordsUrl(user, wordData.id);
+          const response = await axios({
+            method: 'get',
+            url: userWordUrl,
+            headers: {Authorization: `Bearer ${user.token}`},
+          });
+          const userData: ResponseUserWords = response.data;
+          return userData;
+        }));
+        const mergedList: Array<TotalWordData> = wordList.map((word, index) => {return { wordData: word, userWordData: userWordList[index] }});
         setMergedDataList(mergedList);
       } else {
         const unlinkedResponse = await axios({
@@ -59,11 +79,33 @@ export const BookPage = ({isAuthorized, pageState}: {isAuthorized: boolean, page
     getData();
   }, [pageState]);
 
+  const isPageComplete = learnedCount === MAX_WORDS_PER_PAGE;
+  const isDiffPage = pageState.group === DIFFICULT_GROUP_INDEX; 
+
   return (
-    <ul className="d-flex flex-column gap-3">
-      {mergedDataList && mergedDataList.map((mergedData) => (
-        <Card isAuthorized={isAuthorized} key={mergedData.wordData.id} totalWordData={mergedData}/>
-      ))}
-    </ul>
+    mergedDataList ?
+    (
+      <div className='container-fluid d-flex flex-column gap-2 p-2'>
+        <div className='d-flex justify-content-between flex-wrap gap-2'>
+          {(!isPageComplete && !isDiffPage) && <ListGames pageState={pageState} />}
+          <GroupList
+            isAuthorized={isAuthorized}
+            pageState={pageState}
+            setPageState={setPageState}
+            setMergedDataList={setMergedDataList}
+          />
+        </div>
+        <WordList 
+          learnedCount={learnedCount}
+          mergedDataList={mergedDataList}
+          pageState={pageState}
+          isAuthorized={isAuthorized}
+          setPageState={setPageState}
+          setMergedDataList={setMergedDataList}
+        />
+      </div>
+    ) : (
+      <Preloader />
+    )
   );
 };

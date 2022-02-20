@@ -25,6 +25,19 @@ img {
 
 .material-icons {
   &.small {font-size: 16px}
+  &.small-medium {font-size: 20px};
   &.medium {font-size: 24px}
   &.big {font-size: 32px}
+}
+
+.hidden {
+  display: none !important;
+}
+
+.difficult {
+  background-color: #f443368c !important;
+}
+
+.learned {
+  background-color: #4caf5078 !important;
 }

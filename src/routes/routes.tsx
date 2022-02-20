@@ -29,11 +29,13 @@ export const listRoutes: RouteData[] = [
     route: '/audiocall',
     name: 'Аудиовызов',
     component: <Audiocall />,
+    hideInListNav: true,
   },
   {
     route: '/sprint',
     name: 'Спринт',
     component: <Sprint />,
+    hideInListNav: true,
   },
   {
     route: '/statistics',

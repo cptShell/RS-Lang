@@ -2,7 +2,6 @@ import { ListQuestionData, WordData } from "../interfaces/interfaces";
 
 export const ACTIVE_CLASSNAME = 'active';
 export const BASE_APP_URL: string = 'https://a-c-rslang.herokuapp.com';
-export const MAX_CARDS_PER_PAGE: number = 30;
 export const PAGE_AMOUNT: number = 30;
 export const BASIC_GROUP_AMOUNT: number = 6;
 export const DIFFICULT_GROUP_INDEX: number = 6;
@@ -13,7 +12,7 @@ export const ORDERED_BTN_STYLE_LIST: Array<string> = [
   'warning',
   'danger',
   'danger',
-  'danger',
+  'dark',
 ];
 export const OREDERED_DIFF_LIST: Array<string> = [
   'easy',
@@ -22,7 +21,8 @@ export const OREDERED_DIFF_LIST: Array<string> = [
   'normal',
   'hard',
   'hard',
-]
+];
+export const ORDERED_ANSWER_GAP: Array<number> = [2,2,4,4,6,6]
 export const REG_EXP_EMAIL = /\S+@\S+\.\S+/;
 export const MESSAGE_IS_AUTH = 'Authenticated';
 export const START_LEVEL = 1;
@@ -102,5 +102,6 @@ export const MAX_NUMBER_KEY = 5;
 
 export const MAX_ANSWER_AUDIOCALL_GAME = 5;
 
+export const MAX_WORDS_PER_PAGE = 20;
 export const INIT_GROUP = '0';
 export const INIT_PAGE = '0';

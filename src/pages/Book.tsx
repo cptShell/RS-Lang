@@ -11,18 +11,7 @@ const Book = (): JSX.Element => {
   const isAuthorized: boolean = store.getState().userData.message === MESSAGE_IS_AUTH;
 
   return ( 
-    <div className='container-fluid d-flex flex-column gap-2 p-2'>
-      <div className='d-flex flex-wrap flex-row justify-content-between gap-2'>
-        <BookPagination pageState={pageState} setPageState={setPageState}/>
-        <ListGames pageState={pageState} />
-        <GroupList isAuthorized={isAuthorized} pageState={pageState} setPageState={setPageState}/>
-      </div>
-      <BookPage isAuthorized={isAuthorized} pageState={pageState}/>
-      <div className='d-flex flex-wrap flex-row justify-content-between gap-2'>
-        <BookPagination pageState={pageState} setPageState={setPageState}/>
-        <GroupList isAuthorized={isAuthorized} pageState={pageState} setPageState={setPageState}/>
-      </div>
-    </div>
+    <BookPage isAuthorized={isAuthorized} pageState={pageState} setPageState={setPageState}/>
   );
 };
 

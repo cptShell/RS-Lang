@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PageState } from '../../utils/interfaces/interfaces';
 
 
 
-const ListGames: React.FC<{pageState: {group: number, page: number}}> = (props) => {
+const ListGames: React.FC<{pageState: PageState}> = (props) => {
   const navigate = useNavigate();
   const { group, page } = props.pageState;
 

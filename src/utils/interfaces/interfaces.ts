@@ -72,12 +72,13 @@ export interface DataUserWord {
   optional: OptionalDataWord;
 }
 
-interface OptionalDataWord {
+export interface OptionalDataWord {
   isLearned: boolean;
   isNewWord: boolean;
   isDifficult: boolean;
   countRightAnswer: number;
   countWrongAnswer: number;
+  rowAnswers: number;
 }
 
 export interface ResponseUserWords {
