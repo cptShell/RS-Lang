@@ -25,7 +25,7 @@ const Statistics: React.FC = () => {
   
   return (
     <>
-      {loading ? <Preloader /> : <div className='container'> <Games statisticData={statisticGame} />  <BookStatistic /></div>  }
+      {loading ? <Preloader /> : <div className='container'> <Games statisticData={statisticGame} />  <BookStatistic statisticData={statisticGame} /></div>  }
     </>
   );
 };

@@ -1,6 +1,7 @@
 export const labels = ['Аудиовызов', 'Спринт'];
 export const RED_COLOR = 'rgba(255, 99, 132, 0.5)';
 export const YELLOW_COLOR = 'rgba(196, 196, 0, 0.5)';
+export const GREEN_COLOR = 'rgba(3, 143, 59, 0.5)';
 export const OPTIONS_GAME_STATISTIC = {
   responsive: true,
   plugins: {

@@ -84,14 +84,16 @@ const updateStatistic = async (
   const currentUserWordData = await getUserWords(userData);
 
   let numberNewWords = 0;
+  let learnedWord = 0;
   const { counter, percent } = currentStatistic.optional[statisticName].percent;
 
   if (currentUserWordData) {
     numberNewWords = currentUserWordData.data.filter((dataWord) => dataWord.optional.isNewWord).length;
+    learnedWord = currentUserWordData.data.filter((dataWord) => dataWord.optional.isLearned).length;
   }
 
   const updatedStatistic = {
-    learnedWords: currentStatistic.learnedWords,
+    learnedWords: learnedWord,
     optional: {
       ...currentStatistic.optional,
       [statisticName]: {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { StatisticData } from '../../utils/functions/statistics';
-import { INIT_STATISTIC_GAME, labels, OPTIONS_GAME_STATISTIC, RED_COLOR, YELLOW_COLOR } from './constantsGame';
+import { GREEN_COLOR, INIT_STATISTIC_GAME, labels, OPTIONS_GAME_STATISTIC, RED_COLOR, YELLOW_COLOR } from './constantsGame';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -13,14 +13,14 @@ const getStatisticData = (statisticData: StatisticData) => {
     labels,
     datasets: [
       {
-        label: 'Проценты правильный ответов',
+        label: 'Процент правильных ответов',
         data: [0, 0],
         backgroundColor: RED_COLOR,
       },
       {
         label: 'Новых слов за день',
         data: [0, 0],
-        backgroundColor: 'rgba(3, 143, 59, 0.5)',
+        backgroundColor: GREEN_COLOR,
       },
       {
         label: 'Серия правильных ответов',
