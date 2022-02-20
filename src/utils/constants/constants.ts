@@ -38,6 +38,7 @@ export const DEFAULT_SPRINT_GAME_STATE = {
   counter: 0,
   score: 0,
   level: START_LEVEL,
+  maxLevel: START_LEVEL,
   factor: MIN_FACTOR,
   endGame: false,
 };
@@ -93,10 +94,13 @@ export const DEFAULT_QUESTIONS_SPRINT_GAME: ListQuestionData = {
 
 export const MIN_NUMBER_WORD = 0;
 export const MAX_NUMBER_WORD = 9;
-export const NUMBER_WORDS_GAME = 5;
+export const NUMBER_WORDS_GAME = 10;
 export const MIN_INDEX = 0;
 export const RIGHT_ANSWER_SCORE = 10;
 export const MIN_NUMBER_KEY = 1;
 export const MAX_NUMBER_KEY = 5;
 
 export const MAX_ANSWER_AUDIOCALL_GAME = 5;
+
+export const INIT_GROUP = '0';
+export const INIT_PAGE = '0';

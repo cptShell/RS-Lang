@@ -25,10 +25,11 @@
 }
 
 .sprint {
+  margin-top: -10px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: 100%;
+  height: calc(100vh - 110px);
   color: white;
   background: #053546;
   &-timer {
@@ -53,10 +54,10 @@
     position: relative;
     display: inline-flex;
     justify-content: space-between;
-    width: 50%;
+    width: 70%;
     height: 110px;
     .btn{
-      width: 100px;
+      width: 140px;
       align-self: center;
     }
     &:after{

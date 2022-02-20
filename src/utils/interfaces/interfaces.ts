@@ -1,4 +1,5 @@
 import exp from "constants";
+import { NameGame } from "../enum/enum";
 
 export interface WordData {
   id: string,
@@ -61,6 +62,7 @@ export interface SprintGameState {
   counter: number;
   score: number;
   level: number;
+  maxLevel: number;
   factor: number;
   endGame: boolean;
 }
@@ -104,4 +106,10 @@ export interface ListQuestionsAudiocall {
   wordsAnswers: listAnswersAudiocall[];
   rightTranslate: string;
   group: number;
+}
+
+export interface DataGame {
+  name: NameGame,
+  group: string,
+  page: string
 }

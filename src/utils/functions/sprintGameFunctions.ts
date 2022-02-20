@@ -49,8 +49,9 @@ export const getRandomNumber = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-export const getListWordsByNumberGroup = async (numberGroup: string, numberPage?: string): Promise<WordData[] | undefined> => {
+export const getListWordsByNumberGroup = async (numberGroup: string, numberPage?: string, controlButton?: (state: boolean) => void): Promise<WordData[] | undefined> => {
   try {
+    if(controlButton) controlButton(true);
     const listPages: Array<string> = numberPage ? getNumberPages(numberPage) : getRandomNumberPages();
     const listPageUrls = listPages.map((page) => `${BASE_APP_URL}/words/?group=${numberGroup}&page=${page}`);
     const listRequests = listPageUrls.map((url) => axios.get<WordData>(url));
@@ -59,6 +60,9 @@ export const getListWordsByNumberGroup = async (numberGroup: string, numberPage?
     return listWords.flat();
   } catch {
     console.error('Can\'t get list words from server');
+  }
+  finally{
+    if(controlButton) controlButton(false);
   }
 };
 
@@ -218,7 +222,7 @@ export const addDataAboutWordsToUserWords = (listWords: ListQuestionData[], user
   });
 };
 
-const getUserWords = async (userData: UserData) => {
+export const getUserWords = async (userData: UserData) => {
   try{
     const { userId, token } = userData;
     const response: AxiosResponse<ResponseUserWords[]> = await axios({
