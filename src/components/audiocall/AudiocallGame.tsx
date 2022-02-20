@@ -15,7 +15,7 @@ const Audiocall: React.FC<{dataGame: DataGame}> = ({dataGame}) => {
   const [playAudioFail] = useAudio('./sounds/fail.mp3');
   const [mute, setMute] = useState<boolean>(false);
   const [isRight, setIsRight] = useState<boolean>(false);
-  const {
+  let {
     audiocall: { counter, answered, score, tally, listQuestions, listResults, endGame },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
@@ -24,11 +24,12 @@ const Audiocall: React.FC<{dataGame: DataGame}> = ({dataGame}) => {
     const currentWordData = listQuestions[counter];
     dispatch(answeredAction(true));
     if (isAnswerRight) {
+      const newTally = tally + 1 > tally ? tally + 1 : tally;
       !mute && playAudioRight();
-      dispatch(addCurrentScore(score + RIGHT_ANSWER_SCORE, tally + 1));
+      dispatch(addCurrentScore(score + RIGHT_ANSWER_SCORE, newTally));
     } else {
       !mute && playAudioFail();
-      dispatch(addCurrentScore(score, 0));
+      dispatch(addCurrentScore(score, tally));
     }
 
     if (counter <= listQuestions.length - 1) {
@@ -48,7 +49,7 @@ const Audiocall: React.FC<{dataGame: DataGame}> = ({dataGame}) => {
         if (isAnswerRight) {
           dispatch(finishGame(true, score + RIGHT_ANSWER_SCORE, tally + 1, listResults));
         } else {
-          dispatch(finishGame(true, score, 0, listResults));
+          dispatch(finishGame(true, score, tally, listResults));
         }
       }
     }
@@ -102,7 +103,7 @@ const Audiocall: React.FC<{dataGame: DataGame}> = ({dataGame}) => {
   return (
     <div className='audiocall'>
       {endGame ? (
-        <ResultRound result={listResults} score={score} maxSeries={10} dataGame={dataGame}/>
+        <ResultRound result={listResults} score={score} maxSeries={tally} dataGame={dataGame}/>
       ) : (
       <>
         <div className='audiocall__header'>
