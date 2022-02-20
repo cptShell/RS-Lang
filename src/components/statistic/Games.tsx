@@ -48,8 +48,7 @@ const Games: React.FC<{ statisticData: StatisticData | undefined }> = ({ statist
     if (statisticData) {
       setData(getStatisticData(statisticData));
     }
-    console.log(data);
-  }, [statisticData]);
+  }, [statisticData]);  
   return (
     <div className='col-12'>
       <Bar options={OPTIONS_GAME_STATISTIC} data={data} />

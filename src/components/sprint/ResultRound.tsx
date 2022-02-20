@@ -8,7 +8,7 @@ import { addDataAboutWordsToUserWords } from '../../utils/functions/sprintGameFu
 import { DataGame, ListQuestionData } from '../../utils/interfaces/interfaces';
 import PlayButton from './AudioButton';
 
-const ResultRound: React.FC<{ result: ListQuestionData[], score: number, dataGame?: DataGame }> = ({ result, score, dataGame }) => {
+const ResultRound: React.FC<{ result: ListQuestionData[], score: number, dataGame: DataGame }> = ({ result, score, dataGame }) => {
   const rightAnswer = result.filter((wordData) => wordData.isRight);
   const wrongAnswer = result.filter((wordData) => !wordData.isRight);
   const { userData } = useSelector((state: RootState) => state);
@@ -23,7 +23,7 @@ const ResultRound: React.FC<{ result: ListQuestionData[], score: number, dataGam
     const addData = async () => {
       if (userData.message === MESSAGE_IS_AUTH && userData.token){
         addDataAboutWordsToUserWords(result, userData);
-        await addStatisticUser(result, userData);
+        await addStatisticUser(result, userData, dataGame.name);
       }
     }
     addData();

@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { STATUS_200 } from '../../redux/constants';
 import { UserData } from '../../redux/types/interfaces';
 import { BASE_APP_URL } from '../constants/constants';
+import { NameGame } from '../enum/enum';
 import { ListQuestionData } from '../interfaces/interfaces';
 import { getUserWords } from './sprintGameFunctions';
 
@@ -25,12 +26,7 @@ export interface StatisticData {
 
 const IS_NOT_EXECUTE_STATISTIC_CODE = 404;
 
-const SERIES = 7;
-
-enum TypeStatistic {
-  AUDIOCALL = 'audiocall',
-  SPRINT = 'sprint',
-}
+const SERIES = 10;
 
 export const getPercentRightAnswer = (allAnswers: ListQuestionData[]) => {
   const rightAnswer = allAnswers.filter((dataWord) => dataWord.isRight);
@@ -101,9 +97,9 @@ const updateStatistic = async (
       [statisticName]: {
         percent: { counter: counter + 1, percent: percent + getPercentRightAnswer(listWords) },
         seriesRightAnswer:
-          newSeriesRightAnswer > currentStatistic.optional[statisticName].seriesRightAnswer
+          (newSeriesRightAnswer > currentStatistic.optional[statisticName].seriesRightAnswer
             ? newSeriesRightAnswer
-            : currentStatistic.optional[statisticName].seriesRightAnswer,
+            : currentStatistic.optional[statisticName].seriesRightAnswer),
         counterNewWords:
           currentStatistic.optional[statisticName].counterNewWords +
           (numberNewWords - currentStatistic.optional[statisticName].counterNewWords),
@@ -136,10 +132,8 @@ export const getInitialStatisticData = async (
   await setStatistic(userData, newStatistic);
 };
 
-export const addStatisticUser = async (listWords: ListQuestionData[], userData: UserData) => {
+export const addStatisticUser = async (listWords: ListQuestionData[], userData: UserData, nameStatistic: NameGame) => {
   try {
-    const nameStatistic = TypeStatistic.AUDIOCALL;
-
     const currentStatistic = await getStatistic(userData);
     if (currentStatistic?.status === IS_NOT_EXECUTE_STATISTIC_CODE || !currentStatistic?.data.optional[nameStatistic]) {
       await getInitialStatisticData(userData, listWords, SERIES, nameStatistic);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ResultRound from './ResultRound';
 import { getFactorScore, getListQuestionWords } from '../../utils/functions/sprintGameFunctions';
-import { ListQuestionData, SprintGameState, WordData } from '../../utils/interfaces/interfaces';
+import { DataGame, ListQuestionData, SprintGameState, WordData } from '../../utils/interfaces/interfaces';
 import {
   BASE_APP_URL,
   DEFAULT_QUESTIONS_SPRINT_GAME,
@@ -17,7 +17,7 @@ import useAudio from '../../utils/hooks/useAudio';
 import PlayButton from './AudioButton';
 import MuteButton from './MuteButton';
 
-const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
+const SprintGame: React.FC<{ listWords: WordData[], dataGame: DataGame }> = (props) => {
   const [playAudioRight] = useAudio('./sounds/right.mp3');
   const [playAudioFail] = useAudio('./sounds/fail.mp3');
   const [stateSprint, setStateSprint] = useState<SprintGameState>(DEFAULT_SPRINT_GAME_STATE);
@@ -80,7 +80,7 @@ const SprintGame: React.FC<{ listWords: WordData[] }> = (props) => {
   return (
     <div className='sprint'>
       {stateSprint.endGame ? (
-        <ResultRound result={result} score={score}/>
+        <ResultRound result={result} score={score} dataGame={props.dataGame}/>
       ) : (
         <div className='sprint-board'>
           <div className='sprint-board__header'>
