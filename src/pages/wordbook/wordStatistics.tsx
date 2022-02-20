@@ -1,4 +1,5 @@
 import React from 'react';
+import { getAnswerGap } from '../../utils/functions/supportMethods';
 import { ResponseUserWords } from '../../utils/interfaces/interfaces';
 
 export const WordStatistics = ({userWordData, group}: {userWordData: ResponseUserWords, group: number}) => {
@@ -30,13 +31,14 @@ export const WordStatistics = ({userWordData, group}: {userWordData: ResponseUse
   }
 
   let wordProgressMessage: string;
-  const neededCountNum = (group + 1) * 2 - rowAnswers;
+  const answerGap = getAnswerGap(userWordData.difficulty);
+  const neededCountNum = answerGap - rowAnswers;
   const neededCountWord = [2,3,4].some(num => neededCountNum === num) ? 'раза' : 'раз';
-  if (!isLearned) {
-    wordProgressMessage = `Чтобы изучить это слово, угадайте его еще ${neededCountNum} ${neededCountWord} подряд`
-  } else {
+  if (isLearned || !isLearned && neededCountNum < 1) {
     wordProgressMessage = `Текущая серия верных ответов: ${rowAnswers}`;
-  }
+  } else {
+    wordProgressMessage = `Чтобы изучить это слово, угадайте его еще ${neededCountNum} ${neededCountWord} подряд`;
+  } 
 
   let percentMessage: string;
   if (!(countRightAnswer + countWrongAnswer)) {
@@ -50,11 +52,11 @@ export const WordStatistics = ({userWordData, group}: {userWordData: ResponseUse
   return (
     <div>
       <h3>Статистика</h3>
-      <ul className='d-flex flex-column gap-2 pt-2'>
-        <li><span>{ rightAnswersMessage }</span></li>
-        <li><span>{ wrongAnswersMessage }</span></li>
-        <li><span>{ percentMessage }</span></li>
-        <li><span>{ wordProgressMessage }</span></li>
+      <ul className='list-group d-flex flex-column pt-2'>
+        <li className='list-group-item'><span>{ rightAnswersMessage }</span></li>
+        <li className='list-group-item'><span>{ wrongAnswersMessage }</span></li>
+        <li className='list-group-item'><span>{ percentMessage }</span></li>
+        <li className='list-group-item'><span>{ wordProgressMessage }</span></li>
       </ul>
     </div>
   )
