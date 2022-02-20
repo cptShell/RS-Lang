@@ -18,7 +18,7 @@ interface OptionalStatisticData {
   };
 }
 
-interface StatisticData {
+export interface StatisticData {
   learnedWords: number;
   optional: OptionalStatisticData;
 }
@@ -38,8 +38,14 @@ export const getPercentRightAnswer = (allAnswers: ListQuestionData[]) => {
   return Math.floor(percentRightAnswers);
 };
 
-const getStatistic = async ({ userId, token }: UserData): Promise<AxiosResponse<StatisticData> | undefined> => {
+export const getStatistic = async (
+  { userId, token }: UserData,
+  controlLoading?: (state: boolean) => void
+): Promise<AxiosResponse<StatisticData> | undefined> => {
   try {
+    if (controlLoading) {
+      controlLoading(true);
+    }
     const statistic: AxiosResponse<StatisticData> = await axios({
       url: `${BASE_APP_URL}/users/${userId}/statistics`,
       method: 'get',
@@ -50,6 +56,10 @@ const getStatistic = async ({ userId, token }: UserData): Promise<AxiosResponse<
     if (axios.isAxiosError(error) && error.response) {
       console.error(`Can't get statistics!`);
       return error.response;
+    }
+  } finally {
+    if (controlLoading) {
+      controlLoading(false);
     }
   }
 };
@@ -128,7 +138,6 @@ export const getInitialStatisticData = async (
 
 export const addStatisticUser = async (listWords: ListQuestionData[], userData: UserData) => {
   try {
-
     const nameStatistic = TypeStatistic.AUDIOCALL;
 
     const currentStatistic = await getStatistic(userData);
