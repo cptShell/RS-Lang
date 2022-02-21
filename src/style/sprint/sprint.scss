@@ -1,7 +1,7 @@
 .sprint-levels {
-  padding-top: 100px;
+  padding-top: 30px;
   max-width: 100%;
-  height: 400px;
+  height: 320px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -22,6 +22,10 @@
       }
     }
   }
+}
+
+.description-game {
+  text-align: center;
 }
 
 .sprint {
