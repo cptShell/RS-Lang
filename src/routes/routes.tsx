@@ -10,12 +10,6 @@ import { RouteData } from '../utils/types/types';
 
 export const listRoutes: RouteData[] = [
   {
-    route: '/auth',
-    name: 'Войти',
-    isGuest: true,
-    component: <Auth />,
-  },
-  {
     route: '/',
     name: 'Главная',
     component: <Main />,
@@ -41,6 +35,12 @@ export const listRoutes: RouteData[] = [
     route: '/statistics',
     name: 'Статистика',
     component: <Statistics />,
+  },
+  {
+    route: '/auth',
+    name: 'Войти',
+    isGuest: true,
+    component: <Auth />,
   },
   {
     route: '*',

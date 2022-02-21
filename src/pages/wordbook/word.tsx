@@ -33,17 +33,22 @@ export const Card = ({isAuthorized, totalWordData, learnedCount, setLearnedCount
   }: TotalWordData = totalWordData;
 
   const imgSrc = `${BASE_APP_URL}/${image}`;
+  const optional = totalWordData.userWordData?.optional || null;
   let cardStyle: string = '';
+  let isNewWord: boolean = false;
+
   if (isDifficult) cardStyle = 'difficult';
   if (isLearned) cardStyle = 'learned';
-  
+  if (optional) isNewWord = optional.countRightAnswer + optional.countWrongAnswer === 1;
+
   return (
     <li className={`col d-flex flex-row justify-content-between gap-2 rounded-3 shadow ${isHidden ? 'hidden' : ''} ${cardStyle}`}>
       <img className='rounded-3' src={imgSrc} alt={word + ' image'} />
       <div className='d-flex flex-column gap-2 w-100 p-2'>
         <div>
-          <div className='d-flex gap-2'>
-            <h2 className='me-auto h2 text-capitalize'>{word}</h2>
+          <div className='d-flex align-content-center gap-2'>
+            <h2 className='h2 text-capitalize'>{word}</h2>
+            {isNewWord && <span className='text-secondary'>НОВОЕ СЛОВО!</span>}
             <VolumeButton orderedAudioList={[audio, audioMeaning, audioExample]} />
           </div>
           <p>{'Transcription: ' + transcription}</p>
