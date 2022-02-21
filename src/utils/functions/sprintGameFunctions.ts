@@ -55,12 +55,17 @@ export const getRandomNumber = (min: number, max: number): number => {
 export const getListWordsByNumberGroup = async (numberGroup: string, numberPage?: string, controlButton?: (state: boolean) => void): Promise<WordData[] | undefined> => {
   try {
     if(controlButton) controlButton(true);
-    const listPages: Array<string> = numberPage ? getNumberPages(numberPage) : getRandomNumberPages();
-    const listPageUrls = listPages.map((page) => `${BASE_APP_URL}/words/?group=${numberGroup}&page=${page}`);
-    const listRequests = listPageUrls.map((url) => axios.get<WordData>(url));
-    const listResponses = await Promise.all(listRequests);
-    const listWords = listResponses.map((response) => response.data);
-    return listWords.flat();
+    console.log(numberPage);
+    const getListWords = async (numberPage?: string): Promise<Array<WordData>> => {
+      const listPages: Array<string> = numberPage ? getNumberPages(numberPage) : getRandomNumberPages();
+      const listPageUrls = listPages.map((page) => `${BASE_APP_URL}/words/?group=${numberGroup}&page=${page}`);
+      const listRequests = listPageUrls.map((url) => axios.get<WordData>(url));
+      const listResponses = await Promise.all(listRequests);
+      const listWords = listResponses.map((response) => response.data);
+      return listWords.flat();
+    }
+    const listWords = await getListWords(numberPage);
+    return listWords;
   } catch {
     console.error('Can\'t get list words from server');
   }
@@ -245,13 +250,11 @@ export const getUserWords = async (userData: UserData) => {
 
 export const excludeLearnedWords = async (listWords: WordData[], userData: UserData): Promise<WordData[]> => {
   const listUserWords  = await getUserWords(userData);
-  
+  console.log(listUserWords);
   if(listUserWords) {
     const { data } = listUserWords;
     const listUserLearnedWordId = data.filter(dataWord => {
-      if (dataWord.optional.isLearned) {
-        return dataWord.id;
-      }
+      if (dataWord.optional.isLearned) return dataWord.id;
     }).map(dataWord => dataWord.wordId);
     return listWords.filter(wordData => !listUserLearnedWordId.includes(wordData.id));
   }

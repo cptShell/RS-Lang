@@ -31,12 +31,14 @@ const Sprint: React.FC = () => {
       let listWordsFromBook: WordData[] = [];
       if (group && page) {
         setLoading(true);
+
         const responseDataWords = await getListWordsByNumberGroup(group, page);
         if (userData.message === MESSAGE_IS_AUTH && responseDataWords) {
-          listWordsFromBook = await excludeLearnedWords(responseDataWords, userData);
-        } else if (responseDataWords) {
-          listWordsFromBook = responseDataWords;
+          listWordsFromBook.push(...responseDataWords);
         }
+
+        console.log(listWordsFromBook);
+
         setListWords(listWordsFromBook);
         setDataGame({ ...dataGame, group, page });
         setStartGame(true);

@@ -18,6 +18,8 @@ const Header: React.FC = () => {
         return <span className='material-icons'>analytics</span>;
       case 'Учебник':
         return <span className='material-icons'>menu_book</span>;
+      case 'Главная':
+        return <span className='material-icons'>home</span>;
       default:
         return name;
     }
@@ -43,11 +45,15 @@ const Header: React.FC = () => {
     );
   });
   return (
-    <header className='position-fixed d-flex justify-content-between align-items-center shadow w-100 bg-success px-2'>
-      <span>{name}</span>
+    <header className='position-fixed d-flex align-items-center shadow w-100 bg-success px-2 gap-3'>
+      <span className='me-auto fs-3 fw-bolder text-white'>RS lang</span>
       <nav>
         <ul className='d-flex flex-row'>{linkList}</ul>
       </nav>
+      <div className='d-flex align-items-center gap-2'>
+        <span className='fs-6 text-white'>{name}</span>
+        <span className='material-icons text-white medium normal'>person</span>
+      </div>
     </header>
   );
 };
