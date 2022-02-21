@@ -47,8 +47,10 @@ export const Card = ({isAuthorized, totalWordData, learnedCount, setLearnedCount
       <div className='d-flex flex-column gap-2 w-100 p-2'>
         <div>
           <div className='d-flex align-content-center gap-2'>
-            <h2 className='h2 text-capitalize'>{word}</h2>
-            {isNewWord && <span className='text-secondary'>НОВОЕ СЛОВО!</span>}
+            <div>
+              <h2 className='h2 text-capitalize'>{word}</h2>
+              {isNewWord && <span className='text-secondary'>НОВОЕ СЛОВО!</span>}
+            </div>
             <VolumeButton orderedAudioList={[audio, audioMeaning, audioExample]} />
           </div>
           <p>{'Transcription: ' + transcription}</p>

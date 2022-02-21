@@ -17,7 +17,7 @@ const ListGames = ({pageState}: {pageState: PageState}) => {
 
   return (
     <ul className='btn-group d-flex align-items-center gap-2'>
-      Проверьте знания слов этой страницы в минииграх
+      Проверьте знания слов этой страницы в минииграх:
       <li><button className='btn btn-success' onClick={onStartSprint}>Спринт</button></li>
       <li><button className='btn btn-success'onClick={onStartAudiocall}>Аудиовызов</button></li>
     </ul>

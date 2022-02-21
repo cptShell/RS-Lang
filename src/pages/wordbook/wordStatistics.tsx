@@ -27,7 +27,7 @@ export const WordStatistics = ({userWordData, group}: {userWordData: ResponseUse
   } else if (!countWrongAnswer) {
     wrongAnswersMessage = `Вы еще ни разу не ошибались, так держать!`;
   } else {
-    wrongAnswersMessage = `Общее количество ошибок: ${countRightAnswer}`;
+    wrongAnswersMessage = `Общее количество ошибок: ${countWrongAnswer}`;
   }
 
   let wordProgressMessage: string;
