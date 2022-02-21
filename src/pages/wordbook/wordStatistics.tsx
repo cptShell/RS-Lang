@@ -33,8 +33,9 @@ export const WordStatistics = ({userWordData, group}: {userWordData: ResponseUse
   let wordProgressMessage: string;
   const answerGap = getAnswerGap(userWordData.difficulty);
   const neededCountNum = answerGap - rowAnswers;
+  console.log(rowAnswers);
   const neededCountWord = [2,3,4].some(num => neededCountNum === num) ? 'раза' : 'раз';
-  if (isLearned || !isLearned && neededCountNum < 1) {
+  if (isLearned || !isLearned && neededCountNum > 1) {
     wordProgressMessage = `Текущая серия верных ответов: ${rowAnswers}`;
   } else {
     wordProgressMessage = `Чтобы изучить это слово, угадайте его еще ${neededCountNum} ${neededCountWord} подряд`;

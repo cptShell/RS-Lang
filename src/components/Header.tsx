@@ -29,6 +29,9 @@ const Header: React.FC = () => {
     if (routeData.hideInListNav) {
       return;
     }
+    if (routeData.name === 'Статистика' && message !== MESSAGE_IS_AUTH) {
+      return;
+    }
     if (routeData.isGuest && message === MESSAGE_IS_AUTH) {
       return (
         <li key={routeData.route}>
