@@ -70,7 +70,7 @@ const Sprint: React.FC = () => {
           {startGame ? (
             <SprintGame listWords={listWords} dataGame={dataGame} />
           ) : (
-            <Levels handlerSelectLevel={selectLevelGame} />
+            <Levels handlerSelectLevel={selectLevelGame} nameGame={dataGame.name}/>
           )}
         </>
       }

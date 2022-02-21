@@ -43,7 +43,7 @@ const Audiocall: React.FC = () => {
   return (
     <>{loading ? <Preloader /> :
       <>
-        {audiocall.startGame ? <AudiocallGame dataGame={dataGame}/>: <Levels handlerSelectLevel={handlerSelectLevel}/>}
+        {audiocall.startGame ? <AudiocallGame dataGame={dataGame}/>: <Levels handlerSelectLevel={handlerSelectLevel} nameGame={dataGame.name}/>}
       </>
     }
     </>

@@ -1,7 +1,7 @@
 .sprint-levels {
-  padding-top: 100px;
+  padding-top: 30px;
   max-width: 100%;
-  height: 400px;
+  height: 320px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -22,6 +22,10 @@
       }
     }
   }
+}
+
+.description-game {
+  text-align: center;
 }
 
 .sprint {
@@ -91,7 +95,7 @@
   height: 350px;
 
   &__header {
-    padding: 100px 0 10px;
+    padding: 50px 0 10px;
     display: flex;
     justify-content: space-between;
   }
@@ -138,7 +142,7 @@
 
 .result {
   margin-top: 50px;
-  padding: 50px 60px;
+  padding: 20px 60px;
   border: 2px solid white;
   border-radius: 5px;
   &__right,
@@ -171,7 +175,7 @@
     }
   }
   .list-result{
-    max-height: 200px;
+    max-height: 100px;
     overflow-y: scroll;
     li {
       padding: 4px 5px;
