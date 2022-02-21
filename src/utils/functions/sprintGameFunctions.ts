@@ -55,7 +55,6 @@ export const getRandomNumber = (min: number, max: number): number => {
 export const getListWordsByNumberGroup = async (numberGroup: string, numberPage?: string, controlButton?: (state: boolean) => void): Promise<WordData[] | undefined> => {
   try {
     if(controlButton) controlButton(true);
-    console.log(numberPage);
     const getListWords = async (numberPage?: string): Promise<Array<WordData>> => {
       const listPages: Array<string> = numberPage ? getNumberPages(numberPage) : getRandomNumberPages();
       const listPageUrls = listPages.map((page) => `${BASE_APP_URL}/words/?group=${numberGroup}&page=${page}`);
@@ -250,7 +249,7 @@ export const getUserWords = async (userData: UserData) => {
 
 export const excludeLearnedWords = async (listWords: WordData[], userData: UserData): Promise<WordData[]> => {
   const listUserWords  = await getUserWords(userData);
-  console.log(listUserWords);
+
   if(listUserWords) {
     const { data } = listUserWords;
     const listUserLearnedWordId = data.filter(dataWord => {

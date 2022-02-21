@@ -37,8 +37,6 @@ const Sprint: React.FC = () => {
           listWordsFromBook.push(...responseDataWords);
         }
 
-        console.log(listWordsFromBook);
-
         setListWords(listWordsFromBook);
         setDataGame({ ...dataGame, group, page });
         setStartGame(true);
