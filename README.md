@@ -1,25 +1,5 @@
-# RS-Lang
-
-## Build project
-
-```
-npm run build
-```
-
-## Development mode
-
-```
-npm start
-```
-
-## Check with lint
-
-```
-npm run lint
-```
-
-## Fix lint errors
-
-```
-npm run lint:fix
-```
+Технологии, использованные в проекте:
+TS + React + Redux - для основных функций приложения и работы с компонентами
+Axios - для работы с запросами
+SCSS + Bootstrap - стилизация приложения
+ChartJS - для работы с графиками
