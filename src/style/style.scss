@@ -1,0 +1,43 @@
+@import './base//reset.scss';
+@import './base//base.scss';
+@import './base//preload.scss';
+@import '../style/sprint/sprint.scss';
+@import '../style/audiocall/audiocall.scss';
+@import './components/auth.scss';
+
+header {
+  z-index: 1;
+}
+
+* {
+  text-decoration: none !important;
+}
+
+@media screen and (max-width: 1000px) {
+  .col.d-flex.flex-row.justify-content-between.gap-2 {
+    flex-direction: column !important;
+  }
+}
+
+img {
+  object-fit: cover;
+}
+
+.material-icons {
+  &.small {font-size: 16px}
+  &.small-medium {font-size: 20px};
+  &.medium {font-size: 24px}
+  &.big {font-size: 32px}
+}
+
+.hidden {
+  display: none !important;
+}
+
+.difficult {
+  background-color: #f443368c !important;
+}
+
+.learned {
+  background-color: #4caf5078 !important;
+}
